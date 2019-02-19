@@ -24,17 +24,15 @@ except Exception as e:
     print("Something didn't work right, maybe you're offline?"+e.reason)
 
 if display_colours == "bwr":
-    import epd7in5b
-    epd = epd7in5b.EPD()
+    import Epd7in5bAdapter
+    epd = Epd7in5bAdapter.Epd7in5bAdapter()
 
 if display_colours == "bw":
-    import epd7in5
-    epd = epd7in5.EPD()
+    import Epd7in5Adapter
+    epd = Epd7in5Adapter.Epd7in5Adapter()
 
-from calibration import calibration
-
-EPD_WIDTH = 640
-EPD_HEIGHT = 384
+EPD_WIDTH = epd.width
+EPD_HEIGHT = epd.height
 font = ImageFont.truetype(path+'Assistant-Regular.ttf', 18)
 im_open = Image.open
 
@@ -274,18 +272,7 @@ def main():
                 pass
 
             print('Initialising E-Paper Display')
-            epd.init()
-            sleep(5)
-            print('Converting image to data and sending it to the display')
-            print('This may take a while...'+'\n')
-            epd.display_frame(epd.get_frame_buffer(image.rotate(270, expand=1)))
-            # Uncomment following line to save image
-            #image.save(path+'test.png')
-            del events_this_month[:]
-            del upcoming[:]
-            print('Data sent successfully')
-            print('Powering off the E-Paper until the next loop'+'\n')
-            epd.sleep()
+            epd.render(image)
 
             for i in range(1):
                 nexthour = ((60 - int(time.strftime("%-M")))*60) - (int(time.strftime("%-S")))
