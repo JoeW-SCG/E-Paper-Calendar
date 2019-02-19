@@ -7,6 +7,3 @@ class DisplayAdapter (object):
 
 	def calibrate (self):
 		raise NotImplementedError("Functions needs to be implemented")
-
-	def sleep (self):
-		raise NotImplementedError("Functions needs to be implemented")
