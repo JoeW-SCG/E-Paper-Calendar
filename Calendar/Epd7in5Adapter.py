@@ -1,4 +1,6 @@
 from EpdAdapter import EpdAdapter, DISPLAY_REFRESH, DATA_START_TRANSMISSION_1
+from settings import display_colours
+from PIL import Image, ImageDraw
 
 class Epd7in5Adapter (EpdAdapter):
 	def __init__ ():
@@ -45,3 +47,18 @@ class Epd7in5Adapter (EpdAdapter):
                 if pixels[x, y] != 0:
                     buf[int((x + y * self.width) / 8)] |= 0x80 >> (x % 8)
         return buf
+
+	def calibrate (self):
+        for _ in range(2):
+            self.init_render()
+            black = Image.new('1', (self.width, self.height), 'black')
+            print('calibrating black...')
+            ImageDraw.Draw(black)
+            self.display_frame(self.get_frame_buffer(black))
+
+            white = Image.new('1', (self.width, self.height), 'white')
+            ImageDraw.Draw(white)
+            print('calibrating white...')
+            self.display_frame(self.get_frame_buffer(white))
+            self.sleep()
+        print('Calibration complete')
