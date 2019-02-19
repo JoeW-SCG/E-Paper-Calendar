@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
 class DisplayAdapter (object):
 	"""Interface for CalendarDesign output channels"""
 	def render (self, design):
