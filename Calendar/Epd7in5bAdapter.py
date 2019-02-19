@@ -3,7 +3,7 @@ from settings import display_colours
 from PIL import Image, ImageDraw
 
 class Epd7in5bAdapter (EpdAdapter):
-    def __init__ ():
+    def __init__ (self):
         super(Epd7in5bAdapter, self).__init__(640, 384)
 
     def display_frame (self, frame_buffer):

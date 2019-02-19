@@ -72,7 +72,7 @@ class EpdAdapter (DisplayAdapter):
         
         print('Converting image to data and sending it to the display')
         print('This may take a while...' + '\n')
-        prepared_image = design.get_image().rotate(270, expand=1)
+        prepared_image = design.rotate(270, expand=1)
         self.display_frame(self.get_frame_buffer(prepared_image))
 
         # Powering off the E-Paper until the next loop
@@ -135,12 +135,12 @@ class EpdAdapter (DisplayAdapter):
         time.sleep(delaytime / 1000.0)
 
     def spi_transfer (self, data):
-        SPI.writebytes(data)
+        self.SPI.writebytes(data)
 
     def epd_init (self):
         # SPI device, bus = 0, device = 0
-        SPI = spidev.SpiDev(0, 0)
-        #SPI.no_cs = True
+        self.SPI = spidev.SpiDev(0, 0)
+        #self.SPI.no_cs = True
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
@@ -148,8 +148,8 @@ class EpdAdapter (DisplayAdapter):
         GPIO.setup(DC_PIN, GPIO.OUT)
         GPIO.setup(CS_PIN, GPIO.OUT)
         GPIO.setup(BUSY_PIN, GPIO.IN)
-        SPI.max_speed_hz = 2000000
-        SPI.mode = 0b00
+        self.SPI.max_speed_hz = 2000000
+        self.SPI.mode = 0b00
         return 0
 
     def sleep (self):
