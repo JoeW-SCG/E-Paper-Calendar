@@ -49,7 +49,7 @@ READ_VCOM_VALUE                             = 0x81
 VCM_DC_SETTING                              = 0x82
 
 class EpdAdapter (DisplayAdapter):    
-	"""Generalized adapter for epd7in5 and epd7in5b"""
+    """Generalized adapter for epd7in5 and epd7in5b"""
     def __init__ (self, width, height):
         self.width = width
         self.height = height
@@ -69,12 +69,16 @@ class EpdAdapter (DisplayAdapter):
     def render (self, design):
         self.init_render()
         time.sleep(5)
-
+        
+        print('Converting image to data and sending it to the display')
+        print('This may take a while...' + '\n')
         prepared_image = design.get_image().rotate(270, expand=1)
         self.display_frame(self.get_frame_buffer(prepared_image))
 
         # Powering off the E-Paper until the next loop
         self.sleep()
+        print('Data sent successfully')
+        print('Powering off the E-Paper until the next loop' + '\n')
 
     def init_render (self):
         if (self.epd_init() != 0):

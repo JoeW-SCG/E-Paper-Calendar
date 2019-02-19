@@ -3,8 +3,8 @@ from settings import display_colours
 from PIL import Image, ImageDraw
 
 class Epd7in5Adapter (EpdAdapter):
-	def __init__ ():
-		super(Epd7in5Adapter, self).__init__(640, 384)
+    def __init__ ():
+        super(Epd7in5Adapter, self).__init__(640, 384)
 
     def display_frame (self, frame_buffer):
         self.send_command(DATA_START_TRANSMISSION_1)
