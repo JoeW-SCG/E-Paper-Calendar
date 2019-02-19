@@ -7,14 +7,14 @@ This software fully supports the 3-Colour **and** 2-Colour version of the 7.5" E
 **To get started, follow the instructions below.**
 
 ## News:
-* **Version 1.5 released (Early February 2019) with new features and lots of back-end improvements**
-* **Version 1.4 released (Late December 2018) with new features and more improvements**
-* **Version 1.3 released (Mid October 2018) for better user expierence**
-* **Added Support for the 2-Colour E-Paper Display as well!** (End of September)
-* **Added Support for Raspbian Stretch lite.** (End of September)
+* **Version 1.5 released (Early February 2019) with a new layout, displayed events and many back-end improvements**
+* **Added Support for the 2-Colour E-Paper Display as well!** (Late September 2018)
+* **Added Support for Raspbian Stretch lite.** (Late September 2018)
 
-Image shows v1.4, the latest version is v1.5. An updated image will be added soon.
-<img src="https://github.com/aceisace/E-Paper-Calendar-with-iCal-sync-and-live-weather/blob/master/Gallery/7.5inch-E-Paper-software-v1.4.gif" width="500"> 
+<img src="https://github.com/aceisace/E-Paper-Calendar-with-iCal-sync-and-live-weather/blob/master/Gallery/v1.5-bwr.JPG" width="400"><img src="https://github.com/aceisace/E-Paper-Calendar-with-iCal-sync-and-live-weather/blob/master/Gallery/v1.5-bw.JPG" width="400">
+
+Left: Black, White and Red version                                           
+Right: Black and White version
 
 ## Main features
 * Display the date and a full monthly calendar
@@ -46,7 +46,7 @@ Image shows v1.4, the latest version is v1.5. An updated image will be added soo
 ## Installing required packages for python 3.5 
 Execute the following command in the Terminal to install all required packages. This will work on both, Raspbian Stretch with Desktop and Raspbian Stretch lite. 
 
-**`bash -c "$(curl -sL https://raw.githubusercontent.com/aceisace/E-Paper-Calendar-with-iCal-sync-and-live-weather/master/Installer-with-debug)"`**
+**`bash -c "$(curl -sL https://raw.githubusercontent.com/aceisace/E-Paper-Calendar-with-iCal-sync-and-live-weather/master/Installer-with-debug.sh)"`**
 
 If the Installer should fail for any reason, kindly open an issue and paste the error. Thanks.
 
@@ -55,25 +55,33 @@ This is how the installer will run:
 <img src="https://github.com/aceisace/E-Paper-Calendar-with-iCal-sync-and-live-weather/blob/master/Gallery/Installer-v1.2-screenshot.png" width="700">
 
 ## Adding details to the programm
-Once the packages are installed, navigate to the home directory, open 'E-Paper-Master' and open the file 'settings.py' inside the Calendar folder.
+Once the packages are installed, navigate to the home directory, open 'E-Paper-Master' and open the file 'settings.py' inside the Calendar folder. Adjust the values as needed. You can use the table below as a reference.
 
-3 Main Details are needed to get running:
-1. A valid ical URL. Use the export funtion in google calendar to create a ical url link and paste it in the url section
-2. A valid openweathermap API-Key is required. This key can be optained for free with an account on openweathermap
-3. Your city's name and your country code (so the correct weather can be displayed) (e.g. `New York, US`)
+| Parameter |  Description |
+| --- | --- |
+| ical_urls |  Your iCalendar URL/s. To add more than one URL, seperate each with a comma |
+| api_key | Your __personal__ openweathermap API-key which you can generate and find in your Account info |
+| location | Location refers to the closest weather station from your place. It isn't necessarily the place you live in. To find this location, type your city name in the search box on [openweathermap](https://openweathermap.org/). The output should be in the following format: City Name, Country ISO-Code. Not sure what your ISO code is? Check here: [(find iso-code)](https://countrycode.org/)  |
+| week_starts_on | When does the work start on your Region? Possible options are `"Monday"` or `"Sunday"`|
+| display_colours | This should normally be set by the installer when you choose the type of your display. Options include `"bw"` if you're using the black and white E-Paper or `"bwr"` when you're using the black-white-red or black-white-yellow E-Paper|
+| language | Choosing the language allows changing the language of the month and week-icons. Possible options are `"en"` for english and `"de"` for german|
+|units| Selecting units allows switching units from km/h (kilometer per hour) and °C (degree Celcius) to mph (miles per hour) and °F (degree Fahrenheit). Possible options are `"metric"` or `"imperial"`|
+|hours | Which time format do you prefer? This will change the sunrise and sunset times from 24-hours format to 12-hours format. Possible options are `"24"` for 24-hours and `"12"` for 12-hours.|
 
-## Demo
-Once you have setup everything, the E-Paper Calendar will refresh the screen in the following way:
-<img src="https://github.com/aceisace/E-Paper-Calendar-with-iCal-sync-and-live-weather/blob/master/Gallery/E-Paper-v1.4-front.JPG" width="500">
+## iCalendar
+It is a bit tricky to set up the iCalendar so it works correctly without throwing any errors. If you encounter errors related to your iCalendar, please open up an issue and paste the error message there.
+
+A more detailed section about the iCalendar will be added to the wiki soon, but for now, here are some suggestions to prevent error messages:
+1) Ensure your iCalendar URL is fine. If you receive an error showing error 404, it means the URL is wrong.
+2) If your existing iCalendar doesn't work at all, export the Calendar as a file, then create a new Calendar and import the file from before.
+3) If you receive errors related to 'alarm' or 'trigger', please make sure your iCalendar does not use reminders. The problem is that some actions are not supported by the Raspberry and cause errors. For example, the Rapsberry can't send a mail, make a noise or display a message as soon as an event starts. 
 
 ## Updating
-If you were using a previous version and want to update, do the following:
+If you want to update to the latest version, run the Installer from above again and select the 'update' option. 
 
-* Save your personal details from the settings file, located in `/home/pi/E-Paper-Master/Calendar/settings.py` in a different location.
-For example you can copy the settings.py file which contains your configuration information and settings to the home directory. 
-* Remove the E-Paper-Master folder from the home directory with `sudo rm -r /home/pi/E-Paper-Master/`
+Before updating, the Installer checks if the settings file (/home/pi/E-Paper-Master/Calendar/settings.py) exists. This is done to test if a previous version was installed correctly. If the settings file exists, it is copied to the home directory and renamed as 'settings.py.old'. The old software folder 'E-Paper-Master' is renamed to 'E-Paper-Master-old'. Lastly, the latest version of the software is copied to the Raspberry as 'E-Paper-Master'.
 
-* Re-run the (updated) installer and after the install has finshed, copy the contents of the settings.py file to the new settings.py file, located in /home/pi/E-Paper-Master/Calendar/. 
+After updating, copy the contents from your old settings file to the new one. There are usally more options in the new settings.py file so a 'template' is prepared with each update. This template can be found in /home/pi/E-Paper-Master/Calendar/settings.py.sample.
 
 ## Don't forget to check out the Wiki. It contains all the information to understanding and customising the script.
 

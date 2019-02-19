@@ -1,4 +1,3 @@
-# Please do not use this file. It is only intended for testing new features and can potentially damage the system.
 #!/bin/bash
 # E-Paper-Calendar software installer for the raspberry pi
 # Version: 1.5 (Early Februrary 2019)
@@ -9,7 +8,6 @@ echo -e "\e[1mPlease select an option from below:"
 echo -e "\e[97mEnter \e[91m1 \e[97m to update the E-Paper software"
 echo -e "\e[97mEnter \e[91m2 \e[97m to install the E-Paper software"
 echo -e "\e[97mEnter \e[91m3 \e[97m to uninstall the E-Paper software"
-echo -e "\e[1mNote: Updating will back up just the settings.py file."
 echo -e "\e[97mConfirm your selection with [ENTER]"
 read -r -p 'Waiting for input...  ' option
 
@@ -98,7 +96,13 @@ if [ "$option" = 1 ] || [ "$option" = 2 ]; then
     cp README.md /home/pi/E-Paper-Master/
     cp LICENSE /home/pi/E-Paper-Master/
     cp -r .git /home/pi/E-Paper-Master/
+    
+    # Make a copy of the sample settings.py file
+    cd /home/pi/E-Paper-Master/Calendar
+    cp settings.py.sample settings.py
     cd
+
+    # Remove the downloaded (temporary) directory
     sudo rm -r E-Paper-Calendar-with-iCal-sync-and-live-weather
 
     # add a short info
@@ -131,8 +135,7 @@ EOF
 
     # Final words
     echo -e "\e[1;36m"The install was successful"\e[0m"
-    echo -e "\e[1;36m"The programm will now start at every boot."\e[0m"
-
+    echo -e "\e[1;36m"The programm is set to start at every boot."\e[0m"
     echo -e "\e[1;31m"Please enter your details in the file 'settings.py'."\e[0m"
     echo -e "\e[1;31m"If this file is not modified, the programm will not start"\e[0m"
 
