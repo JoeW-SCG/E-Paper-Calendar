@@ -275,7 +275,6 @@ def main():
             except IndexError:
                 pass
 
-            print('Initialising E-Paper Display')
             epd.render(image)
 
             for i in range(1):
