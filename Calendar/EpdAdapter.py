@@ -51,8 +51,7 @@ VCM_DC_SETTING                              = 0x82
 class EpdAdapter (DisplayAdapter):    
     """Generalized adapter for epd7in5 and epd7in5b"""
     def __init__ (self, width, height):
-        self.width = width
-        self.height = height
+        super(EpdAdapter, self).__init__(width, height)
 
         self.reset_pin = RST_PIN
         self.dc_pin = DC_PIN
