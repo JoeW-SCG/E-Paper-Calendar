@@ -23,11 +23,15 @@ try:
 except Exception as e:
     print("Something didn't work right, maybe you're offline?"+e.reason)
 
-if display_colours == "bwr":
+DEBUG_TO_FILE = True
+
+if DEBUG_TO_FILE:
+    import ImageFileAdapter
+    epd = ImageFileAdapter.ImageFileAdapter()
+elif display_colours == "bwr":
     import Epd7in5bAdapter
     epd = Epd7in5bAdapter.Epd7in5bAdapter()
-
-if display_colours == "bw":
+elif display_colours == "bw":
     import Epd7in5Adapter
     epd = Epd7in5Adapter.Epd7in5Adapter()
 
@@ -41,8 +45,8 @@ def main():
     while True:
 
         time = datetime.now()
-        hour = int(time.strftime("%-H"))
-        month = int(time.now().strftime('%-m'))
+        hour = int(time.strftime("%H"))
+        month = int(time.now().strftime('%m'))
         year = int(time.now().strftime('%Y'))
 
         for i in range(1):
@@ -54,7 +58,7 @@ def main():
                 print('performing calibration for colours now')
                 calibration()
 
-            print('Date:', time.strftime('%a %-d %b %y')+', time: '+time.strftime('%H:%M')+'\n')
+            print('Date:', time.strftime('%a %d %b %y')+', time: '+time.strftime('%H:%M')+'\n')
 
             """Create a blank white page, for debugging, change mode to
             to 'RGB' and and save the image by uncommenting the image.save
@@ -140,12 +144,12 @@ def main():
                     write_text(100, 35, windspeed+" mph", (114, 0))
 
                 if hours == "24":
-                    sunrisetime = str(datetime.fromtimestamp(int(weather.get_sunrise_time(timeformat='unix'))).strftime('%-H:%M'))
-                    sunsettime = str(datetime.fromtimestamp(int(weather.get_sunset_time(timeformat='unix'))).strftime('%-H:%M'))
+                    sunrisetime = str(datetime.fromtimestamp(int(weather.get_sunrise_time(timeformat='unix'))).strftime('%H:%M'))
+                    sunsettime = str(datetime.fromtimestamp(int(weather.get_sunset_time(timeformat='unix'))).strftime('%H:%M'))
 
                 if hours == "12":
-                    sunrisetime = str(datetime.fromtimestamp(int(weather.get_sunrise_time(timeformat='unix'))).strftime('%-I:%M'))
-                    sunsettime = str(datetime.fromtimestamp(int(weather.get_sunset_time(timeformat='unix'))).strftime('%-I:%M'))
+                    sunrisetime = str(datetime.fromtimestamp(int(weather.get_sunrise_time(timeformat='unix'))).strftime('%I:%M'))
+                    sunsettime = str(datetime.fromtimestamp(int(weather.get_sunset_time(timeformat='unix'))).strftime('%I:%M'))
 
                 print('Temperature: '+Temperature+' °C')
                 print('Humidity: '+Humidity+'%')
@@ -275,7 +279,7 @@ def main():
             epd.render(image)
 
             for i in range(1):
-                nexthour = ((60 - int(time.strftime("%-M")))*60) - (int(time.strftime("%-S")))
+                nexthour = ((60 - int(time.strftime("%M")))*60) - (int(time.strftime("%S")))
                 sleep(nexthour)
 
 if __name__ == '__main__':
