@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs
+/Calendar/settings.py
+/Calendar/__pycache__/settings.cpython-36.pyc
+/Calendar/__pycache__
