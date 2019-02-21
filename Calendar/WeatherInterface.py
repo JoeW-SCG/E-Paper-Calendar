@@ -1,5 +1,3 @@
-from WeatherForecast import WeatherForecast
-
 class WeatherInterface (object):
     """Interface for fetching and processing weather forecast information."""
     def is_available (self):
