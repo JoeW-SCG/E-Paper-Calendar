@@ -17,11 +17,12 @@ from icon_positions_locations import *
 
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import pyowm
+import OwmForecasts
 from ics import Calendar
 try:
     from urllib.request import urlopen
 except Exception as e:
-    print("Something didn't work right, maybe you're offline?"+e.reason)
+    print("Something didn't work right, maybe you're offline?" + e.reason)
 
 DEBUG_TO_FILE = True
 
@@ -37,11 +38,11 @@ elif display_colours == "bw":
 
 EPD_WIDTH = epd.width
 EPD_HEIGHT = epd.height
-font = ImageFont.truetype(path+'Assistant-Regular.ttf', 18)
+font = ImageFont.truetype(path + 'Assistant-Regular.ttf', 18)
 im_open = Image.open
 
 """Main loop starts from here"""
-def main():
+def main ():
     while True:
 
         time = datetime.now()
@@ -50,7 +51,7 @@ def main():
         year = int(time.now().strftime('%Y'))
 
         for i in range(1):
-            print('_________Starting new loop___________'+'\n')
+            print('_________Starting new loop___________' + '\n')
             """At the following hours (midnight, midday and 6 pm), perform
                a calibration of the display's colours"""
 
@@ -58,7 +59,7 @@ def main():
                 print('performing calibration for colours now')
                 calibration()
 
-            print('Date:', time.strftime('%a %d %b %y')+', time: '+time.strftime('%H:%M')+'\n')
+            print('Date:', time.strftime('%a %d %b %y') + ', time: ' + time.strftime('%H:%M') + '\n')
 
             """Create a blank white page, for debugging, change mode to
             to 'RGB' and and save the image by uncommenting the image.save
@@ -67,7 +68,7 @@ def main():
             draw = (ImageDraw.Draw(image)).bitmap
 
             """Draw the icon with the current month's name"""
-            image.paste(im_open(mpath+str(time.strftime("%B")+'.jpeg')), monthplace)
+            image.paste(im_open(mpath + str(time.strftime("%B") + '.jpeg')), monthplace)
 
             """Draw a line seperating the weather and Calendar section"""
             image.paste(seperator, seperatorplace)
@@ -90,25 +91,25 @@ def main():
             #print(cal) #-uncomment for debugging with incorrect dates
 
             for numbers in cal[0]:
-                image.paste(im_open(dpath+str(numbers)+'.jpeg'), positions['a'+str(cal[0].index(numbers)+1)])
+                image.paste(im_open(dpath + str(numbers) + '.jpeg'), positions['a' + str(cal[0].index(numbers) + 1)])
             for numbers in cal[1]:
-                image.paste(im_open(dpath+str(numbers)+'.jpeg'), positions['b'+str(cal[1].index(numbers)+1)])
+                image.paste(im_open(dpath + str(numbers) + '.jpeg'), positions['b' + str(cal[1].index(numbers) + 1)])
             for numbers in cal[2]:
-                image.paste(im_open(dpath+str(numbers)+'.jpeg'), positions['c'+str(cal[2].index(numbers)+1)])
+                image.paste(im_open(dpath + str(numbers) + '.jpeg'), positions['c' + str(cal[2].index(numbers) + 1)])
             for numbers in cal[3]:
-                image.paste(im_open(dpath+str(numbers)+'.jpeg'), positions['d'+str(cal[3].index(numbers)+1)])
+                image.paste(im_open(dpath + str(numbers) + '.jpeg'), positions['d' + str(cal[3].index(numbers) + 1)])
             for numbers in cal[4]:
-                image.paste(im_open(dpath+str(numbers)+'.jpeg'), positions['e'+str(cal[4].index(numbers)+1)])
+                image.paste(im_open(dpath + str(numbers) + '.jpeg'), positions['e' + str(cal[4].index(numbers) + 1)])
             try:
                 for numbers in cal[5]:
-                    image.paste(im_open(dpath+str(numbers)+'.jpeg'), positions['f'+str(cal[5].index(numbers)+1)])
+                    image.paste(im_open(dpath + str(numbers) + '.jpeg'), positions['f' + str(cal[5].index(numbers) + 1)])
             except IndexError:
                 pass
 
             """Custom function to display text on the E-Paper.
             Tuple refers to the x and y coordinates of the E-Paper display,
             with (0, 0) being the top left corner of the display."""
-            def write_text(box_width, box_height, text, tuple):
+            def write_text (box_width, box_height, text, tuple):
                 text_width, text_height = font.getsize(text)
                 if (text_width, text_height) > (box_width, box_height):
                     raise ValueError('Sorry, your text is too big for the box')
@@ -121,55 +122,48 @@ def main():
 
             """ Handling Openweathermap API"""
             print("Connecting to Openweathermap API servers...")
-            owm = pyowm.OWM(api_key)
-            if owm.is_API_online() is True:
-                observation = owm.weather_at_place(location)
+            owm = OwmForecasts.OwmForecasts(api_key, units=units)
+            if owm.is_available() is True:
+                forecast = owm.get_today_forecast(location)
+
                 print("weather data:")
-                weather = observation.get_weather()
-                weathericon = weather.get_weather_icon_name()
-                Humidity = str(weather.get_humidity())
-                cloudstatus = str(weather.get_clouds())
-                weather_description = (str(weather.get_status()))
 
-                if units == "metric":
-                    Temperature = str(int(weather.get_temperature(unit='celsius')['temp']))
-                    windspeed = str(int(weather.get_wind()['speed']))
-                    write_text(50, 35, Temperature + " °C", (334, 0))
-                    write_text(100, 35, windspeed+" km/h", (114, 0))
+                if forecast.units == "metric":
+                    write_text(50, 35, forecast.air_temperature + " °C", (334, 0))
+                    write_text(100, 35, forecast.wind_speed + " km/h", (114, 0))
 
-                if units == "imperial":
-                    Temperature = str(int(weather.get_temperature('fahrenheit')['temp']))
-                    windspeed = str(int(weather.get_wind()['speed']*0.621))
-                    write_text(50, 35, Temperature + " °F", (334, 0))
-                    write_text(100, 35, windspeed+" mph", (114, 0))
+                if forecast.units == "imperial":
+                    write_text(50, 35, forecast.air_temperature + " °F", (334, 0))
+                    write_text(100, 35, forecast.wind_speed + " mph", (114, 0))
 
                 if hours == "24":
-                    sunrisetime = str(datetime.fromtimestamp(int(weather.get_sunrise_time(timeformat='unix'))).strftime('%H:%M'))
-                    sunsettime = str(datetime.fromtimestamp(int(weather.get_sunset_time(timeformat='unix'))).strftime('%H:%M'))
+                    sunrisetime = str(forecast.sunrise.strftime('%H:%M'))
+                    sunsettime = str(forecast.sunset.strftime('%H:%M'))
 
                 if hours == "12":
-                    sunrisetime = str(datetime.fromtimestamp(int(weather.get_sunrise_time(timeformat='unix'))).strftime('%I:%M'))
-                    sunsettime = str(datetime.fromtimestamp(int(weather.get_sunset_time(timeformat='unix'))).strftime('%I:%M'))
+                    sunrisetime = str(forecast.sunrise.strftime('%I:%M'))
+                    sunsettime = str(forecast.sunset.strftime('%I:%M'))
 
-                print('Temperature: '+Temperature+' °C')
-                print('Humidity: '+Humidity+'%')
-                print('Icon code: '+weathericon)
-                print('weather-icon name: '+weathericons[weathericon])
-                print('Wind speed: '+windspeed+'km/h')
-                print('Sunrise-time: '+sunrisetime)
-                print('Sunset time: '+sunsettime)
-                print('Cloudiness: ' + cloudstatus+'%')
-                print('Weather description: '+weather_description+'\n')
+                print('Temperature: ' + forecast.air_temperature + ' °C')
+                print('Humidity: ' + forecast.air_humidity + '%')
+                print('Icon code: ' + forecast.icon)
+                print('weather-icon name: ' + weathericons[forecast.icon])
+                print('Wind speed: ' + forecast.wind_speed + 'km/h')
+                print('Sunrise-time: ' + sunrisetime)
+                print('Sunset time: ' + sunsettime)
+                print('Cloudiness: ' + forecast.clouds + '%')
+                print('Short weather description: ' + forecast.short_description)
+                print('Detailed weather description: ' + forecast.detailed_description + '\n')
 
                 """Drawing the fetched weather icon"""
-                image.paste(im_open(wpath+weathericons[weathericon]+'.jpeg'), wiconplace)
+                image.paste(im_open(wpath + weathericons[forecast.icon] + '.jpeg'), wiconplace)
 
                 """Drawing the fetched temperature"""
                 image.paste(tempicon, tempplace)
 
                 """Drawing the fetched humidity"""
                 image.paste(humicon, humplace)
-                write_text(50, 35, Humidity + " %", (334, 35))
+                write_text(50, 35, forecast.air_humidity + " %", (334, 35))
 
                 """Drawing the fetched sunrise time"""
                 image.paste(sunriseicon, sunriseplace)
@@ -183,18 +177,19 @@ def main():
                 image.paste(windicon, windiconspace)
 
                 """Write a short weather description"""
-                write_text(144, 35, weather_description, (70, 35))
+                write_text(144, 35, forecast.short_description, (70, 35))
 
             else:
                 image.paste(no_response, wiconplace)
 
             """Filter upcoming events from your iCalendar/s"""
-            print('Fetching events from your calendar'+'\n')
+            print('Fetching events from your calendar' + '\n')
             events_this_month = []
             upcoming = []
             for icalendars in ical_urls:
                 decode = str(urlopen(icalendars).read().decode())
-                #fix a bug related to Alarm action by replacing parts of the icalendar
+                #fix a bug related to Alarm action by replacing parts of the
+                #icalendar
                 fix_e = decode.replace('BEGIN:VALARM\r\nACTION:NONE','BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:')
                 #uncomment line below to display your calendar in ical format
                 #print(fix_e)
@@ -204,13 +199,13 @@ def main():
                         upcoming.append({'date':events.begin.format('DD MMM'), 'event':events.name})
                         events_this_month.append(int((events.begin).format('D')))
                     if month == 12:
-                        if (1, year+1) == (1, int((events.begin).year)):
+                        if (1, year + 1) == (1, int((events.begin).year)):
                             upcoming.append({'date':events.begin.format('DD MMM'), 'event':events.name})
                     if month != 12:
-                        if (month+1, year) == (events.begin).format('M YYYY'):
+                        if (month + 1, year) == (events.begin).format('M YYYY'):
                             upcoming.append({'date':events.begin.format('DD MMM'), 'event':events.name}) # HS sort events by date
 
-            def takeDate(elem):
+            def takeDate (elem):
                 return elem['date']
 
             upcoming.sort(key=takeDate)
@@ -222,7 +217,7 @@ def main():
             print(upcoming)
 
             #Credit to Hubert for suggesting truncating event names
-            def write_text_left(box_width, box_height, text, tuple):
+            def write_text_left (box_width, box_height, text, tuple):
                 text_width, text_height = font.getsize(text)
                 while (text_width, text_height) > (box_width, box_height):
                     text=text[0:-1]
@@ -234,51 +229,51 @@ def main():
 
             """Write event dates and names on the E-Paper"""
             for dates in range(len(upcoming)):
-                write_text(70, 25, (upcoming[dates]['date']), date_positions['d'+str(dates+1)])
+                write_text(70, 25, (upcoming[dates]['date']), date_positions['d' + str(dates + 1)])
 
             for events in range(len(upcoming)):
-                write_text_left(314, 25, (upcoming[events]['event']), event_positions['e'+str(events+1)])
+                write_text_left(314, 25, (upcoming[events]['event']), event_positions['e' + str(events + 1)])
 
             """Draw smaller squares on days with events"""
             for numbers in events_this_month:
                 if numbers in cal[0]:
-                    draw(positions['a'+str(cal[0].index(numbers)+1)], eventicon)
+                    draw(positions['a' + str(cal[0].index(numbers) + 1)], eventicon)
                 if numbers in cal[1]:
-                    draw(positions['b'+str(cal[1].index(numbers)+1)], eventicon)
+                    draw(positions['b' + str(cal[1].index(numbers) + 1)], eventicon)
                 if numbers in cal[2]:
-                    draw(positions['c'+str(cal[2].index(numbers)+1)], eventicon)
+                    draw(positions['c' + str(cal[2].index(numbers) + 1)], eventicon)
                 if numbers in cal[3]:
-                    draw(positions['d'+str(cal[3].index(numbers)+1)], eventicon)
+                    draw(positions['d' + str(cal[3].index(numbers) + 1)], eventicon)
                 if numbers in cal[4]:
-                    draw(positions['e'+str(cal[4].index(numbers)+1)], eventicon)
+                    draw(positions['e' + str(cal[4].index(numbers) + 1)], eventicon)
                 try:
                     if numbers in cal[5]:
-                        draw(positions['f'+str(cal[5].index(numbers)+1)], eventicon)
+                        draw(positions['f' + str(cal[5].index(numbers) + 1)], eventicon)
                 except IndexError:
                     pass
 
             """Draw a larger square on today's date"""
             today = time.day
             if today in cal[0]:
-                draw(positions['a'+str(cal[0].index(today)+1)], dateicon)
+                draw(positions['a' + str(cal[0].index(today) + 1)], dateicon)
             if today in cal[1]:
-                draw(positions['b'+str(cal[1].index(today)+1)], dateicon)
+                draw(positions['b' + str(cal[1].index(today) + 1)], dateicon)
             if today in cal[2]:
-                draw(positions['c'+str(cal[2].index(today)+1)], dateicon)
+                draw(positions['c' + str(cal[2].index(today) + 1)], dateicon)
             if today in cal[3]:
-                draw(positions['d'+str(cal[3].index(today)+1)], dateicon)
+                draw(positions['d' + str(cal[3].index(today) + 1)], dateicon)
             if today in cal[4]:
-                draw(positions['e'+str(cal[4].index(today)+1)], dateicon)
+                draw(positions['e' + str(cal[4].index(today) + 1)], dateicon)
             try:
                 if today in cal[5]:
-                    draw(positions['f'+str(cal[5].index(today)+1)], dateicon)
+                    draw(positions['f' + str(cal[5].index(today) + 1)], dateicon)
             except IndexError:
                 pass
 
             epd.render(image)
 
             for i in range(1):
-                nexthour = ((60 - int(time.strftime("%M")))*60) - (int(time.strftime("%S")))
+                nexthour = ((60 - int(time.strftime("%M"))) * 60) - (int(time.strftime("%S")))
                 sleep(nexthour)
 
 if __name__ == '__main__':
