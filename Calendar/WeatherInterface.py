@@ -3,8 +3,8 @@ class WeatherInterface (object):
     def is_available (self):
         raise NotImplementedError("Functions needs to be implemented")
 
-    def get_forecast_in_days (self, offset_by_days):
+    def get_forecast_in_days (self, offset_by_days, location):
         raise NotImplementedError("Functions needs to be implemented")
 
-    def get_today_forecast (self):
+    def get_today_forecast (self, location):
         raise NotImplementedError("Functions needs to be implemented")
