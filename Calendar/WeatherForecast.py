@@ -18,7 +18,6 @@ class WeatherForecast (object):
         self.detailed_description = None
 
         self.units = None
-        self.date = None
+        self.datetime = None
         self.place = None
-        self.forecast_datetime = None
         self.fetch_datetime = None
