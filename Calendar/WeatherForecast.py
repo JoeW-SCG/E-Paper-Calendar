@@ -21,4 +21,4 @@ class WeatherForecast (object):
         self.date = None
         self.place = None
         self.forecast_datetime = None
-        self.fetch_time = None
+        self.fetch_datetime = None
