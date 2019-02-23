@@ -1,8 +1,7 @@
-class WeatherInterface (object):
-    """Interface for fetching and processing weather forecast information."""
-    def is_available (self):
-        raise NotImplementedError("Functions needs to be implemented")
+from DataSourceInterface import DataSourceInterface
 
+class WeatherInterface (DataSourceInterface):
+    """Interface for fetching and processing weather forecast information."""
     def get_forecast_in_days (self, offset_by_days, location):
         raise NotImplementedError("Functions needs to be implemented")
 
