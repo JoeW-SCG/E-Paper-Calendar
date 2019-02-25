@@ -16,7 +16,6 @@ from settings import *
 from icon_positions_locations import *
 
 from PIL import Image, ImageDraw, ImageFont, ImageOps
-import pyowm
 import OwmForecasts
 from ics import Calendar
 try:
@@ -24,17 +23,22 @@ try:
 except Exception as e:
     print("Something didn't work right, maybe you're offline?" + e.reason)
 
-DEBUG_TO_FILE = True
+output_adapters = []
 
-if DEBUG_TO_FILE:
+if render_to_file:
     import ImageFileAdapter
     epd = ImageFileAdapter.ImageFileAdapter()
-elif display_colours == "bwr":
-    import Epd7in5bAdapter
-    epd = Epd7in5bAdapter.Epd7in5bAdapter()
-elif display_colours == "bw":
-    import Epd7in5Adapter
-    epd = Epd7in5Adapter.Epd7in5Adapter()
+    output_adapters.append(epd)
+
+if render_to_display:
+    if display_colours == "bwr":
+        import Epd7in5bAdapter
+        epd = Epd7in5bAdapter.Epd7in5bAdapter()
+        output_adapters.append(epd)
+    elif display_colours == "bw":
+        import Epd7in5Adapter
+        epd = Epd7in5Adapter.Epd7in5Adapter()
+        output_adapters.append(epd)
 
 EPD_WIDTH = epd.width
 EPD_HEIGHT = epd.height
@@ -55,7 +59,7 @@ def main ():
             """At the following hours (midnight, midday and 6 pm), perform
                a calibration of the display's colours"""
 
-            if hour is 0 or hour is 12 or hour is 18:
+            if hour in calibrate_hours:
                 print('performing calibration for colours now')
                 calibration()
 
@@ -195,7 +199,7 @@ def main ():
                 #print(fix_e)
                 ical = Calendar(fix_e)
                 for events in ical.events:
-                    if time.now().strftime('%-m %Y') == (events.begin).format('M YYYY') and (events.begin).format('DD') >= time.now().strftime('%d'):
+                    if time.now().strftime('%m %Y') == (events.begin).format('M YYYY') and (events.begin).format('DD') >= time.now().strftime('%d'):
                         upcoming.append({'date':events.begin.format('DD MMM'), 'event':events.name})
                         events_this_month.append(int((events.begin).format('D')))
                     if month == 12:
@@ -270,7 +274,8 @@ def main ():
             except IndexError:
                 pass
 
-            epd.render(image)
+            for output in output_adapters:
+                output.render(image)
 
             for i in range(1):
                 nexthour = ((60 - int(time.strftime("%M"))) * 60) - (int(time.strftime("%S")))
