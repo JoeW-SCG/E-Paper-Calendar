@@ -1,7 +1,7 @@
 """ To quickly get started, fill in the following details:"""
 
 ical_urls = [
-"https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics"
+	"https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics"
 ]
 
 api_key = ""
@@ -16,4 +16,5 @@ hours = "24"
 
 """DEBUG"""
 render_to_display = True
-render_to_file = False
+render_to_file = False		# Will be called "design_exported.png" in Calendar-directory
+calibrate_hours = [0, 12, 18]
