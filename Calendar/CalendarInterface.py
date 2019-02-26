@@ -11,8 +11,8 @@ class CalendarInterface (DataSourceInterface):
     def get_day_events(self, date):
         raise NotImplementedError("Functions needs to be implemented")
 
-    def get_month_events(self, month):
+    def get_month_events(self, month = -1):
         raise NotImplementedError("Functions needs to be implemented")
 
-    def get_week_events(self, week):
+    def get_week_events(self, week = -1):
         raise NotImplementedError("Functions needs to be implemented")
