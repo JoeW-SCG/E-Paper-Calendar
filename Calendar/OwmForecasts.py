@@ -10,7 +10,10 @@ class OwmForecasts (WeatherInterface):
         self.units = units
 
     def is_available (self):
-        return self.api.is_API_online()
+        try:
+            return self.api.is_API_online()
+        except:
+            return False
 
     def get_today_forecast (self, location):
         if self.is_available() is False:
