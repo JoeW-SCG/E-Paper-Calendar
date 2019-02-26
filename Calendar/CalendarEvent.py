@@ -13,3 +13,6 @@ class CalendarEvent (object):
 
         self.location = None
         self.fetch_datetime = None
+
+    def __repr__(self):
+        return self.title
