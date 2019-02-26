@@ -12,16 +12,20 @@ import calendar
 from datetime import datetime
 from time import sleep
 
+from DebugConsole import DebugConsole
+
+debug = DebugConsole()
+
 from settings import *
 from icon_positions_locations import *
 
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import OwmForecasts
-from ics import Calendar
+import IcalEvents
 try:
     from urllib.request import urlopen
 except Exception as e:
-    print("Something didn't work right, maybe you're offline?" + e.reason)
+    debug.print("Something didn't work right, maybe you're offline?" + e.reason)
 
 output_adapters = []
 
@@ -55,15 +59,15 @@ def main ():
         year = int(time.now().strftime('%Y'))
 
         for i in range(1):
-            print('_________Starting new loop___________' + '\n')
+            debug.print('_________Starting new loop___________' + '\n')
             """At the following hours (midnight, midday and 6 pm), perform
                a calibration of the display's colours"""
 
             if hour in calibrate_hours:
-                print('performing calibration for colours now')
-                calibration()
+                for output in output_adapters:
+                    output.calibrate()
 
-            print('Date:', time.strftime('%a %d %b %y') + ', time: ' + time.strftime('%H:%M') + '\n')
+            debug.print('Date:'+ time.strftime('%a %d %b %y') + ', time: ' + time.strftime('%H:%M') + '\n')
 
             """Create a blank white page, for debugging, change mode to
             to 'RGB' and and save the image by uncommenting the image.save
@@ -92,7 +96,7 @@ def main ():
             """Using the built-in calendar function, draw icons for each
                number of the month (1,2,3,...28,29,30)"""
             cal = calendar.monthcalendar(time.year, time.month)
-            #print(cal) #-uncomment for debugging with incorrect dates
+            #debug.print(cal) #-uncomment for debugging with incorrect dates
 
             for numbers in cal[0]:
                 image.paste(im_open(dpath + str(numbers) + '.jpeg'), positions['a' + str(cal[0].index(numbers) + 1)])
@@ -125,12 +129,11 @@ def main ():
                     image.paste(space, tuple)
 
             """ Handling Openweathermap API"""
-            print("Connecting to Openweathermap API servers...")
+            debug.print("Connecting to Openweathermap API servers...")
             owm = OwmForecasts.OwmForecasts(api_key, units=units)
             if owm.is_available() is True:
                 forecast = owm.get_today_forecast(location)
-
-                print("weather data:")
+                debug.print_forecast(forecast)
 
                 if forecast.units == "metric":
                     write_text(50, 35, forecast.air_temperature + " °C", (334, 0))
@@ -147,17 +150,6 @@ def main ():
                 if hours == "12":
                     sunrisetime = str(forecast.sunrise.strftime('%I:%M'))
                     sunsettime = str(forecast.sunset.strftime('%I:%M'))
-
-                print('Temperature: ' + forecast.air_temperature + ' °C')
-                print('Humidity: ' + forecast.air_humidity + '%')
-                print('Icon code: ' + forecast.icon)
-                print('weather-icon name: ' + weathericons[forecast.icon])
-                print('Wind speed: ' + forecast.wind_speed + 'km/h')
-                print('Sunrise-time: ' + sunrisetime)
-                print('Sunset time: ' + sunsettime)
-                print('Cloudiness: ' + forecast.clouds + '%')
-                print('Short weather description: ' + forecast.short_description)
-                print('Detailed weather description: ' + forecast.detailed_description + '\n')
 
                 """Drawing the fetched weather icon"""
                 image.paste(im_open(wpath + weathericons[forecast.icon] + '.jpeg'), wiconplace)
@@ -187,38 +179,29 @@ def main ():
                 image.paste(no_response, wiconplace)
 
             """Filter upcoming events from your iCalendar/s"""
-            print('Fetching events from your calendar' + '\n')
-            events_this_month = []
-            upcoming = []
-            for icalendars in ical_urls:
-                decode = str(urlopen(icalendars).read().decode())
-                #fix a bug related to Alarm action by replacing parts of the
-                #icalendar
-                fix_e = decode.replace('BEGIN:VALARM\r\nACTION:NONE','BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:')
-                #uncomment line below to display your calendar in ical format
-                #print(fix_e)
-                ical = Calendar(fix_e)
-                for events in ical.events:
-                    if time.now().strftime('%m %Y') == (events.begin).format('M YYYY') and (events.begin).format('DD') >= time.now().strftime('%d'):
-                        upcoming.append({'date':events.begin.format('DD MMM'), 'event':events.name})
-                        events_this_month.append(int((events.begin).format('D')))
-                    if month == 12:
-                        if (1, year + 1) == (1, int((events.begin).year)):
-                            upcoming.append({'date':events.begin.format('DD MMM'), 'event':events.name})
-                    if month != 12:
-                        if (month + 1, year) == (events.begin).format('M YYYY'):
-                            upcoming.append({'date':events.begin.format('DD MMM'), 'event':events.name}) # HS sort events by date
+            debug.print('Fetching events from your calendar' + '\n')
+
+            events_cal = IcalEvents.IcalEvents(ical_urls)
+
+            for event in events_cal.get_month_events():
+                debug.print_event(event)
+
+            upcoming = events_cal.get_upcoming_events()
+            events_this_month = events_cal.get_month_events()
+            events_this_month = [event.begin_datetime.day for event in events_this_month]
 
             def takeDate (elem):
-                return elem['date']
+                return elem.begin_datetime
 
             upcoming.sort(key=takeDate)
 
             del upcoming[4:]
             # uncomment the following 2 lines to display the fetched events
             # from your iCalendar
-            print('Upcoming events:')
-            print(upcoming)
+            debug.print('Upcoming events:')
+            debug.print(upcoming)
+            debug.print('Month events:')
+            debug.print(events_this_month)
 
             #Credit to Hubert for suggesting truncating event names
             def write_text_left (box_width, box_height, text, tuple):
@@ -233,10 +216,10 @@ def main ():
 
             """Write event dates and names on the E-Paper"""
             for dates in range(len(upcoming)):
-                write_text(70, 25, (upcoming[dates]['date']), date_positions['d' + str(dates + 1)])
+                write_text(70, 25, (upcoming[dates].begin_datetime.strftime('%d %b')), date_positions['d' + str(dates + 1)])
 
             for events in range(len(upcoming)):
-                write_text_left(314, 25, (upcoming[events]['event']), event_positions['e' + str(events + 1)])
+                write_text_left(314, 25, (upcoming[events].title), event_positions['e' + str(events + 1)])
 
             """Draw smaller squares on days with events"""
             for numbers in events_this_month:
@@ -276,6 +259,8 @@ def main ():
 
             for output in output_adapters:
                 output.render(image)
+
+            debug.print("Finished rendering")
 
             for i in range(1):
                 nexthour = ((60 - int(time.strftime("%M"))) * 60) - (int(time.strftime("%S")))
