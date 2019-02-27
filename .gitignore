@@ -8,3 +8,9 @@
 /Calendar/__pycache__
 /Calendar/design_exported.png
 /design_exported.png
+/Calendar/icon_positions_locations.pyc
+/Calendar/DebugInterface.pyc
+/Calendar/DebugConsole.pyc
+/Calendar/DataSourceInterface.pyc
+/Calendar/CalendarInterface.pyc
+/Calendar/CalendarEvent.pyc
