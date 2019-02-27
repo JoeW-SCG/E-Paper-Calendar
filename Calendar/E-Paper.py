@@ -25,7 +25,7 @@ import IcalEvents
 try:
     from urllib.request import urlopen
 except Exception as e:
-    debug.print("Something didn't work right, maybe you're offline?" + e.reason)
+    debug.print_line("Something didn't work right, maybe you're offline?" + e.reason)
 
 output_adapters = []
 
@@ -59,7 +59,7 @@ def main ():
         year = int(time.now().strftime('%Y'))
 
         for i in range(1):
-            debug.print('_________Starting new loop___________' + '\n')
+            debug.print_line('_________Starting new loop___________' + '\n')
             """At the following hours (midnight, midday and 6 pm), perform
                a calibration of the display's colours"""
 
@@ -67,7 +67,7 @@ def main ():
                 for output in output_adapters:
                     output.calibrate()
 
-            debug.print('Date:'+ time.strftime('%a %d %b %y') + ', time: ' + time.strftime('%H:%M') + '\n')
+            debug.print_line('Date:'+ time.strftime('%a %d %b %y') + ', time: ' + time.strftime('%H:%M') + '\n')
 
             """Create a blank white page, for debugging, change mode to
             to 'RGB' and and save the image by uncommenting the image.save
@@ -96,7 +96,7 @@ def main ():
             """Using the built-in calendar function, draw icons for each
                number of the month (1,2,3,...28,29,30)"""
             cal = calendar.monthcalendar(time.year, time.month)
-            #debug.print(cal) #-uncomment for debugging with incorrect dates
+            #debug.print_line(cal) #-uncomment for debugging with incorrect dates
 
             for numbers in cal[0]:
                 image.paste(im_open(dpath + str(numbers) + '.jpeg'), positions['a' + str(cal[0].index(numbers) + 1)])
@@ -129,7 +129,7 @@ def main ():
                     image.paste(space, tuple)
 
             """ Handling Openweathermap API"""
-            debug.print("Connecting to Openweathermap API servers...")
+            debug.print_line("Connecting to Openweathermap API servers...")
             owm = OwmForecasts.OwmForecasts(api_key, units=units)
             if owm.is_available() is True:
                 forecast = owm.get_today_forecast(location)
@@ -179,7 +179,7 @@ def main ():
                 image.paste(no_response, wiconplace)
 
             """Filter upcoming events from your iCalendar/s"""
-            debug.print('Fetching events from your calendar' + '\n')
+            debug.print_line('Fetching events from your calendar' + '\n')
 
             events_cal = IcalEvents.IcalEvents(ical_urls)
 
@@ -198,10 +198,10 @@ def main ():
             del upcoming[4:]
             # uncomment the following 2 lines to display the fetched events
             # from your iCalendar
-            debug.print('Upcoming events:')
-            debug.print(upcoming)
-            debug.print('Month events:')
-            debug.print(events_this_month)
+            debug.print_line('Upcoming events:')
+            debug.print_line(upcoming)
+            debug.print_line('Month events:')
+            debug.print_line(events_this_month)
 
             #Credit to Hubert for suggesting truncating event names
             def write_text_left (box_width, box_height, text, tuple):
@@ -260,7 +260,7 @@ def main ():
             for output in output_adapters:
                 output.render(image)
 
-            debug.print("Finished rendering")
+            debug.print_line("Finished rendering")
 
             for i in range(1):
                 nexthour = ((60 - int(time.strftime("%M"))) * 60) - (int(time.strftime("%S")))
