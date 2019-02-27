@@ -2,10 +2,11 @@ from WeatherForecast import WeatherForecast
 from WeatherInterface import WeatherInterface
 import pyowm
 from datetime import datetime
+from settings import units
 
 class OwmForecasts (WeatherInterface):
     """Fetches weather through the Openweathermap-api."""
-    def __init__ (self, api_key, units):
+    def __init__ (self, api_key):
         self.api = pyowm.OWM(api_key)
         self.units = units
 
