@@ -39,7 +39,7 @@ class DebugConsole (DebugInterface):
         print('Location: ' + str(forecast.location))
         print('Fetch datetime: ' + str(forecast.fetch_datetime))
 
-    def print (self, content):
+    def print_line (self, content):
         if content is None:
             return
         print(str(content))

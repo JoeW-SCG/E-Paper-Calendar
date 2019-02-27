@@ -6,5 +6,5 @@ class DebugInterface (object):
     def print_forecast (self, forecast):
         raise NotImplementedError("Functions needs to be implemented")
 
-    def print (self, content):
+    def print_line (self, content):
         raise NotImplementedError("Functions needs to be implemented")
