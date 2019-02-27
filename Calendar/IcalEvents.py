@@ -55,7 +55,11 @@ class IcalEvents(CalendarInterface):
         return self.__get_events_to_filter__(lambda x : x.begin_datetime.month == month)
 
     def get_week_events(self, week = -1):
-        raise NotImplementedError("Malfunctioning")
+        if week < 0 and week_starts_on == "Monday":
+            week = int(datetime.now().strftime('%W')) + 1
+        elif week < 0:
+            week = int(datetime.now().strftime('%U')) + 1
+
         if week_starts_on == "Monday":
             return self.__get_events_to_filter__(lambda x : int(x.begin_datetime.strftime('%W')) + 1 == week)
         else:
