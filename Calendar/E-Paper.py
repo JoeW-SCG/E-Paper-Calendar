@@ -61,9 +61,6 @@ def main ():
             owm = OwmForecasts.OwmForecasts(api_key)
             design.add_weather(OwmForecasts.OwmForecasts(api_key))
 
-            output_adapters[0].render(design)
-            return
-
 
 
 
