@@ -39,28 +39,29 @@ class Epd7in5bAdapter (EpdAdapter):
 
     def get_frame_buffer (self, image):
         buf = [ 0x00 ] * int(self.height * self.width / 4)
-        # Set buffer to value of Python Imaging Library image.
-        # Image must be in mode L.
-        image_grayscale = image.convert('L', dither=None)
-        imwidth, imheight = image_grayscale.size
+        image_rgb = image
+        imwidth, imheight = image_rgb.size
         if imwidth != self.height or imheight != self.width:
             raise ValueError('Image must be same dimensions as display \
                 ({0}x{1}).' .format(self.height, self.width))
 
-        pixels = image_grayscale.load()
         for y in range(self.width):
             for x in range(self.height):
                 # Set the bits for the column of pixels at the current
                 # position.
-                if pixels[x, y] < 75: #was 64 # black
+                pixel = image_rgb.getpixel((x, y))
+                if self.__brightness__(pixel) < 75: #was 64 # black
                     buf[int((x + y * self.height) / 4)] &= ~(0xC0 >> (x % 4 * 2))
-                elif pixels[x, y] < 110:  #was 192 # convert gray to red
+                elif pixel[0] > 150 and (pixel[2] + pixel[1]) < 50:  #was 192
                     buf[int((x + y * self.height) / 4)] &= ~(0xC0 >> (x % 4 * 2))
                     buf[int((x + y * self.height) / 4)] |= 0x40 >> (x % 4 * 2)
                 else:                           # white
                     buf[int((x + y * self.height) / 4)] |= 0xC0 >> (x % 4 * 2)
         return buf #due to python2 -> python3, int had to be added in 'get_frame
                    #_buffer
+
+    def __brightness__ (self, pixel):
+        return (pixel[0] + pixel[1] + pixel[2]) / 3
 
     def calibrate (self):
         for _ in range(2):
