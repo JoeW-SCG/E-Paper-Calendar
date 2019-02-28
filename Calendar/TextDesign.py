@@ -2,6 +2,8 @@ from DesignEntity import DesignEntity
 from PIL import ImageFont, ImageDraw, ImageOps
 from Assets import path
 
+paddingcorrection = -5
+
 class TextDesign (DesignEntity):
     """Object that manages all information relevant to text
     and prints it to an image"""
@@ -35,4 +37,4 @@ class TextDesign (DesignEntity):
         elif self.vertical_alignment == "right":
             x = int(self.size[0] - width)
 
-        return (x, y)
+        return (x, y + paddingcorrection)
