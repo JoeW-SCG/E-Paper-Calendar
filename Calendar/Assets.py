@@ -22,17 +22,12 @@ seperator =     im_open(opath+'seperator.jpeg').convert('L')
 no_response=    im_open(opath+'cloud-no-response.jpeg')
 sunriseicon =   im_open(opath+'wi-sunrise.jpeg')
 sunseticon =    im_open(opath+'wi-sunset.jpeg')
-windicon =      im_open(opath+'wi-strong-wind.jpeg')
+windicon =      im_open(opath+'wi-strong-wind.jpeg')#
 
-wiconplace = (0, 0)
-tempplace = (299, 0)
-humplace = (299, 35)
-seperatorplace = (0, 72)
-monthplace = (0, 74)
-weekplace = (3, 134)
-windiconspace = (79, 0)
-sunriseplace = (214, 0)
-sunsetplace = (214, 35)
+datetime_locals = {
+    "de" : "de_DE.UTF-8",
+    "en" : "en_US.UTF-8"
+}
 
 e_col = 70
 date_col = 0

@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw
 
 class Epd7in5bAdapter (EpdAdapter):
     def __init__ (self):
-        super(Epd7in5bAdapter, self).__init__(640, 384)
+        super(Epd7in5bAdapter, self).__init__(384, 640)
 
     def display_frame (self, frame_buffer):
         self.send_command(DATA_START_TRANSMISSION_1)

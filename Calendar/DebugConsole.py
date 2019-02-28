@@ -1,5 +1,5 @@
 from DebugInterface import DebugInterface
-from icon_positions_locations import weathericons
+from Assets import weathericons
 
 class DebugConsole (DebugInterface):
     """Defines concrete console export of debug objects"""

@@ -1,11 +1,9 @@
-class PanelDesign(object):
-    """Defined general interface for panel designs."""
-    def set_size(self, width, height):
-        self.width = width
-        self.height = height
+from DesignEntity import DesignEntity
 
-    def get_image (self):
-        raise NotImplementedError("Functions needs to be implemented")
+class PanelDesign (DesignEntity):
+    """Defined general interface for panel designs."""
+    def __init__ (self, size):
+        super(PanelDesign, self).__init__(size)
 
     def add_weather (self, weather):
         raise NotImplementedError("Functions needs to be implemented")
