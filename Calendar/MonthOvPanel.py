@@ -109,7 +109,7 @@ class MonthOvPanel (PanelDesign):
 
     def __get_today_box_pos__ (self):
         x, y = self.__get_day_pos__(int(datetime.now().day / 7), datetime.now().weekday())
-        return (x, y + (self.__abs_pos__(daynumberboxsize)[1] - self.__abs_pos__(dayhighlightboxsize)[1]) / 2)
+        return (x, int(y + (self.__abs_pos__(daynumberboxsize)[1] - self.__abs_pos__(dayhighlightboxsize)[1]) / 2))
 
     def __draw_highlight_box__ (self, size, pos, color='black', width=1):
         design = BoxDesign(size, outline=color, width = width)

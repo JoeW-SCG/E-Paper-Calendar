@@ -8,20 +8,18 @@ class TextDesign (DesignEntity):
     """Object that manages all information relevant to text
     and prints it to an image"""
     def __init__ (self, size, font = "Assistant-Regular.ttf", fontsize = 12, text = "", horizontalalignment = "left", verticalalignment = "top"):
-        super(TextDesign, self).__init__(size)
+        super(TextDesign, self).__init__(size, mask = True)
         self.font_family = font
         self.font_size = fontsize
         self.text = text
         self.horizontal_alignment = horizontalalignment
         self.vertical_alignment = verticalalignment
-        self.is_bitmap = True
 
     def __finish_image__ (self):
         self.__init_image__()
         self.__font__ = ImageFont.truetype(path + self.font_family, self.font_size)
         pos = self.__pos_from_alignment__()
         ImageDraw.Draw(self.__image__).text(pos, self.text, fill=0, font=self.__font__)
-        self.__image__ = ImageOps.invert(self.__image__)
 
     def __pos_from_alignment__ (self):
         width, height = self.__font__.getsize(self.text)

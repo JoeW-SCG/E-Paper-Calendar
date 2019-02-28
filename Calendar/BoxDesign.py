@@ -4,13 +4,12 @@ from PIL import ImageDraw, ImageOps
 class BoxDesign (DesignEntity):
     """Redefinition of ImageDraw.Draw.Rectangle"""
     def __init__(self, size, fill=None, outline=None, width=0):
-        super(BoxDesign, self).__init__((size[0]+1, size[1]+1))
+        super(BoxDesign, self).__init__((size[0]+1, size[1]+1), mask=True)
         self.size = size
         self.__define_corners__()
         self.fill = fill
         self.outline = outline
         self.width = width
-        self.is_bitmap = True
 
     def __define_corners__(self):
         topleft = (0,0)
@@ -22,7 +21,6 @@ class BoxDesign (DesignEntity):
     def __finish_image__ (self):
         for i in range(self.width):
             ImageDraw.Draw(self.__image__).polygon(self.__get_reduced_corners__(i), fill=self.fill, outline=self.outline)
-        self.__image__ = ImageOps.invert(self.__image__)
 
     def __get_reduced_corners__(self, reducer):
         topleft = (reducer, reducer)
