@@ -6,9 +6,6 @@ im_open = Image.open
 
 path =      ''
 wpath =     path+'weather-icons/'
-mpath =     path+'translations/'+language+'/months/'
-weekpath =  path+'translations/'+language+'/week/'
-dpath =     path+'days/'
 opath =     path+'other/'
 
 weekday =       im_open(opath+'weekday.bmp').convert('L')
@@ -16,8 +13,6 @@ eventicon =     im_open(opath+'event.bmp').convert('L')
 dateicon =      im_open(opath+'today.bmp').convert('L')
 tempicon =      im_open(opath+'temperature.jpeg')
 humicon =       im_open(opath+'humidity.jpeg')
-weekmon =       im_open(weekpath+'week-mon.jpeg')
-weeksun =       im_open(weekpath+'week-sun.jpeg')
 seperator =     im_open(opath+'seperator.jpeg').convert('L')
 no_response=    im_open(opath+'cloud-no-response.jpeg')
 sunriseicon =   im_open(opath+'wi-sunrise.jpeg')
