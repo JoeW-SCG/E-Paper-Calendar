@@ -2,7 +2,7 @@ from PanelDesign import PanelDesign
 from Assets import *
 from settings import *
 import calendar
-from datetime import datetime
+from datetime import datetime, timedelta
 from WeatherHeaderDesign import WeatherHeaderDesign
 from PIL import ImageDraw
 from TextDesign import TextDesign
@@ -17,9 +17,9 @@ monthtextsize = 40
 monthovposition = (0, 0.225)
 monthovsize = (1, 0.5)
 weekdayrowpos = (0, 0.209)
-weekhighlightboxsize = (0.143, 0.044)
 weekrowboxsize = (1, 0.044)
-weekdaytextsize = 28
+weekdaytextsize = 18
+weekrownameboxsize = (0.143, 0.044)
 
 class MonthOvPanel (PanelDesign):
     """Overview that focuses on the current month and
@@ -29,6 +29,11 @@ class MonthOvPanel (PanelDesign):
         self.__first_render__()
 
     def __first_render__ (self):
+        if week_starts_on == "Monday":
+            calendar.setfirstweekday(calendar.MONDAY)
+        elif week_starts_on == "Sunday":
+            calendar.setfirstweekday(calendar.SUNDAY)
+
         self.__draw_month_name__()
         self.__draw_seperator__()
         self.__draw_month_overview__()
@@ -82,19 +87,14 @@ class MonthOvPanel (PanelDesign):
                 self.__draw_day_number__(numbers, self.__get_day_pos__(cal.index(week), week.index(numbers)))
 
     def __draw_week_row__ (self):
-        if (week_starts_on == "Monday"):
-            calendar.setfirstweekday(calendar.MONDAY)
-        elif (week_starts_on == "Sunday"):
-            calendar.setfirstweekday(calendar.SUNDAY)
+        week_days = self.__get_week_days_ordered__()
 
-        week_days = []
-
-        for day in week_days:
-            txt = TextDesign(self.__abs_pos__(daynumberboxsize), fontsize=weekdaytextsize, text=str(day), verticalalignment="center", horizontalalignment="center")
-            txt.pos = self.__get_week_day_pos__(week_days.index(day))
+        for day_of_week, day in enumerate(week_days):
+            txt = TextDesign(self.__abs_pos__(weekrownameboxsize), fontsize=weekdaytextsize, text=str(day), verticalalignment="center", horizontalalignment="center")
+            txt.pos = self.__get_week_day_pos__(day_of_week)
             self.draw_design(txt)
         
-        self.__draw_highlight_box__(self.__abs_pos__(weekhighlightboxsize), self.__get_week_day_pos__(datetime.now().weekday()))
+        self.__draw_highlight_box__(self.__abs_pos__(weekrownameboxsize), self.__get_week_day_pos__(datetime.now().weekday()))
 
     def __get_week_day_pos__(self, day_of_week):
         maxwidth, _ = self.__abs_pos__(monthovsize)
@@ -111,3 +111,15 @@ class MonthOvPanel (PanelDesign):
         topleft = pos
         bottomright = (pos[0] + size[0], pos[1] + size[1])
         ImageDraw.Draw(self.__image__).ellipse([topleft, bottomright], outline=color)
+
+    def __get_week_days_ordered__(self):
+        cur_weekday = datetime.now().weekday()
+        correction = -cur_weekday
+        if week_starts_on == "Sunday":
+            correction -= 1
+
+        weekdays = []
+        for i in range(7):
+            weekdays.append((datetime.now() + timedelta(days=(i + correction))).strftime("%a"))
+
+        return weekdays
