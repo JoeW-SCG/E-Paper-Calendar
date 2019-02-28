@@ -28,7 +28,7 @@ class WeatherHeaderDesign (DesignEntity):
         windspeed = cur_weather.wind_speed + " " + self.__get_unit__(("km/h", "mph"))
 
         self.__draw_text__(temperature, self.__abs_pos__((0.87, 0)), (50,35))
-        self.__draw_text__(windspeed, self.__abs_pos__((0.297, 0)), (100,35))
+        self.__draw_text__(windspeed, self.__abs_pos__((0.297, 0.05)), (100,35))
         self.__draw_text__(self.__get_time__(cur_weather.sunrise), self.__abs_pos__((0.64,0)), (50,35))
         self.__draw_text__(self.__get_time__(cur_weather.sunset), self.__abs_pos__((0.64,0.486)), (50,35))
         self.__draw_text__(cur_weather.air_humidity + " %", self.__abs_pos__((0.87,0.486)), (50,35))
