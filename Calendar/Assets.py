@@ -8,12 +8,8 @@ path =      ''
 wpath =     path+'weather-icons/'
 opath =     path+'other/'
 
-weekday =       im_open(opath+'weekday.bmp').convert('RGB')
-eventicon =     im_open(opath+'event.bmp').convert('RGB')
-dateicon =      im_open(opath+'today.bmp').convert('RGB')
 tempicon =      im_open(opath+'temperature.jpeg')
 humicon =       im_open(opath+'humidity.jpeg')
-seperator =     im_open(opath+'seperator.jpeg').convert('RGB')
 no_response=    im_open(opath+'cloud-no-response.jpeg')
 sunriseicon =   im_open(opath+'wi-sunrise.jpeg')
 sunseticon =    im_open(opath+'wi-sunset.jpeg')
