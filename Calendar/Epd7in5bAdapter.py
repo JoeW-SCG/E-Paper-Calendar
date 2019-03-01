@@ -1,6 +1,7 @@
 from EpdAdapter import EpdAdapter, DISPLAY_REFRESH, DATA_START_TRANSMISSION_1
 from settings import display_colours
 from PIL import Image, ImageDraw
+from math import sqrt, pow
 
 class Epd7in5bAdapter (EpdAdapter):
     def __init__ (self):
@@ -50,15 +51,32 @@ class Epd7in5bAdapter (EpdAdapter):
                 # Set the bits for the column of pixels at the current
                 # position.
                 pixel = image_rgb.getpixel((x, y))
-                if self.__brightness__(pixel) < 75: #was 64 # black
+                color = self.__get_color__(pixel)
+                if color is 'white':
+                    buf[int((x + y * self.height) / 4)] |= 0xC0 >> (x % 4 * 2)
+                elif color is 'black':
                     buf[int((x + y * self.height) / 4)] &= ~(0xC0 >> (x % 4 * 2))
-                elif pixel[0] > 150 and (pixel[2] + pixel[1]) < 50:  #was 192
+                if color is 'red':
                     buf[int((x + y * self.height) / 4)] &= ~(0xC0 >> (x % 4 * 2))
                     buf[int((x + y * self.height) / 4)] |= 0x40 >> (x % 4 * 2)
-                else:                           # white
-                    buf[int((x + y * self.height) / 4)] |= 0xC0 >> (x % 4 * 2)
         return buf #due to python2 -> python3, int had to be added in 'get_frame
                    #_buffer
+
+    def __get_color__ (self, pixel):
+        color_percent = self.__get_color_percentage__(pixel)
+        brightness = self.__brightness__(pixel)
+        if brightness > 220 or (brightness > 150 and color_percent[0] > 35):
+            return 'white'
+        elif color_percent[0] > 50:
+            return 'red'
+        else:
+            return 'black'
+
+    def __get_color_percentage__ (self, pixel):
+        sum = pixel[0] + pixel[1] + pixel[2]
+        if sum is 0:
+            return (0,0,0)
+        return (pixel[0] / sum * 100, pixel[1] / sum * 100, pixel[2] / sum * 100)
 
     def __brightness__ (self, pixel):
         return (pixel[0] + pixel[1] + pixel[2]) / 3
@@ -66,17 +84,17 @@ class Epd7in5bAdapter (EpdAdapter):
     def calibrate (self):
         for _ in range(2):
             self.init_render()
-            black = Image.new('1', (self.height, self.width), 'black')
+            black = Image.new('RGB', (self.height, self.width), 'black')
             print('calibrating black...')
             ImageDraw.Draw(black)
             self.display_frame(self.get_frame_buffer(black))
 
-            red = Image.new('L', (self.height, self.width), 'red')
+            red = Image.new('RGB', (self.height, self.width), 'red')
             ImageDraw.Draw(red)
             print('calibrating red...')
             self.display_frame(self.get_frame_buffer(red))
 
-            white = Image.new('1', (self.height, self.width), 'white')
+            white = Image.new('RGB', (self.height, self.width), 'white')
             ImageDraw.Draw(white)
             print('calibrating white...')
             self.display_frame(self.get_frame_buffer(white))
