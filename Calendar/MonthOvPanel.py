@@ -99,7 +99,7 @@ class MonthOvPanel (PanelDesign):
             txt.pos = self.__get_week_day_pos__(day_of_week)
             self.draw_design(txt)
         
-        self.__draw_highlight_box__(self.__abs_pos__(weekrownameboxsize), self.__get_week_day_pos__(datetime.now().weekday()), width=1)
+        self.__draw_highlight_box__(self.__abs_pos__(weekrownameboxsize), self.__get_week_day_pos__(week_days.index(datetime.now().strftime("%a"))), width=1)
 
     def __get_week_day_pos__ (self, day_of_week):
         maxwidth, _ = self.__abs_pos__(monthovsize)
@@ -108,7 +108,8 @@ class MonthOvPanel (PanelDesign):
         return (int(posx + day_of_week * partialwidth), int(posy))
 
     def __get_today_box_pos__ (self):
-        x, y = self.__get_day_pos__(int(datetime.now().day / 7), datetime.now().weekday())
+        week_days = self.__get_week_days_ordered__()
+        x, y = self.__get_day_pos__(int(datetime.now().day / 7), week_days.index(datetime.now().strftime("%a")))
         return (x, int(y + (self.__abs_pos__(daynumberboxsize)[1] - self.__abs_pos__(dayhighlightboxsize)[1]) / 2))
 
     def __draw_highlight_box__ (self, size, pos, color='black', width=1):
