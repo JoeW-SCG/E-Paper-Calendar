@@ -1,0 +1,77 @@
+from DesignEntity import DesignEntity
+import calendar as callib
+from datetime import datetime, timedelta
+from TextDesign import TextDesign
+from Assets import *
+from settings import *
+from BoxDesign import BoxDesign
+
+daynumberboxsize = (0.143, 0.286)
+dayhighlightboxsize = (0.143, 0.14)
+daynumbersize = 25
+
+class MonthBlockDesign (DesignEntity):
+    """Creates a view containing one week of the month in
+    one row"""
+    def __init__(self, size, datetime_month, highlight_today = False):
+        super(MonthBlockDesign, self).__init__(size, mask=True)
+        self.month = datetime_month.month
+        self.year = datetime_month.year
+        self.highlight_today = highlight_today
+        self.__week_days__ = self.__get_week_days_ordered__()
+
+    def __finish_image__(self):
+        self.__draw_month_overview__()
+
+    def __draw_month_overview__ (self):
+        """Using the built-in calendar function, draw icons for each
+            number of the month (1,2,3,...28,29,30)"""
+        cal = callib.monthcalendar(self.year, self.month)
+        for week in cal:
+            for numbers in week:
+                self.__draw_day_number__(numbers, self.get_day_pos(cal.index(week), week.index(numbers)))
+        
+        if self.highlight_today:
+            self.__draw_highlight_box__(self.__abs_pos__(dayhighlightboxsize), self.__get_today_box_pos__(), width=3)
+
+    def __draw_highlight_box__ (self, size, pos, color='black', width=1):
+        design = BoxDesign(size, outline=color, width = width)
+        design.pos = pos
+        self.draw_design(design)
+
+    def __draw_day_number__ (self, number, pos):
+        if number <= 0:
+            return
+        txt = TextDesign(self.__abs_pos__(daynumberboxsize), fontsize=daynumbersize, text=str(number), verticalalignment="center", horizontalalignment="center")
+        txt.pos = pos
+        self.draw_design(txt)
+        
+    def get_day_pos (self, week_in_month, day_of_week, rel_pos=(0,0)):
+        maxwidth, maxheight = self.size
+        partialwidth = maxwidth / 7
+        partialheight = maxheight / 5
+        return (int(rel_pos[0] + day_of_week * partialwidth), int(rel_pos[1] + week_in_month * partialheight))
+    
+    def __get_today_box_pos__ (self):
+        x, y = self.get_day_pos(int(datetime.now().day / 7), self.__get_day_of_week__(datetime.now()))
+        return (x, int(y + (self.__abs_pos__(daynumberboxsize)[1] - self.__abs_pos__(dayhighlightboxsize)[1]) / 2))
+    
+    def __get_day_of_week__ (self, date):
+        return self.__week_days__.index(date.strftime("%a"))
+
+    def __get_week_days_ordered__ (self):
+        cur_weekday = datetime.now().weekday()
+        correction = -cur_weekday
+        if week_starts_on == "Sunday":
+            correction -= 1
+
+        weekdays = []
+        for i in range(7):
+            weekdays.append((datetime.now() + timedelta(days=(i + correction))).strftime("%a"))
+
+        return weekdays
+
+    def __abs_pos__ (self, pos, size = None):
+        if size is None:
+            size = self.size
+        return (int(pos[0] * size[0]), int(pos[1] * size[1]))

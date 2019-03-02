@@ -8,17 +8,15 @@ from PIL import ImageDraw
 from TextDesign import TextDesign
 from BoxDesign import BoxDesign
 from EllipseDesign import EllipseDesign
+from MonthBlockDesign import MonthBlockDesign, daynumberboxsize
 
+monthtextsize = 40
+monthovsize = (1, 0.5)
+monthovposition = (0, 0.23)
 weatherheadersize = (1,0.113)
 seperatorplace = (0, 0.113)
 monthplace = (0, 0.12)
 monthboxsize = (1, 0.085)
-daynumberboxsize = (0.143, 0.143)
-dayhighlightboxsize = (0.143, 0.07)
-daynumbersize = 25
-monthtextsize = 40
-monthovposition = (0, 0.23)
-monthovsize = (1, 0.5)
 weekdayrowpos = (0, 0.209)
 weekrowboxsize = (1, 0.044)
 weekdaytextsize = 18
@@ -41,8 +39,11 @@ class MonthOvPanel (PanelDesign):
 
         self.__draw_month_name__()
         self.__draw_seperator__()
-        self.__draw_month_overview__()
         self.__draw_week_row__()
+
+        self.month_block = MonthBlockDesign(self.__abs_pos__(monthovsize), datetime.now(), highlight_today = True)
+        self.month_block.pos = self.__abs_pos__(monthovposition)
+        self.draw_design(self.month_block)
 
     def add_weather (self, weather):
         self.draw_design(WeatherHeaderDesign(self.__abs_pos__(weatherheadersize), weather))
@@ -62,8 +63,8 @@ class MonthOvPanel (PanelDesign):
 
         side_length = int(eventcirclehorizontalsize * self.size[0])
         circle_size = (side_length,side_length)
-        pos = self.__get_day_pos__(cur_date.isocalendar()[1] - first_month_week, self.__get_day_of_week__(cur_date))
-        place_size = self.__abs_pos__(daynumberboxsize)
+        pos = self.month_block.get_day_pos(cur_date.isocalendar()[1] - first_month_week, self.__get_day_of_week__(cur_date), rel_pos = self.__abs_pos__(monthovposition))
+        place_size = (self.month_block.size[0] * daynumberboxsize[0], self.month_block.size[1] * daynumberboxsize[1])
         pos = (int(pos[0] + (place_size[0] - circle_size[0]) / 2), int(pos[1] + (place_size[1] - circle_size[1]) / 2))
         self.__draw_highlight_circle__(circle_size, pos, 'red', width=2)
 
@@ -76,36 +77,12 @@ class MonthOvPanel (PanelDesign):
         """Draw a line seperating the weather and Calendar section"""
         ImageDraw.Draw(self.__image__).line([ self.__abs_pos__(seperatorplace), self.__abs_pos__((1, seperatorplace[1])) ], fill='red', width=5)
 
-    def __draw_day_number__ (self, number, pos):
-        if number <= 0:
-            return
-        txt = TextDesign(self.__abs_pos__(daynumberboxsize), fontsize=daynumbersize, text=str(number), verticalalignment="center", horizontalalignment="center")
-        txt.pos = pos
-        self.draw_design(txt)
-
     def __draw_month_name__ (self):
         """Draw the icon with the current month's name"""
         month = datetime.now().strftime("%B")
         txt = TextDesign(self.__abs_pos__(monthboxsize), fontsize=monthtextsize, text=month, verticalalignment="center", horizontalalignment="center")
         txt.pos = self.__abs_pos__(monthplace)
         self.draw_design(txt)
-
-    def __get_day_pos__ (self, week_in_month, day_of_week):
-        maxwidth, maxheight = self.__abs_pos__(monthovsize)
-        partialwidth = maxwidth / 7
-        partialheight = maxheight / 5
-        posx, posy = self.__abs_pos__(monthovposition)
-        return (int(posx + day_of_week * partialwidth), int(posy + week_in_month * partialheight))
-
-    def __draw_month_overview__ (self):
-        """Using the built-in calendar function, draw icons for each
-            number of the month (1,2,3,...28,29,30)"""
-        cal = callib.monthcalendar(datetime.now().year, datetime.now().month)
-        for week in cal:
-            for numbers in week:
-                self.__draw_day_number__(numbers, self.__get_day_pos__(cal.index(week), week.index(numbers)))
-
-        self.__draw_highlight_box__(self.__abs_pos__(dayhighlightboxsize), self.__get_today_box_pos__(), width=3)
 
     def __draw_week_row__ (self):
         for day_of_week, day in enumerate(self.__week_days__):
@@ -121,19 +98,12 @@ class MonthOvPanel (PanelDesign):
         posx, posy = self.__abs_pos__(weekdayrowpos)
         return (int(posx + day_of_week * partialwidth), int(posy))
 
-    def __get_today_box_pos__ (self):
-        x, y = self.__get_day_pos__(int(datetime.now().day / 7), self.__get_day_of_week__(datetime.now()))
-        return (x, int(y + (self.__abs_pos__(daynumberboxsize)[1] - self.__abs_pos__(dayhighlightboxsize)[1]) / 2))
-
-    def __get_day_of_week__ (self, date):
-        return self.__week_days__.index(date.strftime("%a"))
-
-    def __draw_highlight_box__ (self, size, pos, color='black', width=1):
+    def __draw_highlight_box__ (self, size, pos, color = 'black', width = 1):
         design = BoxDesign(size, outline=color, width = width)
         design.pos = pos
         self.draw_design(design)
 
-    def __draw_highlight_circle__ (self, size, pos, color = 'black', width=1):
+    def __draw_highlight_circle__ (self, size, pos, color = 'black', width = 1):
         design = EllipseDesign(size, outline=color, width = width)
         design.pos = pos
         self.draw_design(design)
@@ -149,3 +119,6 @@ class MonthOvPanel (PanelDesign):
             weekdays.append((datetime.now() + timedelta(days=(i + correction))).strftime("%a"))
 
         return weekdays
+
+    def __get_day_of_week__ (self, date):
+        return self.__week_days__.index(date.strftime("%a"))
