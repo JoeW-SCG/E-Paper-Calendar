@@ -8,12 +8,15 @@ class DesignEntity (object):
         self.pos = (0, 0)
         self.mask = mask
         self.__init_image__()
+        self.__finished_image__ = False
 
     def __init_image__ (self, color = 'white'):
         self.__image__ = Image.new('RGB', self.size, color=color)
 
     def get_image (self):
-        self.__finish_image__()
+        if self.__finished_image__ is False:
+            self.__finish_image__()
+            self.__finished_image__ = True
         return self.__image__
 
     def draw (self, subimage, pos, mask=False):
