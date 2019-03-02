@@ -61,53 +61,9 @@ def main ():
             owm = OwmForecasts.OwmForecasts(api_key)
             design.add_weather(OwmForecasts.OwmForecasts(api_key))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            #"""Filter upcoming events from your iCalendar/s"""
-            #debug.print_line('Fetching events from your calendar' + '\n')
-
-            #events_cal = IcalEvents.IcalEvents(ical_urls)
-
-            #for event in events_cal.get_month_events():
-            #    debug.print_event(event)
-
-            #upcoming = events_cal.get_upcoming_events()
-            #events_this_month = events_cal.get_month_events()
-            #events_this_month = [event.begin_datetime.day for event in events_this_month]
-
-            #def takeDate (elem):
-            #    return elem.begin_datetime
-
-            #upcoming.sort(key=takeDate)
-
-            #del upcoming[4:]
-            ## uncomment the following 2 lines to display the fetched events
-            ## from your iCalendar
-            #debug.print_line('Upcoming events:')
-            #debug.print_line(upcoming)
-            #debug.print_line('Month events:')
-            #debug.print_line(events_this_month)
+            debug.print_line('Fetching events from your calendar' + '\n')
+            events_cal = IcalEvents.IcalEvents(ical_urls)
+            design.add_calendar(events_cal)
 
             ##Credit to Hubert for suggesting truncating event names
             #def write_text_left (box_width, box_height, text, tuple):
@@ -126,42 +82,6 @@ def main ():
 
             #for events in range(len(upcoming)):
             #    write_text_left(314, 25, (upcoming[events].title), event_positions['e' + str(events + 1)])
-
-            #"""Draw smaller squares on days with events"""
-            #for numbers in events_this_month:
-            #    if numbers in cal[0]:
-            #        draw(positions['a' + str(cal[0].index(numbers) + 1)], eventicon)
-            #    if numbers in cal[1]:
-            #        draw(positions['b' + str(cal[1].index(numbers) + 1)], eventicon)
-            #    if numbers in cal[2]:
-            #        draw(positions['c' + str(cal[2].index(numbers) + 1)], eventicon)
-            #    if numbers in cal[3]:
-            #        draw(positions['d' + str(cal[3].index(numbers) + 1)], eventicon)
-            #    if numbers in cal[4]:
-            #        draw(positions['e' + str(cal[4].index(numbers) + 1)], eventicon)
-            #    try:
-            #        if numbers in cal[5]:
-            #            draw(positions['f' + str(cal[5].index(numbers) + 1)], eventicon)
-            #    except IndexError:
-            #        pass
-
-            #"""Draw a larger square on today's date"""
-            #today = time.day
-            #if today in cal[0]:
-            #    draw(positions['a' + str(cal[0].index(today) + 1)], dateicon)
-            #if today in cal[1]:
-            #    draw(positions['b' + str(cal[1].index(today) + 1)], dateicon)
-            #if today in cal[2]:
-            #    draw(positions['c' + str(cal[2].index(today) + 1)], dateicon)
-            #if today in cal[3]:
-            #    draw(positions['d' + str(cal[3].index(today) + 1)], dateicon)
-            #if today in cal[4]:
-            #    draw(positions['e' + str(cal[4].index(today) + 1)], dateicon)
-            #try:
-            #    if today in cal[5]:
-            #        draw(positions['f' + str(cal[5].index(today) + 1)], dateicon)
-            #except IndexError:
-            #    pass
 
             for output in output_adapters:
                 output.render(design)
