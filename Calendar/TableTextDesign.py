@@ -3,8 +3,8 @@ from TextDesign import TextDesign
 class TableTextDesign (TextDesign):
     """Gets a matrix with text that is than
     displayed in a table without borders."""
-    def __init__ (self, size, text_matrix, max_col_size = None, font = None, fontsize = 12, horizontalalignment = "left", verticalalignment = "top", mask = True, line_spacing = 0, col_spacing = 0, truncate_rows = True, truncate_cols = True):
-        super(TableTextDesign, self).__init__(size, font=font, fontsize=fontsize, horizontalalignment=horizontalalignment, verticalalignment=verticalalignment, mask=mask)
+    def __init__ (self, size, text_matrix, max_col_size = None, font = None, fontsize = 12, column_horizontal_alignments=[], mask = True, line_spacing = 0, col_spacing = 0, truncate_rows = True, truncate_cols = True):
+        super(TableTextDesign, self).__init__(size, font=font, fontsize=fontsize, mask=mask)
         self.matrix = text_matrix
         self.max_col_size = max_col_size
         self.line_spacing = line_spacing
@@ -13,6 +13,7 @@ class TableTextDesign (TextDesign):
         self.truncate_cols = truncate_cols
         self.max_row = None
         self.max_col = None
+        self.column_horizontal_alignments = column_horizontal_alignments
 
     def __finish_image__ (self):
         self.__reform_col_size__()
@@ -59,10 +60,10 @@ class TableTextDesign (TextDesign):
             for c in range(self.max_col):
                 size = self.cell_sizes[r][c]
                 pos = self.__get_cell_pos__(r,c)
-                self.__draw_text__(pos, size, self.matrix[r][c])
+                self.__draw_text__(pos, size, r, c)
                 
-    def __draw_text__ (self, pos, size, text):
-        design = TextDesign(size, text=text, font=self.font_family, fontsize=self.font_size, horizontalalignment=self.horizontal_alignment, verticalalignment=self.vertical_alignment)
+    def __draw_text__ (self, pos, size, row, col):
+        design = TextDesign(size, text=self.matrix[row][col], font=self.font_family, fontsize=self.font_size, horizontalalignment=self.__get_col_hori_alignment__(col))
         design.pos = pos
         self.draw_design(design)
         
@@ -84,3 +85,8 @@ class TableTextDesign (TextDesign):
                 size = (self.max_col_size[c], int(self.font_size * 1.1))
                 size_matrix[r].append(size)
         return size_matrix
+
+    def __get_col_hori_alignment__ (self, c):
+        if len(self.column_horizontal_alignments) <= c:
+            return "left"
+        return self.column_horizontal_alignments[c]
