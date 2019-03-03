@@ -1,14 +1,16 @@
 from DesignEntity import DesignEntity
 from PIL import ImageFont, ImageDraw, ImageOps
-from Assets import path
+from Assets import path, defaultfont
 
 paddingcorrection = -5
 
 class TextDesign (DesignEntity):
     """Object that manages all information relevant to text
     and prints it to an image"""
-    def __init__ (self, size, font = "Assistant-Regular.ttf", fontsize = 12, text = "", horizontalalignment = "left", verticalalignment = "top"):
+    def __init__ (self, size, font = None, fontsize = 12, text = "", horizontalalignment = "left", verticalalignment = "top"):
         super(TextDesign, self).__init__(size, mask = True)
+        if font is None:
+            font = defaultfont
         self.font_family = font
         self.font_size = fontsize
         self.text = text
