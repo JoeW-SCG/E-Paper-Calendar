@@ -7,7 +7,7 @@ paddingcorrection = -5
 class TextDesign (DesignEntity):
     """Object that manages all information relevant to text
     and prints it to an image"""
-    def __init__ (self, size, font = None, fontsize = 12, text = "", horizontalalignment = "left", verticalalignment = "top", mask=True):
+    def __init__ (self, size, font = None, fontsize = 12, text = "", horizontalalignment = "left", verticalalignment = "top", mask=True, truncate=True, truncate_suffix = '...'):
         super(TextDesign, self).__init__(size, mask = mask)
         if font is None:
             font = defaultfont
@@ -16,12 +16,23 @@ class TextDesign (DesignEntity):
         self.text = text
         self.horizontal_alignment = horizontalalignment
         self.vertical_alignment = verticalalignment
+        self.truncate = truncate
+        self.truncate_suffix = truncate_suffix
 
     def __finish_image__ (self):
-        self.__init_image__()
         self.__font__ = self.__get_font__()
+        if self.truncate:
+            self.__truncate_text__()
         pos = self.__pos_from_alignment__()
         ImageDraw.Draw(self.__image__).text(pos, self.text, fill=0, font=self.__font__)
+        
+    def __truncate_text__ (self):
+        if self.__font__.getsize(self.text)[0] < self.size[0]: #does not need truncating
+            return
+        suffix_length = self.__font__.getsize(self.truncate_suffix)[0]
+        while self.__font__.getsize(self.text)[0] + suffix_length >= self.size[0]:
+            self.text = self.text[0:-1]
+        self.text += self.truncate_suffix
 
     def __pos_from_alignment__ (self):
         width, height = self.__font__.getsize(self.text)
