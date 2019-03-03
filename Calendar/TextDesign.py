@@ -45,7 +45,7 @@ class TextDesign (DesignEntity):
 
         if self.horizontal_alignment == "center":
             x = int((self.size[0] / 2) - (width / 2))
-        elif self.vertical_alignment == "right":
+        elif self.horizontal_alignment == "right":
             x = int(self.size[0] - width)
 
         return (x, y + paddingcorrection)
