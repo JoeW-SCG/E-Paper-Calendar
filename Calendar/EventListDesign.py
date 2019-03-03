@@ -17,7 +17,7 @@ class EventListDesign (DesignEntity):
         
         max_col_size = [int(col_sizes[0] * self.size[0]), int(col_sizes[1] * self.size[0])]
 
-        table_design = TableTextDesign(self.size, text_matrix=self.__event_matrix__, fontsize = self.text_size, mask=False, max_col_size = max_col_size)
+        table_design = TableTextDesign(self.size, line_spacing=3, col_spacing=5, text_matrix=self.__event_matrix__, fontsize = self.text_size, mask=False, max_col_size = max_col_size, truncate_cols=False)
         self.draw_design(table_design)
     
     def __get_formatted_event__ (self, event):
