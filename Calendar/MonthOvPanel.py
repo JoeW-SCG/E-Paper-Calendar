@@ -9,6 +9,7 @@ from TextDesign import TextDesign
 from BoxDesign import BoxDesign
 from EllipseDesign import EllipseDesign
 from MonthBlockDesign import MonthBlockDesign, daynumberboxsize
+from EventListDesign import EventListDesign
 
 monthtextsize = 40
 monthovsize = (1, 0.5)
@@ -22,6 +23,9 @@ weekrowboxsize = (1, 0.044)
 weekdaytextsize = 18
 weekrownameboxsize = (0.143, 0.044)
 eventcirclehorizontalsize = 0.100
+eventlisthorizontalpos = 0.008
+eventlistsize = (1, 0.77)
+eventlisttextsize = 16
 
 class MonthOvPanel (PanelDesign):
     """Overview that focuses on the current month and
@@ -56,6 +60,17 @@ class MonthOvPanel (PanelDesign):
 
         for event in month_events:
             self.__draw_highlight_event_day__(event)
+
+        self.__draw_event_list_to_bottom__(calendar)
+
+    def __draw_event_list_to_bottom__ (self, calendar):
+        month_pos = self.__abs_pos__(monthovposition)
+        month_height = self.month_block.get_real_height()
+        size = self.__abs_pos__(eventlistsize)
+        size = (size[0], size[1] - month_height)
+        event_list = EventListDesign(size, calendar, text_size=eventlisttextsize)
+        event_list.pos = (int(month_pos[0] + eventlisthorizontalpos * self.size[0]), int(month_pos[1] + month_height))
+        self.draw_design(event_list)
 
     def __draw_highlight_event_day__ (self, date):
         first_month_week = datetime(date[2], date[1], 1).isocalendar()[1]
