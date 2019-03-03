@@ -3,10 +3,12 @@ from TextDesign import TextDesign
 class TableTextDesign(TextDesign):
     """Gets a matrix with text that is than
     displayed in a table without borders."""
-    def __init__(self, size, text_matrix, max_col_size=None, font = None, fontsize = 12, horizontalalignment = "left", verticalalignment = "top", mask = True):
+    def __init__(self, size, text_matrix, max_col_size=None, font = None, fontsize = 12, horizontalalignment = "left", verticalalignment = "top", mask = True, line_spacing = 0, col_spacing = 0):
         super(TableTextDesign, self).__init__(size, font=font, fontsize=fontsize, horizontalalignment=horizontalalignment, verticalalignment=verticalalignment, mask=mask)
         self.matrix = text_matrix
         self.max_col_size = max_col_size
+        self.line_spacing = line_spacing
+        self.col_spacing = col_spacing
 
     def __finish_image__(self):
         self.__reform_col_size__()
@@ -46,8 +48,10 @@ class TableTextDesign(TextDesign):
         xpos, ypos = (0, 0)
         for c in range(col):
             xpos += self.cell_sizes[row][c][0]
+            xpos += self.col_spacing
         for r in range(row):
             ypos += self.cell_sizes[r][col][1]
+            ypos += self.line_spacing
         return (xpos, ypos)
 
     def __get_cell_sizes__(self):
