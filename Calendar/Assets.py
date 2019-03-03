@@ -19,7 +19,8 @@ defaultfont = "Assistant-Regular.ttf"
 
 datetime_locals = {
     "de" : "de_DE.UTF-8",
-    "en" : "en_US.UTF-8"
+    "en" : "en_US.UTF-8",
+    "zh_TW" : "zh_TW.UTF-8"
 }
 
 e_col = 70
