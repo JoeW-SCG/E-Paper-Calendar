@@ -25,7 +25,7 @@ class MonthBlockDesign (DesignEntity):
 
     def __draw_month_overview__ (self):
         """Using the built-in calendar function, draw icons for each
-            number of the month (1,2,3,...28,29,30)"""
+            number of the month (1,2,3,...29,30,31)"""
         cal = callib.monthcalendar(self.year, self.month)
         for week in cal:
             for numbers in week:
@@ -75,3 +75,9 @@ class MonthBlockDesign (DesignEntity):
         if size is None:
             size = self.size
         return (int(pos[0] * size[0]), int(pos[1] * size[1]))
+
+    def get_real_height (self):
+        weeks_in_month = callib.monthcalendar(self.year, self.month)
+        num_size = self.__abs_pos__(daynumberboxsize)
+        num_pos = self.get_day_pos(len(weeks_in_month) - 1, 6)
+        return num_size[1] + num_pos[1]
