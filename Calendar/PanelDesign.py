@@ -13,3 +13,6 @@ class PanelDesign (DesignEntity):
 
     def add_rssfeed (self, rss):
         raise NotImplementedError("Functions needs to be implemented")
+
+    def add_taks (self, tasks):
+        raise NotImplementedError("Functions needs to be implemented")
