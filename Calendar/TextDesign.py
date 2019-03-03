@@ -7,8 +7,8 @@ paddingcorrection = -5
 class TextDesign (DesignEntity):
     """Object that manages all information relevant to text
     and prints it to an image"""
-    def __init__ (self, size, font = None, fontsize = 12, text = "", horizontalalignment = "left", verticalalignment = "top"):
-        super(TextDesign, self).__init__(size, mask = True)
+    def __init__ (self, size, font = None, fontsize = 12, text = "", horizontalalignment = "left", verticalalignment = "top", mask=True):
+        super(TextDesign, self).__init__(size, mask = mask)
         if font is None:
             font = defaultfont
         self.font_family = font
