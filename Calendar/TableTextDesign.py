@@ -26,6 +26,7 @@ class TableTextDesign (TextDesign):
         if self.max_col_size is not None:
             return
         
+        partial_col_spacing = int(self.col_spacing * (len(self.matrix[0]) - 1) / len(self.matrix[0]) - 1)
         font = self.__get_font__()
         col_sizes = []
         for c in range(len(self.matrix[0])):    #amout of columns
@@ -35,8 +36,8 @@ class TableTextDesign (TextDesign):
                     col_sizes.append(row_col_size)
                 elif row_col_size > col_sizes[c]:
                     col_sizes[c] = row_col_size
-
-        self.max_col_size = col_sizes
+        
+        self.max_col_size = [size - partial_col_spacing for size in col_sizes]
 
     def __get_truncated_counts__ (self):
         max_col = 0
@@ -78,11 +79,12 @@ class TableTextDesign (TextDesign):
         return (xpos, ypos)
 
     def __get_cell_sizes__ (self):
+        partial_col_spacing = int(self.col_spacing * (len(self.matrix[0]) - 1) / len(self.matrix[0]) - 1)
         size_matrix = []
         for r in range(len(self.matrix)):
             size_matrix.append([])
             for c in range(len(self.matrix[0])):
-                size = (self.max_col_size[c], int(self.font_size * 1.1))
+                size = (self.max_col_size[c] - partial_col_spacing, int(self.font_size * 1.1))
                 size_matrix[r].append(size)
         return size_matrix
 
