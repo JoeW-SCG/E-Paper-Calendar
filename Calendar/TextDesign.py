@@ -17,7 +17,7 @@ class TextDesign (DesignEntity):
 
     def __finish_image__ (self):
         self.__init_image__()
-        self.__font__ = ImageFont.truetype(path + self.font_family, self.font_size)
+        self.__font__ = self.__get_font__()
         pos = self.__pos_from_alignment__()
         ImageDraw.Draw(self.__image__).text(pos, self.text, fill=0, font=self.__font__)
 
@@ -36,3 +36,6 @@ class TextDesign (DesignEntity):
             x = int(self.size[0] - width)
 
         return (x, y + paddingcorrection)
+
+    def __get_font__(self):
+        return ImageFont.truetype(path + self.font_family, self.font_size)
