@@ -56,7 +56,7 @@ def main ():
 
             design = MonthOvPanel((epd.width, epd.height))
 
-            debug.print_line("Fetching weather information from open weather map'")
+            debug.print_line("Fetching weather information from open weather map")
             owm = OwmForecasts.OwmForecasts(api_key)
             design.add_weather(OwmForecasts.OwmForecasts(api_key))
 
