@@ -15,7 +15,7 @@ sunriseicon =   im_open(opath+'wi-sunrise.jpeg')
 sunseticon =    im_open(opath+'wi-sunset.jpeg')
 windicon =      im_open(opath+'wi-strong-wind.jpeg')
 
-defaultfont = "Assistant-Regular.ttf"
+defaultfont = "Assistant-SemiBold.otf"
 
 datetime_locals = {
     "de" : "de_DE.UTF-8",
