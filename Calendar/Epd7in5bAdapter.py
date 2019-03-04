@@ -65,7 +65,7 @@ class Epd7in5bAdapter (EpdAdapter):
     def __get_color__ (self, pixel):
         color_percent = self.__get_color_percentage__(pixel)
         brightness = self.__brightness__(pixel)
-        if brightness > 220 or (brightness > 150 and color_percent[0] > 35):
+        if brightness > 235 or (brightness > 150 and color_percent[0] > 35):
             return 'white'
         elif color_percent[0] > 50:
             return 'red'
