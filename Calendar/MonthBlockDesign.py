@@ -53,9 +53,15 @@ class MonthBlockDesign (DesignEntity):
         return (int(rel_pos[0] + day_of_week * partialwidth), int(rel_pos[1] + week_in_month * partialheight))
     
     def __get_today_box_pos__ (self):
-        x, y = self.get_day_pos(int(datetime.now().day / 7), self.__get_day_of_week__(datetime.now()))
+        x, y = self.get_day_pos(self.__get_week_of_month__(datetime.now()), self.__get_day_of_week__(datetime.now()))
         return (x, int(y + (self.__abs_pos__(daynumberboxsize)[1] - self.__abs_pos__(dayhighlightboxsize)[1]) / 2))
     
+    def __get_week_of_month__ (self, date):
+        for wof, week in enumerate(callib.monthcalendar(date.year, date.month)):
+            if date.day in week:
+                return wof
+        return 0
+
     def __get_day_of_week__ (self, date):
         return self.__week_days__.index(date.strftime("%a"))
 
