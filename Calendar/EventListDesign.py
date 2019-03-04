@@ -6,7 +6,7 @@ col_sizes = [0.15, 0.85]
 class EventListDesign (DesignEntity):
     """Creates a TableTextDesign filled with event
     begin date and title"""
-    def __init__ (self, size, calendar, event_count = None, text_size = 16):
+    def __init__ (self, size, calendar, text_size = 16):
         super(EventListDesign, self).__init__(size)
         self.calendar = calendar
         self.__event_matrix__ = []
