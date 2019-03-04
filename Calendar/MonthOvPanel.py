@@ -10,6 +10,7 @@ from BoxDesign import BoxDesign
 from EllipseDesign import EllipseDesign
 from MonthBlockDesign import MonthBlockDesign, daynumberboxsize
 from EventListDesign import EventListDesign
+from RssPostListDesign import RssPostListDesign
 
 monthtextsize = 40
 monthovsize = (1, 0.5)
@@ -23,9 +24,9 @@ weekrowboxsize = (1, 0.044)
 weekdaytextsize = 18
 weekrownameboxsize = (0.143, 0.044)
 eventcirclehorizontalsize = 0.100
-eventlisthorizontalpos = 0.008
-eventlistsize = (1, 0.77)
-eventlisttextsize = 16
+infolisthorizontalpos = 0.008
+infolistsize = (1, 0.77)
+infolisttextsizeize = 16
 
 class MonthOvPanel (PanelDesign):
     """Overview that focuses on the current month and
@@ -53,7 +54,7 @@ class MonthOvPanel (PanelDesign):
         self.draw_design(WeatherHeaderDesign(self.__abs_pos__(weatherheadersize), weather))
 
     def add_rssfeed (self, rss):
-        raise NotImplementedError("Functions needs to be implemented")
+        self.__draw_rss_post_list_to_bottom__(rss)
 
     def add_calendar (self, calendar):
         month_events = list(set([ (event.begin_datetime.day, event.begin_datetime.month, event.begin_datetime.year) for event in calendar.get_month_events()]))
@@ -63,14 +64,23 @@ class MonthOvPanel (PanelDesign):
 
         self.__draw_event_list_to_bottom__(calendar)
 
+    def __draw_rss_post_list_to_bottom__ (self, rss):
+        month_pos = self.__abs_pos__(monthovposition)
+        month_height = self.month_block.get_real_height()
+        size = self.__abs_pos__(infolistsize)
+        size = (size[0], size[1] - month_height)
+        info_list = RssPostListDesign(size, rss, text_size=infolisttextsizeize)
+        info_list.pos = (int(month_pos[0] + infolisthorizontalpos * self.size[0]), int(month_pos[1] + month_height))
+        self.draw_design(info_list)
+
     def __draw_event_list_to_bottom__ (self, calendar):
         month_pos = self.__abs_pos__(monthovposition)
         month_height = self.month_block.get_real_height()
-        size = self.__abs_pos__(eventlistsize)
+        size = self.__abs_pos__(infolistsize)
         size = (size[0], size[1] - month_height)
-        event_list = EventListDesign(size, calendar, text_size=eventlisttextsize)
-        event_list.pos = (int(month_pos[0] + eventlisthorizontalpos * self.size[0]), int(month_pos[1] + month_height))
-        self.draw_design(event_list)
+        info_list = EventListDesign(size, calendar, text_size=infolisttextsizeize)
+        info_list.pos = (int(month_pos[0] + infolisthorizontalpos * self.size[0]), int(month_pos[1] + month_height))
+        self.draw_design(info_list)
 
     def __draw_highlight_event_day__ (self, date):
         first_month_week = datetime(date[2], date[1], 1).isocalendar()[1]
