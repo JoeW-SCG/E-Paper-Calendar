@@ -25,4 +25,4 @@ class RssInterface(DataSourceInterface):
         return [post for post in self.loaded_posts if post_filter(post)]
 
     def __sort_posts__(self):
-        self.loaded_posts.sort(key=lambda x : x.datetime)
+        self.loaded_posts.sort(key=lambda x : x.datetime, reverse=True)
