@@ -16,13 +16,13 @@ class RssParserPosts (RssInterface):
         posts = []
 
         today = date.today()
-        self.time_span = today - timedelta(days=max_range_days)
+        time_span = today - timedelta(days=max_range_days)
 
         for feeds in self.urls:
             parse = feedparser.parse(feeds)
             for post in parse.entries:
                 parsed_post = self.__parse_post__(post)
-                if parsed_post.datetime.date() >= self.time_span:
+                if parsed_post.datetime.date() >= time_span:
                     posts.append(parsed_post)
         return posts
 
