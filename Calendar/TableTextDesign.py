@@ -1,12 +1,14 @@
 from TextDesign import TextDesign
+from TextWraper import wrap_text_with_font
 
 class TableTextDesign (TextDesign):
     """Gets a matrix with text that is than
     displayed in a table without borders."""
-    def __init__ (self, size, text_matrix, max_col_size = None, font = None, fontsize = 12, column_horizontal_alignments=[], mask = True, line_spacing = 0, col_spacing = 0, truncate_rows = True, truncate_cols = True):
+    def __init__ (self, size, text_matrix, max_col_size = None, max_row_size = None, font = None, fontsize = 12, column_horizontal_alignments = [], mask = True, line_spacing = 0, col_spacing = 0, truncate_rows = True, truncate_cols = True, wrap = False):
         super(TableTextDesign, self).__init__(size, font=font, fontsize=fontsize, mask=mask)
         self.matrix = text_matrix
         self.max_col_size = max_col_size
+        self.max_row_size = max_row_size
         self.line_spacing = line_spacing
         self.col_spacing = col_spacing
         self.truncate_rows = truncate_rows
@@ -14,19 +16,20 @@ class TableTextDesign (TextDesign):
         self.max_row = None
         self.max_col = None
         self.column_horizontal_alignments = column_horizontal_alignments
+        self.wrap = wrap
 
     def __finish_image__ (self):
         self.__reform_col_size__()
+        self.__reform_row_size__()
         self.cell_sizes = self.__get_cell_sizes__()
         self.max_col, self.max_row = self.__get_truncated_counts__()
         self.__print_table__(self.matrix)
-
 
     def __reform_col_size__ (self):
         if self.max_col_size is not None:
             return
         
-        partial_col_spacing = int(self.col_spacing * (len(self.matrix[0]) - 1) / len(self.matrix[0]) - 1)
+        partial_col_spacing = int(self.col_spacing * (len(self.matrix[0]) - 1) / len(self.matrix[0]))
         font = self.__get_font__()
         col_sizes = []
         for c in range(len(self.matrix[0])):    #amout of columns
@@ -36,8 +39,34 @@ class TableTextDesign (TextDesign):
                     col_sizes.append(row_col_size)
                 elif row_col_size > col_sizes[c]:
                     col_sizes[c] = row_col_size
+        col_sizes = [size - partial_col_spacing for size in col_sizes]
         
-        self.max_col_size = [size - partial_col_spacing for size in col_sizes]
+        for index, size in enumerate(col_sizes):
+            preceding_size = sum(col_sizes[:index])
+            if preceding_size + size > self.size[0]:
+                col_sizes[index] = self.size[0] - preceding_size
+                break
+
+        self.max_col_size = col_sizes
+
+    def __reform_row_size__ (self):
+        if self.max_row_size is not None:
+            return
+        
+        font = self.__get_font__()
+        row_sizes = []
+        for r in range(len(self.matrix)):
+            for c in range(len(self.matrix[0])):    #amout of columns
+                cell_text = self.matrix[r][c]
+                if self.wrap:
+                    cell_text = wrap_text_with_font(cell_text, self.max_col_size[c], font)
+                col_row_size = font.getsize_multiline(cell_text)[1]    #get height of text in that col/row
+                if len(row_sizes) - 1 < r:
+                    row_sizes.append(col_row_size)
+                elif col_row_size > row_sizes[r]:
+                    row_sizes[r] = col_row_size
+        
+        self.max_row_size = row_sizes
 
     def __get_truncated_counts__ (self):
         max_col = 0
@@ -64,7 +93,7 @@ class TableTextDesign (TextDesign):
                 self.__draw_text__(pos, size, r, c)
                 
     def __draw_text__ (self, pos, size, row, col):
-        design = TextDesign(size, text=self.matrix[row][col], font=self.font_family, fontsize=self.font_size, horizontalalignment=self.__get_col_hori_alignment__(col))
+        design = TextDesign(size, text=self.matrix[row][col], font=self.font_family, fontsize=self.font_size, horizontalalignment=self.__get_col_hori_alignment__(col), wrap=self.wrap)
         design.pos = pos
         self.draw_design(design)
         
@@ -79,12 +108,11 @@ class TableTextDesign (TextDesign):
         return (xpos, ypos)
 
     def __get_cell_sizes__ (self):
-        partial_col_spacing = int(self.col_spacing * (len(self.matrix[0]) - 1) / len(self.matrix[0]) - 1)
         size_matrix = []
         for r in range(len(self.matrix)):
             size_matrix.append([])
             for c in range(len(self.matrix[0])):
-                size = (self.max_col_size[c] - partial_col_spacing, int(self.font_size * 1.1))
+                size = (self.max_col_size[c], int(self.max_row_size[r]))
                 size_matrix[r].append(size)
         return size_matrix
 
