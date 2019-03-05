@@ -1,13 +1,14 @@
 from DesignEntity import DesignEntity
 from PIL import ImageFont, ImageDraw, ImageOps
 from Assets import path, defaultfont
+from TextWraper import wrap_text_with_font
 
 paddingcorrection = -5
 
 class TextDesign (DesignEntity):
     """Object that manages all information relevant to text
     and prints it to an image"""
-    def __init__ (self, size, font = None, fontsize = 12, text = "", horizontalalignment = "left", verticalalignment = "top", mask=True, truncate=True, truncate_suffix = '...'):
+    def __init__ (self, size, font = None, fontsize = 12, text = "", horizontalalignment = "left", verticalalignment = "top", mask=True, truncate=True, truncate_suffix = '...', wrap=False):
         super(TextDesign, self).__init__(size, mask = mask)
         if font is None:
             font = defaultfont
@@ -18,11 +19,14 @@ class TextDesign (DesignEntity):
         self.vertical_alignment = verticalalignment
         self.truncate = truncate
         self.truncate_suffix = truncate_suffix
+        self.wrap = wrap
 
     def __finish_image__ (self):
         self.__font__ = self.__get_font__()
-        if self.truncate:
+        if self.wrap is False and self.truncate:
             self.__truncate_text__()
+        if self.wrap:
+            self.__wrap_text__()
         pos = self.__pos_from_alignment__()
         ImageDraw.Draw(self.__image__).text(pos, self.text, fill=0, font=self.__font__)
         
@@ -30,7 +34,7 @@ class TextDesign (DesignEntity):
         if self.__font__.getsize(self.text)[0] < self.size[0]: #does not need truncating
             return
         suffix_length = self.__font__.getsize(self.truncate_suffix)[0]
-        while self.__font__.getsize(self.text)[0] + suffix_length >= self.size[0]:
+        while len(self.text) > 1 and self.__font__.getsize(self.text)[0] + suffix_length >= self.size[0]:
             self.text = self.text[0:-1]
         self.text += self.truncate_suffix
 
@@ -49,6 +53,9 @@ class TextDesign (DesignEntity):
             x = int(self.size[0] - width)
 
         return (x, y + paddingcorrection)
+
+    def __wrap_text__ (self):
+        self.text = wrap_text_with_font(self.text, self.size[0], self.__font__)
 
     def __get_font__(self):
         return ImageFont.truetype(path + self.font_family, self.font_size)
