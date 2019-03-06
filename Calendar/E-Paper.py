@@ -60,9 +60,9 @@ def main ():
             owm = OwmForecasts.OwmForecasts(api_key)
             design.add_weather(OwmForecasts.OwmForecasts(api_key))
 
-            #debug.print_line('Fetching events from your calendar')
-            #events_cal = IcalEvents.IcalEvents(ical_urls)
-            #design.add_calendar(events_cal)
+            debug.print_line('Fetching events from your calendar')
+            events_cal = IcalEvents.IcalEvents(ical_urls)
+            design.add_calendar(events_cal)
 
             debug.print_line('Fetching posts from your rss-feeds')
             rss = RssParserPosts.RssParserPosts(rss_feeds)
