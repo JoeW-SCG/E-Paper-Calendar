@@ -17,6 +17,12 @@ units = "metric"
 hours = "24"
 
 
+"""DESIGN"""
+weather_month_info_settings = {
+    "info-area" : "rss",    # empty, events, rss
+    "highligh-event-days" : True,
+}
+
 
 """DEBUG"""
 render_to_display = True
