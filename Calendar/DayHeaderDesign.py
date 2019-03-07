@@ -5,10 +5,10 @@ from TextDesign import TextDesign
 numberbox_ypos = 0.15
 numberbox_height = 1 - 2 * numberbox_ypos
 number_height = numberbox_height * 0.83
-month_height = 0.2
+month_height = numberbox_height / 4
 monthbox_xpadding = 0.013
 monthbox_width = 1 - numberbox_ypos - monthbox_xpadding
-weekday_height = 0.13
+weekday_height = numberbox_height * 0.22
 weekday_ypadding = 0.02
 
 numberbox_font_color = "white"
