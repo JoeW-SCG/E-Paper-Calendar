@@ -13,11 +13,14 @@ weekday_ypadding = 0.02
 
 numberbox_font_color = "white"
 numberbox_background_color = "red"
+general_text_color = "black"
+background_color = "white"
 
 class DayHeaderDesign (DesignEntity):
     """Detailed and big view of a given date."""
     def __init__ (self, size, date):
         super(DayHeaderDesign, self).__init__(size)
+        self.__init_image__(color=background_color)
         self.date = date
 
     def __finish_image__ (self):
@@ -48,7 +51,7 @@ class DayHeaderDesign (DesignEntity):
         box_size = (int(monthbox_width * self.size[0]), box_height)
         
         month_name = self.date.strftime("%B")
-        month = TextDesign(box_size, text=month_name, fontsize=font_size)
+        month = TextDesign(box_size, text=month_name, fontsize=font_size, color=general_text_color, background_color=background_color)
         month.pos = box_pos
         self.draw_design(month)
 
@@ -61,9 +64,15 @@ class DayHeaderDesign (DesignEntity):
 
         font_size = int(number_height * self.size[1])
         box_size = (box_height, box_height)
-        number = TextDesign(box_size, text=str(self.date.day), background_color=numberbox_background_color, color=numberbox_font_color, fontsize=font_size, horizontalalignment="center", verticalalignment="center")
+        day_text = self.__get_day_text__()
+        number = TextDesign(box_size, text=day_text, background_color=numberbox_background_color, color=numberbox_font_color, fontsize=font_size, horizontalalignment="center", verticalalignment="center")
         number.pos = box_topleft
         self.draw_design(number)
 
     def __abs_co__ (self, coordinates):
         return (int(coordinates[0] * self.size[0]),int(coordinates[1] * self.size[1]))
+
+    def __get_day_text__ (self):
+        if self.date.strftime("%d-%m") is "14-03": #PI-Day
+            return "π"
+        return str(self.date.day)
