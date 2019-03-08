@@ -54,16 +54,16 @@ class MonthOvPanel (PanelDesign):
         self.draw_design(WeatherHeaderDesign(self.__abs_pos__(weatherheadersize), weather))
 
     def add_rssfeed (self, rss):
-        if weather_month_info_settings["info-area"] is "rss":
+        if general_settings["info-area"] is "rss":
             self.__draw_rss_post_list_to_bottom__(rss)
 
     def add_calendar (self, calendar):
-        if weather_month_info_settings["highlight-event-days"]:
+        if general_settings["highlight-event-days"]:
             month_events = list(set([ (event.begin_datetime.day, event.begin_datetime.month, event.begin_datetime.year) for event in calendar.get_month_events()]))
             for event in month_events:
                 self.__draw_highlight_event_day__(event)
 
-        if weather_month_info_settings["info-area"] is "events":
+        if general_settings["info-area"] is "events":
             self.__draw_event_list_to_bottom__(calendar)
 
     def __draw_rss_post_list_to_bottom__ (self, rss):

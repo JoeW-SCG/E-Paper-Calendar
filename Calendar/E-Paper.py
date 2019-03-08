@@ -14,6 +14,7 @@ import locale
 from DebugConsole import DebugConsole
 from settings import *
 from MonthOvPanel import MonthOvPanel
+from DayListPanel import DayListPanel
 import OwmForecasts
 import IcalEvents
 import RssParserPosts
@@ -37,6 +38,11 @@ if render_to_display:
         epd = Epd7in5Adapter.Epd7in5Adapter()
         output_adapters.append(epd)
 
+available_panels = {
+    "day-list" : DayListPanel,
+    "month-overview" : MonthOvPanel
+}
+
 """Main loop starts from here"""
 def main ():
     while True:
@@ -54,7 +60,10 @@ def main ():
                 for output in output_adapters:
                     output.calibrate()
 
-            design = MonthOvPanel((epd.width, epd.height))
+            if choosen_design in available_panels.keys():            
+                design = available_panels[choosen_design]((epd.width, epd.height))
+            else:
+                raise ImportError("choosen_design must be valid (" + choosen_design + ")")
 
             debug.print_line("Fetching weather information from open weather map")
             owm = OwmForecasts.OwmForecasts(api_key)

@@ -18,9 +18,10 @@ hours = "24"
 
 
 """DESIGN"""
-weather_month_info_settings = {
+choosen_design = "month-overview" # month-overview, day-list
+general_settings = {    # General settings that designs may use
     "info-area" : "rss",    # empty, events, rss
-    "highligh-event-days" : True,
+    "highlight-event-days" : True
 }
 
 
