@@ -3,7 +3,7 @@ from PIL import ImageFont, ImageDraw, ImageOps
 from Assets import path, defaultfont
 from TextWraper import wrap_text_with_font
 
-paddingcorrection = -5
+paddingcorrection = -3
 
 class TextDesign (DesignEntity):
     """Object that manages all information relevant to text
