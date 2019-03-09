@@ -23,6 +23,15 @@ class DayHeaderDesign (DesignEntity):
         self.__init_image__(color=background_color)
         self.date = date
 
+    def add_weather (self, weather):
+        pass
+
+    def add_calendar (self, calendar):
+        pass
+
+    def add_rssfeed (self, rss):
+        pass
+
     def __finish_image__ (self):
         self.__draw_number_square__()
         self.__draw_month__()
