@@ -48,9 +48,9 @@ class OwmForecasts (WeatherInterface):
     def __get_forecast_from_weather__ (self, weather, location):
         forecast_object = WeatherForecast()
         forecast_object.units = self.units
-        forecast_object.fetch_time = datetime.now()
+        forecast_object.fetch_datetime = datetime.now()
         forecast_object.location = location
-        forecast_object.forecast_datetime = weather.get_reference_time(timeformat='date')
+        forecast_object.datetime = weather.get_reference_time(timeformat='date')
 
         forecast_object.icon = weather.get_weather_icon_name()
         forecast_object.air_humidity = str(weather.get_humidity())
