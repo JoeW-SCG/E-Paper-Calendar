@@ -1,6 +1,8 @@
 from DesignEntity import DesignEntity
 from PIL import ImageDraw
 from TextDesign import TextDesign
+from WeatherColumnDesign import WeatherColumnDesign
+from datetime import date
 
 numberbox_ypos = 0.15
 numberbox_height = 1 - 2 * numberbox_ypos
@@ -10,6 +12,7 @@ monthbox_xpadding = 0.013
 monthbox_width = 1 - numberbox_ypos - monthbox_xpadding
 weekday_height = numberbox_height * 0.22
 weekday_ypadding = 0.02
+weathercolumn_y_size = (0.5, 1)
 
 numberbox_font_color = "white"
 numberbox_background_color = "red"
@@ -24,7 +27,13 @@ class DayHeaderDesign (DesignEntity):
         self.date = date
 
     def add_weather (self, weather):
-        pass
+        forecast = weather.get_forecast_in_days(self.date.day - date.today().day)
+        size = (weathercolumn_y_size[0] * self.size[1], weathercolumn_y_size[1] * self.size[1])
+        pos = (self.size[0] - size[0], 0)
+
+        design = WeatherColumnDesign(size, forecast)
+        design.pos = pos
+        self.draw_design(design)
 
     def add_calendar (self, calendar):
         pass

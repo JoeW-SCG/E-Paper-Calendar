@@ -1,6 +1,6 @@
 from PIL import ImageDraw, Image
 from TextDesign import TextDesign
-from settings import week_starts_on, location
+from settings import week_starts_on
 from DesignEntity import DesignEntity
 from datetime import datetime
 from Assets import weathericons, wpath
@@ -36,7 +36,7 @@ class DayRowDesign (DesignEntity):
         pass
 
     def __draw_forecast__ (self, weather):
-        forecast = weather.get_forecast_in_days(self.date.day - datetime.today().day, location)
+        forecast = weather.get_forecast_in_days(self.date.day - datetime.today().day)
         
         if forecast is None:
             return
