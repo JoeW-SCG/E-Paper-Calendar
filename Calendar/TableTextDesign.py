@@ -39,7 +39,7 @@ class TableTextDesign (TextDesign):
                     col_sizes.append(row_col_size)
                 elif row_col_size > col_sizes[c]:
                     col_sizes[c] = row_col_size
-        col_sizes = [size - partial_col_spacing for size in col_sizes]
+        col_sizes[-1] = col_sizes[-1] - partial_col_spacing
         
         for index, size in enumerate(col_sizes):
             preceding_size = sum(col_sizes[:index])
