@@ -66,4 +66,4 @@ class TextDesign (DesignEntity):
         self.text = wrap_text_with_font(self.text, self.size[0], self.__font__)
 
     def __get_font__(self):
-        return ImageFont.truetype(path + self.font_family, self.font_size)
+        return ImageFont.truetype(path + self.font_family, int(self.font_size))

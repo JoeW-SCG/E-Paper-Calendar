@@ -15,4 +15,4 @@ def wrap_text_with_font (text, width, font):
     return result.strip()
 
 def wrap_text (text, width, font_size, font_family = defaultfont):
-    return wrap_text_with_font(text, width, ImageFont.truetype(path + font_family, font_size))
+    return wrap_text_with_font(text, width, ImageFont.truetype(path + font_family, int(font_size)))
