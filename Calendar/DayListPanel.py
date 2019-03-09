@@ -34,13 +34,16 @@ class DayListPanel (PanelDesign):
         self.__draw_day_rows__()
 
     def add_weather (self, weather):
-        pass
+        for row in self.__day_rows__:
+            row.add_weather(weather)
 
     def add_calendar (self, calendar):
-        pass
+        for row in self.__day_rows__:
+            row.add_calendar(calendar)
 
     def add_rssfeed (self, rss):
-        pass
+        for row in self.__day_rows__:
+            row.add_rssfeed(rss)
 
     def __draw_day_rows__ (self):
         following_days = self.__get_following_days__()
