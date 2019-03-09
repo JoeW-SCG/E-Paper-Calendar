@@ -71,14 +71,14 @@ class TableTextDesign (TextDesign):
     def __get_truncated_counts__ (self):
         max_col = 0
         if self.truncate_cols:
-            while max_col < len(self.matrix[0]) and self.__get_cell_pos__(0, max_col + 1)[0] <= self.size[0]:
+            while max_col < len(self.matrix[0]) and self.__get_cell_pos__(0, max_col + 1)[0] - self.col_spacing <= self.size[0]:
                 max_col += 1
         else:
             max_col = len(self.matrix[0])
 
         max_row = 0
         if self.truncate_rows:
-            while max_row < len(self.matrix) and self.__get_cell_pos__(max_row + 1,0)[1] <= self.size[1]:
+            while max_row < len(self.matrix) and self.__get_cell_pos__(max_row + 1,0)[1] - self.line_spacing <= self.size[1]:
                 max_row += 1
         else:
             max_row = len(self.matrix)
