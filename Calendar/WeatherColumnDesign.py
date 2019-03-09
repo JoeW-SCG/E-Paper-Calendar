@@ -26,7 +26,7 @@ class WeatherColumnDesign (DesignEntity):
 
     def __finish_image__ (self):
         if self.forecast is None:
-            self.__draw_no_forecast__()
+            self.__draw_no_response__()
             return
 
         self.__draw_icon__(self.forecast.icon)
@@ -121,14 +121,14 @@ class WeatherColumnDesign (DesignEntity):
 
         self.__draw_resized_path_at__(wpath + weathericons[icon_id] + ".jpeg", pos, size)
 
-    def __draw_no_response__ (self, icon_id):
+    def __draw_no_response__ (self):
         width = int(icon_width * self.size[0])
         size = (width, width)
         xpos = icon_xpos * self.size[0]
         ypos = icon_x_ypos * self.size[0]
         pos = (xpos, ypos)
 
-        self.__draw_resized_img_at__(no_response, pos, size)
+        self.__draw_resized_image_at__(no_response, pos, size)
 
     def __draw_resized_path_at__ (self, path, pos, size):
         img = Image.open(path)
