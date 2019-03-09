@@ -30,6 +30,9 @@ class OwmForecasts (WeatherInterface):
         return self.__get_forecast_from_weather__(weather, location=location)
 
     def get_forecast_in_days (self, offset_by_days, location=None):
+        if offset_by_days is 0:
+            return self.get_today_forecast(location)
+        
         if self.is_available() is False:
             return None
                 
