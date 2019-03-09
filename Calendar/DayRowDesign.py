@@ -1,13 +1,17 @@
-from PIL import ImageDraw
+from PIL import ImageDraw, Image
 from TextDesign import TextDesign
-from settings import week_starts_on
+from settings import week_starts_on, location
 from DesignEntity import DesignEntity
+from datetime import datetime
+from Assets import weathericons, wpath
 
 daynumber_y_size = (1, 0.65)
 weekday_y_size = (daynumber_y_size[0], 1 - daynumber_y_size[1])
 weekday_ypos = daynumber_y_size[1]
 daynumber_fontsize = daynumber_y_size[1] * 0.8
 weekday_fontsize = weekday_y_size[1] * 0.75
+weathericon_ypos = 0.1
+weathericon_height = 1 - 2 * weathericon_ypos
 
 general_text_color = "black"
 highlight_text_color = "red"
@@ -19,6 +23,31 @@ class DayRowDesign (DesignEntity):
         super(DayRowDesign, self).__init__(size)
         self.__init_image__(color=background_color)
         self.date = date
+
+    def add_weather (self, weather):
+        if weather.is_available is False:
+            return
+        self.__draw_forecast__(weather)
+
+    def add_calendar (self, calendar):
+        pass
+
+    def add_rssfeed (self, rss):
+        pass
+
+    def __draw_forecast__ (self, weather):
+        forecast = weather.get_forecast_in_days(self.date.day - datetime.today().day, location)
+        
+        if forecast is None:
+            return
+
+        height = int(weathericon_height * self.size[1])
+        size = (height, height)
+        ypos = weathericon_ypos * self.size[1]
+        pos = (self.size[0] - ypos - size[0], ypos)
+        icon = Image.open(wpath + weathericons[forecast.icon] + ".jpeg")
+        resized_icon = icon.resize(size, resample=Image.LANCZOS)
+        self.draw(resized_icon, pos)
 
     def __finish_image__ (self):
         self.__draw_day_number__()
