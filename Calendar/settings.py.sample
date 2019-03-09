@@ -9,6 +9,7 @@ rss_feeds = [
 ]
 
 api_key = ""
+owm_paid_subscription = False
 location = "Julich, DE"
 week_starts_on = "Monday"
 display_colours = "bwr"

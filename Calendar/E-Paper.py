@@ -66,7 +66,7 @@ def main ():
                 raise ImportError("choosen_design must be valid (" + choosen_design + ")")
 
             debug.print_line("Fetching weather information from open weather map")
-            owm = OwmForecasts.OwmForecasts(location, api_key)
+            owm = OwmForecasts.OwmForecasts(location, api_key, paid_api=owm_paid_subscription)
             design.add_weather(owm)
 
             debug.print_line('Fetching events from your calendar')
