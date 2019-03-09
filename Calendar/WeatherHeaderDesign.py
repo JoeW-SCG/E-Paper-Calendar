@@ -1,7 +1,7 @@
 from DesignEntity import DesignEntity
 from Assets import *
 from TextDesign import TextDesign
-from settings import units, hours, location
+from settings import units, hours
 
 wiconplace = (0, 0)
 tempplace = (0.779, 0)
@@ -22,7 +22,7 @@ class WeatherHeaderDesign (DesignEntity):
             self.__render_missing_connection__()
             return
 
-        cur_weather = self.__weather__.get_today_forecast(location)
+        cur_weather = self.__weather__.get_today_forecast()
 
         temperature = cur_weather.air_temperature + " " + self.__get_unit__(("°C", "°F"))
         windspeed = cur_weather.wind_speed + " " + self.__get_unit__(("km/h", "mph"))

@@ -6,9 +6,11 @@ from settings import units
 
 class OwmForecasts (WeatherInterface):
     """Fetches weather through the Openweathermap-api."""
-    def __init__ (self, api_key):
-        self.api = pyowm.OWM(api_key)
+    def __init__ (self, location, api_key, paid_api=False):
+        subscription = "pro" if paid_api else None
+        self.api = pyowm.OWM(api_key, subscription_type=subscription)
         self.units = units
+        self.location = location
 
     def is_available (self):
         try:
@@ -16,17 +18,29 @@ class OwmForecasts (WeatherInterface):
         except:
             return False
 
-    def get_today_forecast (self, location):
+    def get_today_forecast (self, location=None):
         if self.is_available() is False:
             return None
+        
+        location = self.location if location is None else location
 
         observation = self.api.weather_at_place(location)
         weather = observation.get_weather()
 
         return self.__get_forecast_from_weather__(weather, location=location)
 
-    def get_forecast_in_days (self, offset_by_days, location):
-        return None
+    def get_forecast_in_days (self, offset_by_days, location=None):
+        if self.is_available() is False:
+            return None
+                
+        location = self.location if location is None else location
+        try:
+            forecast = self.api.daily_forecast(location, limit=offset_by_days)
+            target_weather = forecast.get_forecast().get_weathers()[-1]
+
+            return self.__get_forecast_from_weather__(target_weather, location=location)
+        except: # only allowed for paied membership
+            return None
 
     def __get_forecast_from_weather__ (self, weather, location):
         forecast_object = WeatherForecast()

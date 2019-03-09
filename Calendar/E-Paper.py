@@ -66,8 +66,8 @@ def main ():
                 raise ImportError("choosen_design must be valid (" + choosen_design + ")")
 
             debug.print_line("Fetching weather information from open weather map")
-            owm = OwmForecasts.OwmForecasts(api_key)
-            design.add_weather(OwmForecasts.OwmForecasts(api_key))
+            owm = OwmForecasts.OwmForecasts(location, api_key)
+            design.add_weather(owm)
 
             debug.print_line('Fetching events from your calendar')
             events_cal = IcalEvents.IcalEvents(ical_urls)
