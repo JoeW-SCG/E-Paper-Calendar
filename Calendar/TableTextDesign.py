@@ -19,6 +19,8 @@ class TableTextDesign (TextDesign):
         self.wrap = wrap
 
     def __finish_image__ (self):
+        if len(self.matrix) is 0:
+            return
         self.__reform_col_size__()
         self.__reform_row_size__()
         self.cell_sizes = self.__get_cell_sizes__()
