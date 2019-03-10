@@ -39,7 +39,7 @@ class TextDesign (DesignEntity):
         ImageDraw.Draw(self.__image__).text(pos, self.text, fill=self.color, font=self.__font__)
         
     def __truncate_text__ (self):
-        if self.__font__.getsize(self.text)[0] < self.size[0]: #does not need truncating
+        if self.__font__.getsize(self.text)[0] <= self.size[0]: #does not need truncating
             return
         suffix_length = self.__font__.getsize(self.truncate_suffix)[0]
         while len(self.text) > 1 and self.__font__.getsize(self.text)[0] + suffix_length >= self.size[0]:
