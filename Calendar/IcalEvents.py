@@ -19,7 +19,7 @@ class IcalEvents(CalendarInterface):
         events = self.__get_events_from_urls__(self.urls)
 
         highlighted = self.__get_events_from_urls__(self.highlighted_urls)
-        map(self.__highlight_event__, highlighted)
+        highlighted = map(self.__highlight_event__, highlighted)
         events.extend(highlighted)
 
         return events
