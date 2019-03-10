@@ -31,6 +31,7 @@ class IcalEvents(CalendarInterface):
                     cal_event.title = event.name
                     cal_event.description = event.description
                     cal_event.location= event.location
+                    cal_event.allday = event.all_day
 
                     loaded_events.append(cal_event)
             return loaded_events
