@@ -70,7 +70,7 @@ def main ():
             design.add_weather(owm)
 
             debug.print_line('Fetching events from your calendar')
-            events_cal = IcalEvents.IcalEvents(ical_urls)
+            events_cal = IcalEvents.IcalEvents(ical_urls, highlighted_ical_urls)
             design.add_calendar(events_cal)
 
             debug.print_line('Fetching posts from your rss-feeds')

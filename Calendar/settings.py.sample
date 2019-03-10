@@ -4,6 +4,9 @@ ical_urls = [
 	"https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics"
 ]
 
+highlighted_ical_urls = [
+]
+
 rss_feeds = [
     "http://feeds.bbci.co.uk/news/world/rss.xml#"
 ]

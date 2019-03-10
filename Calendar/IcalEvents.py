@@ -10,14 +10,31 @@ except Exception as e:
 
 class IcalEvents(CalendarInterface):
     """Fetches events from ical addresses."""
-    def __init__(self, urls):
+    def __init__(self, urls, highlighted_urls=None):
         self.urls = urls
+        self.highlighted_urls = highlighted_urls
         super(IcalEvents, self).__init__()
 
     def __get_events__(self):
+        events = self.__get_events_from_urls__(self.urls)
+
+        highlighted = self.__get_events_from_urls__(self.highlighted_urls)
+        map(self.__highlight_event__, highlighted)
+        events.extend(highlighted)
+
+        return events
+
+    def __highlight_event__(self, event):
+        event.highlight = True
+        return event
+
+    def __get_events_from_urls__(self, urls):
         loaded_events = []
         try:
-            for calendar in self.urls:
+            if urls is None:
+                return loaded_events
+
+            for calendar in urls:
                 decode = str(urlopen(calendar).read().decode())
                 fixed_decode = self.__fix_errors__(decode)
 
@@ -36,7 +53,7 @@ class IcalEvents(CalendarInterface):
                     loaded_events.append(cal_event)
             return loaded_events
         except:
-            return []
+            return loaded_events
 
     def __fix_errors__(self, decode):
         return decode.replace('BEGIN:VALARM\r\nACTION:NONE','BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:') \
