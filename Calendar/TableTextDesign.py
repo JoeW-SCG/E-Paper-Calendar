@@ -1,10 +1,15 @@
 from TextDesign import TextDesign
 from TextWraper import wrap_text_with_font
 
+default_props = {
+    "color" : "black",
+    "background_color" : "white"
+}
+
 class TableTextDesign (TextDesign):
     """Gets a matrix with text that is than
     displayed in a table without borders."""
-    def __init__ (self, size, text_matrix, max_col_size = None, max_row_size = None, font = None, fontsize = 12, column_horizontal_alignments = [], mask = True, line_spacing = 0, col_spacing = 0, truncate_rows = True, truncate_cols = True, wrap = False, truncate_text=True, truncate_suffix="..."):
+    def __init__ (self, size, text_matrix, max_col_size = None, max_row_size = None, font = None, fontsize = 12, column_horizontal_alignments = [], mask = True, line_spacing = 0, col_spacing = 0, truncate_rows = True, truncate_cols = True, wrap = False, truncate_text=True, truncate_suffix="...", cell_properties=None):
         super(TableTextDesign, self).__init__(size, font=font, fontsize=fontsize, mask=mask)
         self.matrix = text_matrix
         self.max_col_size = max_col_size
@@ -19,6 +24,7 @@ class TableTextDesign (TextDesign):
         self.wrap = wrap
         self.truncate_text = truncate_text
         self.truncate_suffix = truncate_suffix
+        self.cell_properties = cell_properties
 
     def __finish_image__ (self):
         if len(self.matrix) is 0:
@@ -95,7 +101,10 @@ class TableTextDesign (TextDesign):
                 self.__draw_text__(pos, size, r, c)
                 
     def __draw_text__ (self, pos, size, row, col):
-        design = TextDesign(size, text=self.matrix[row][col], font=self.font_family, fontsize=self.font_size, horizontalalignment=self.__get_col_hori_alignment__(col), wrap=self.wrap, truncate=self.truncate_text, truncate_suffix=self.truncate_suffix)
+        color = self.__get_cell_prop__(row, col, "color")
+        bg_color = self.__get_cell_prop__(row, col, "background_color")
+
+        design = TextDesign(size, text=self.matrix[row][col], font=self.font_family, color=color, background_color=bg_color, fontsize=self.font_size, horizontalalignment=self.__get_col_hori_alignment__(col), wrap=self.wrap, truncate=self.truncate_text, truncate_suffix=self.truncate_suffix)
         design.pos = pos
         self.draw_design(design)
         
@@ -122,3 +131,11 @@ class TableTextDesign (TextDesign):
         if len(self.column_horizontal_alignments) <= c:
             return "left"
         return self.column_horizontal_alignments[c]
+
+    def __get_cell_prop__(self, r, c, prop):
+        if self.cell_properties is None:
+            return default_props[prop]
+        try:
+            return self.cell_properties[r][c][prop]
+        except:
+            return default_props[prop]
