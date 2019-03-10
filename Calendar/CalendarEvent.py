@@ -3,6 +3,7 @@ class CalendarEvent (object):
     def __init__ (self):
         self.begin_datetime = None
         self.end_datetime = None
+        self.all_day = None
 
         self.title = None
         self.description = None
