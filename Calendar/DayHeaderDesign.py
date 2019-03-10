@@ -21,6 +21,7 @@ numberbox_font_color = "white"
 numberbox_background_color = "red"
 general_text_color = "black"
 background_color = "white"
+highlight_color = "red"
 
 class DayHeaderDesign (DesignEntity):
     """Detailed and big view of a given date."""
@@ -60,7 +61,7 @@ class DayHeaderDesign (DesignEntity):
         size = (self.size[0] - pos[0] - weather_width, self.size[1] - pos[1] - box_ypos)
         fontsize = eventlist_y_fontsize * self.size[1]
 
-        event_list = SingelDayEventListDesign(size, calendar, self.date, fontsize)
+        event_list = SingelDayEventListDesign(size, calendar, self.date, fontsize, general_color=general_text_color, background_color=background_color, highlight_color=highlight_color)
         event_list.pos = pos
         self.draw_design(event_list)
 

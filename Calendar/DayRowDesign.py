@@ -50,7 +50,7 @@ class DayRowDesign (DesignEntity):
         size = (self.size[0] - pos[0] - weather_width, self.size[1] - pos[1])
         fontsize = eventlist_y_fontsize * self.size[1]
 
-        event_list = SingelDayEventListDesign(size, calendar, self.date, fontsize, line_spacing=0)
+        event_list = SingelDayEventListDesign(size, calendar, self.date, fontsize, line_spacing=0, general_color=general_text_color, background_color=background_color, highlight_color=highlight_text_color)
         event_list.pos = pos
         self.draw_design(event_list)
 
