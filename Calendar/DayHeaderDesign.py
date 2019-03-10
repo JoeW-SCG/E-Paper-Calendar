@@ -70,7 +70,7 @@ class DayHeaderDesign (DesignEntity):
         padding = int(weekday_ypadding * self.size[1])
         box_ypos = int((numberbox_ypos) * self.size[1]) + padding
         box_xpos = int(numberbox_ypos * self.size[1])
-        box_height = int((1 - numberbox_ypos - numberbox_height) * self.size[1])
+        box_height = numberbox_height * self.size[1]
         box_pos = (box_xpos, box_ypos)
         box_size = (int(numberbox_height * self.size[1]), box_height)
         
