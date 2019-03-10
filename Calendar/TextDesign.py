@@ -4,6 +4,7 @@ from Assets import path, defaultfont
 from TextWraper import wrap_text_with_font
 
 paddingcorrection = -3
+truncateerror_fontsize = 0.5
 
 class TextDesign (DesignEntity):
     """Object that manages all information relevant to text
@@ -41,8 +42,9 @@ class TextDesign (DesignEntity):
     def __truncate_text__ (self):
         if self.__font__.getsize(self.text)[0] <= self.size[0]: #does not need truncating
             return
+        error = truncateerror_fontsize * self.__font__.getsize("A")[0]
         suffix_length = self.__font__.getsize(self.truncate_suffix)[0]
-        while len(self.text) > 1 and self.__font__.getsize(self.text)[0] + suffix_length >= self.size[0]:
+        while len(self.text) > 1 and self.__font__.getsize(self.text)[0] + suffix_length >= self.size[0] - error:
             self.text = self.text[0:-1]
         self.text += self.truncate_suffix
 
