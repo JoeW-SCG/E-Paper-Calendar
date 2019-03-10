@@ -1,9 +1,10 @@
 from PIL import ImageDraw, Image
 from TextDesign import TextDesign
-from settings import week_starts_on
+from settings import week_starts_on, owm_paid_subscription
 from DesignEntity import DesignEntity
 from datetime import datetime
 from Assets import weathericons, wpath
+from SingelDayEventListDesign import SingelDayEventListDesign
 
 daynumber_y_size = (1, 0.65)
 weekday_y_size = (daynumber_y_size[0], 1 - daynumber_y_size[1])
@@ -12,6 +13,9 @@ daynumber_fontsize = daynumber_y_size[1] * 0.8
 weekday_fontsize = weekday_y_size[1] * 0.75
 weathericon_ypos = 0.1
 weathericon_height = 1 - 2 * weathericon_ypos
+eventlist_xpadding = 5
+eventlist_ypos = 0.1
+eventlist_y_fontsize = 0.2
 
 general_text_color = "black"
 highlight_text_color = "red"
@@ -30,10 +34,24 @@ class DayRowDesign (DesignEntity):
         self.__draw_forecast__(weather)
 
     def add_calendar (self, calendar):
-        pass
+        self.__draw_event_list__(calendar)
 
     def add_rssfeed (self, rss):
         pass
+
+    def __draw_event_list__ (self, calendar):
+        number_width = daynumber_y_size[0] * self.size[1]
+        ypos = eventlist_ypos * self.size[1]
+        weather_width = 0
+        if owm_paid_subscription:
+            weather_width = weathericon_height * self.size[1]
+        pos = (number_width + eventlist_xpadding, ypos)
+        size = (self.size[0] - pos[0] - weather_width, self.size[1] - pos[1])
+        fontsize = eventlist_y_fontsize * self.size[1]
+
+        event_list = SingelDayEventListDesign(size, calendar, self.date, fontsize, line_spacing=0)
+        event_list.pos = pos
+        self.draw_design(event_list)
 
     def __draw_forecast__ (self, weather):
         forecast = weather.get_forecast_in_days(self.date.day - datetime.today().day)
