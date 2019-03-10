@@ -2,7 +2,9 @@ from DesignEntity import DesignEntity
 from PIL import ImageDraw
 from TextDesign import TextDesign
 from WeatherColumnDesign import WeatherColumnDesign
-from datetime import date
+from datetime import date, timedelta
+from EventListDesign import EventListDesign
+from settings import hours
 
 numberbox_ypos = 0.15
 numberbox_height = 1 - 2 * numberbox_ypos
@@ -12,7 +14,11 @@ monthbox_xpadding = 0.013
 monthbox_width = 1 - numberbox_ypos - monthbox_xpadding
 weekday_height = numberbox_height * 0.22
 weekday_ypadding = 0.02
-weathercolumn_y_size = (0.5, 1)
+weathercolumn_y_size = (0.4, 1)
+eventlist_y_fontsize = 0.093
+eventlist_padding = monthbox_xpadding
+eventlist_colspacing = 5
+eventlist_allday_char = "•"
 
 numberbox_font_color = "white"
 numberbox_background_color = "red"
@@ -36,7 +42,7 @@ class DayHeaderDesign (DesignEntity):
         self.draw_design(design)
 
     def add_calendar (self, calendar):
-        pass
+        self.__draw_event_list__(calendar)
 
     def add_rssfeed (self, rss):
         pass
@@ -45,6 +51,28 @@ class DayHeaderDesign (DesignEntity):
         self.__draw_number_square__()
         self.__draw_month__()
         self.__draw_weekday__()
+
+    def __draw_event_list__ (self, calendar):
+        box_ypos = numberbox_ypos * self.size[1]
+        box_xpos = numberbox_ypos * self.size[1]
+        box_height = numberbox_height * self.size[1]
+        padding = eventlist_padding * self.size[0]
+        month_height = weekday_height * self.size[1]
+        weather_width = weathercolumn_y_size[0] * self.size[1]
+        pos = (box_xpos + box_height + padding, box_ypos + month_height + padding)
+        size = (self.size[0] - pos[0] - weather_width, self.size[1] - pos[1] - box_ypos)
+        fontsize = eventlist_y_fontsize * self.size[1]
+
+        prefix_func = lambda x : self.__get_event_prefix__(x)
+        event_list = EventListDesign(size, calendar, fontsize, event_prefix_func=prefix_func, filter_date=self.date, col_spacing=eventlist_colspacing)
+        event_list.pos = pos
+        self.draw_design(event_list)
+    
+    def __get_event_prefix__(self, event):
+        if event.allday:
+            return eventlist_allday_char
+        else:
+            return self.__get_time__(event.begin_datetime)
 
     def __draw_weekday__ (self):
         font_size = int(weekday_height * self.size[1])
@@ -94,3 +122,9 @@ class DayHeaderDesign (DesignEntity):
         if self.date.strftime("%d-%m") is "14-03": #PI-Day
             return "π"
         return str(self.date.day)
+
+    def __get_time__ (self, time):
+        if hours == "24":
+            return time.strftime('%H:%M')
+        else:
+            return time.strftime('%I:%M')
