@@ -1,24 +1,23 @@
 from DesignEntity import DesignEntity
 from TableTextDesign import TableTextDesign
 
-col_sizes = [0.15, 0.85]
-
 class EventListDesign (DesignEntity):
     """Creates a TableTextDesign filled with event
     begin date and title"""
-    def __init__ (self, size, calendar, text_size = 16):
+    def __init__ (self, size, calendar, text_size = 16, filter_date=None, line_spacing=2):
         super(EventListDesign, self).__init__(size)
         self.calendar = calendar
         self.__event_matrix__ = []
         self.text_size = text_size
+        self.filter_date = filter_date
+        self.line_spacing = line_spacing
 
     def __finish_image__ (self):
         self.__fill_event_matrix__()
         
-        max_col_size = [int(col_sizes[0] * self.size[0]), int(col_sizes[1] * self.size[0])]
         col_hori_alignment = ['right', 'left']
 
-        table_design = TableTextDesign(self.size, line_spacing=3, col_spacing=10, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, max_col_size = max_col_size, truncate_cols=False)
+        table_design = TableTextDesign(self.size, line_spacing=self.line_spacing, col_spacing=10, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False)
         self.draw_design(table_design)
     
     def __get_formatted_event__ (self, event):
@@ -32,6 +31,12 @@ class EventListDesign (DesignEntity):
         return text
     
     def __fill_event_matrix__ (self):
-        for event in self.calendar.get_upcoming_events():
+        for event in self.__get_events__():
             row = self.__get_formatted_event__(event)
             self.__event_matrix__.append(row)
+
+    def __get_events__(self):
+        upcoming = self.calendar.get_upcoming_events()
+        if self.filter_date is not None:
+            upcoming = [event for event in upcoming if event.begin_datetime.date() == self.filter_date]
+        return upcoming
