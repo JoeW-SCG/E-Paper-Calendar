@@ -31,7 +31,6 @@ class TableTextDesign (TextDesign):
         if self.max_col_size is not None:
             return
         
-        partial_col_spacing = int(self.col_spacing * (len(self.matrix[0]) - 1) / len(self.matrix[0]))
         font = self.__get_font__()
         col_sizes = []
         for c in range(len(self.matrix[0])):    #amout of columns
@@ -41,7 +40,6 @@ class TableTextDesign (TextDesign):
                     col_sizes.append(row_col_size)
                 elif row_col_size > col_sizes[c]:
                     col_sizes[c] = row_col_size
-        col_sizes[-1] = col_sizes[-1] - partial_col_spacing
         
         for index, size in enumerate(col_sizes):
             preceding_size = sum(col_sizes[:index])
