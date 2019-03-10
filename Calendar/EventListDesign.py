@@ -4,15 +4,19 @@ from TableTextDesign import TableTextDesign
 class EventListDesign (DesignEntity):
     """Creates a TableTextDesign filled with event
     begin date and title"""
-    def __init__ (self, size, calendar, text_size = 16, filter_date=None, line_spacing=2, col_spacing=10, event_prefix_func=None, font_family=None):
+    def __init__ (self, size, calendar, text_size = 16, filter_date=None, line_spacing=2, col_spacing=10, event_prefix_func=None, font_family=None, general_color="black", background_color="white", highlight_color="red"):
         super(EventListDesign, self).__init__(size)
         self.calendar = calendar
         self.__event_matrix__ = []
+        self.__props_matrix__ = []
         self.text_size = text_size
         self.filter_date = filter_date
         self.line_spacing = line_spacing
         self.col_spacing = col_spacing
         self.font_family = font_family
+        self.general_color = general_color
+        self.background_color = background_color
+        self.highlight_color = highlight_color
         self.event_prefix_func = event_prefix_func
         if self.event_prefix_func is None:
             self.event_prefix_func = lambda x : self.__remove_leading_zero__(x.begin_datetime.strftime('%d %b'))
@@ -22,7 +26,7 @@ class EventListDesign (DesignEntity):
         
         col_hori_alignment = ['right', 'left']
 
-        table_design = TableTextDesign(self.size, font=self.font_family, line_spacing=self.line_spacing, col_spacing=self.col_spacing, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False)
+        table_design = TableTextDesign(self.size, font=self.font_family, line_spacing=self.line_spacing, col_spacing=self.col_spacing, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False, cell_properties=self.__props_matrix__)
         self.draw_design(table_design)
     
     def __get_formatted_event__ (self, event):
@@ -38,9 +42,21 @@ class EventListDesign (DesignEntity):
         for event in self.__get_events__():
             row = self.__get_formatted_event__(event)
             self.__event_matrix__.append(row)
+            self.__props_matrix__.append(self.__get_row_props__(event))
 
     def __get_events__(self):
         upcoming = self.calendar.get_upcoming_events()
         if self.filter_date is not None:
             upcoming = [event for event in upcoming if event.begin_datetime.date() == self.filter_date]
         return upcoming
+
+    def __get_row_props__(self, event):
+        color = self.general_color
+        bg_color = self.background_color
+        if event.highlight:
+            color = self.highlight_color
+        cell = {
+            "color" : color,
+            "background_color" : bg_color
+        }
+        return [cell, cell]
