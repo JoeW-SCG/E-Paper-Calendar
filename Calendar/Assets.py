@@ -17,15 +17,15 @@ sunseticon =    im_open(opath+'wi-sunset.jpeg')
 windicon =      im_open(opath+'wi-strong-wind.jpeg')
 
 fonts = {
-    "extralight" : "Assistant-ExtraLight.otf",
-    "light" : "Assistant-Light.otf",
-    "regular" : "Assistant-Regular.otf",
-    "semibold" : "Assistant-SemiBold.otf",
-    "bold" : "Assistant-Bold.otf",
-    "extrabold" : "Assistant-ExtraBold.otf"
+    "extralight" : fpath + "Assistant-ExtraLight.otf",
+    "light" : fpath + "Assistant-Light.otf",
+    "regular" : fpath + "Assistant-Regular.otf",
+    "semibold" : fpath + "Assistant-SemiBold.otf",
+    "bold" : fpath + "Assistant-Bold.otf",
+    "extrabold" : fpath + "Assistant-ExtraBold.otf"
 }
 
-defaultfont = fpath + fonts[font_boldness]
+defaultfont = fonts[font_boldness]
 
 datetime_locals = {
     "de" : "de_DE.UTF-8",
