@@ -7,6 +7,7 @@ im_open = Image.open
 path =      ''
 wpath =     path+'weather-icons/'
 opath =     path+'other/'
+fpath =     path+'fonts/'
 
 tempicon =      im_open(opath+'temperature.jpeg')
 humicon =       im_open(opath+'humidity.jpeg')
@@ -15,7 +16,16 @@ sunriseicon =   im_open(opath+'wi-sunrise.jpeg')
 sunseticon =    im_open(opath+'wi-sunset.jpeg')
 windicon =      im_open(opath+'wi-strong-wind.jpeg')
 
-defaultfont = "Assistant-SemiBold.otf"
+fonts = {
+    "extralight" : "Assistant-ExtraLight.otf",
+    "light" : "Assistant-Light.otf",
+    "regular" : "Assistant-Regular.otf",
+    "semibold" : "Assistant-SemiBold.otf",
+    "bold" : "Assistant-Bold.otf",
+    "extrabold" : "Assistant-ExtraBold.otf"
+}
+
+defaultfont = fpath + fonts[font_boldness]
 
 datetime_locals = {
     "de" : "de_DE.UTF-8",

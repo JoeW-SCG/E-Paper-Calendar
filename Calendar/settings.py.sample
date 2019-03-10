@@ -19,6 +19,7 @@ hours = "24"
 
 
 """DESIGN"""
+font_boldness = "semibold"   # extralight, light, regular, semibold, bold, extrabold
 choosen_design = "month-overview" # month-overview, day-list
 general_settings = {    # General settings that designs may use
     "info-area" : "rss",    # empty, events, rss
