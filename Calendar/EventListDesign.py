@@ -4,7 +4,7 @@ from TableTextDesign import TableTextDesign
 class EventListDesign (DesignEntity):
     """Creates a TableTextDesign filled with event
     begin date and title"""
-    def __init__ (self, size, calendar, text_size = 16, filter_date=None, line_spacing=2, col_spacing=10, event_prefix_func=None):
+    def __init__ (self, size, calendar, text_size = 16, filter_date=None, line_spacing=2, col_spacing=10, event_prefix_func=None, font_family=None):
         super(EventListDesign, self).__init__(size)
         self.calendar = calendar
         self.__event_matrix__ = []
@@ -12,6 +12,7 @@ class EventListDesign (DesignEntity):
         self.filter_date = filter_date
         self.line_spacing = line_spacing
         self.col_spacing = col_spacing
+        self.font_family = font_family
         self.event_prefix_func = event_prefix_func
         if self.event_prefix_func is None:
             self.event_prefix_func = lambda x : self.__remove_leading_zero__(x.begin_datetime.strftime('%d %b'))
@@ -21,7 +22,7 @@ class EventListDesign (DesignEntity):
         
         col_hori_alignment = ['right', 'left']
 
-        table_design = TableTextDesign(self.size, line_spacing=self.line_spacing, col_spacing=self.col_spacing, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False)
+        table_design = TableTextDesign(self.size, font=self.font_family, line_spacing=self.line_spacing, col_spacing=self.col_spacing, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False)
         self.draw_design(table_design)
     
     def __get_formatted_event__ (self, event):

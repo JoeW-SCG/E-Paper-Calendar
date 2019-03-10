@@ -3,7 +3,7 @@ from TextDesign import TextDesign
 from settings import week_starts_on, owm_paid_subscription
 from DesignEntity import DesignEntity
 from datetime import datetime
-from Assets import weathericons, wpath
+from Assets import weathericons, wpath, fonts
 from SingelDayEventListDesign import SingelDayEventListDesign
 
 daynumber_y_size = (1, 0.65)
@@ -20,6 +20,7 @@ eventlist_y_fontsize = 0.2
 general_text_color = "black"
 highlight_text_color = "red"
 background_color = "white"
+font = fonts["regular"]
 
 class DayRowDesign (DesignEntity):
     """Detailed view of a given date."""
@@ -80,7 +81,7 @@ class DayRowDesign (DesignEntity):
         color = self.__get_day_color__()
         week_day_name = self.date.strftime("%a")
         
-        week_day = TextDesign(size, text=week_day_name, background_color=background_color, color=color, fontsize=font_size, horizontalalignment="center", verticalalignment="top")
+        week_day = TextDesign(size, text=week_day_name, font=font, background_color=background_color, color=color, fontsize=font_size, horizontalalignment="center", verticalalignment="top")
         week_day.pos = pos
         self.draw_design(week_day)
 
@@ -92,7 +93,7 @@ class DayRowDesign (DesignEntity):
         day_text = self.__get_day_text__()
         color = self.__get_day_color__()
 
-        number = TextDesign(size, text=day_text, background_color=background_color, color=color, fontsize=font_size, horizontalalignment="center", verticalalignment="bottom")
+        number = TextDesign(size, text=day_text, font=font, background_color=background_color, color=color, fontsize=font_size, horizontalalignment="center", verticalalignment="bottom")
         number.pos = pos
         self.draw_design(number)
 
