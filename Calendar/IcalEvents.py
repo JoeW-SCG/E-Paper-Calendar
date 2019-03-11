@@ -47,7 +47,7 @@ class IcalEvents(CalendarInterface):
                     cal_event.end_datetime = event.end.datetime
                     cal_event.title = event.name
                     cal_event.description = event.description
-                    cal_event.location= event.location
+                    cal_event.location = event.location
                     cal_event.allday = event.all_day
 
                     loaded_events.append(cal_event)
@@ -56,5 +56,19 @@ class IcalEvents(CalendarInterface):
             return loaded_events
 
     def __fix_errors__(self, decode):
+        decode = self.__remove_alarms__(decode)
         return decode.replace('BEGIN:VALARM\r\nACTION:NONE','BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:') \
                .replace('BEGIN:VALARM\r\nACTION:EMAIL','BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:')
+
+    def __remove_alarms__(self, decode):
+        alarm_begin = 'BEGIN:VALARM'
+        alarm_end = 'END:VALARM'
+        lineseparation = '\r\n'
+
+        beginAlarmIndex = 0
+        while beginAlarmIndex >= 0:
+            beginAlarmIndex = decode.find(alarm_begin)
+            if beginAlarmIndex >= 0:
+                endAlarmIndex = decode.find(alarm_end, beginAlarmIndex)
+                decode = decode[:beginAlarmIndex] + decode[endAlarmIndex + len(alarm_end) + len(lineseparation):]
+        return decode
