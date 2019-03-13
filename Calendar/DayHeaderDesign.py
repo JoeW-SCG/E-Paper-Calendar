@@ -4,6 +4,7 @@ from TextDesign import TextDesign
 from WeatherColumnDesign import WeatherColumnDesign
 from datetime import date, timedelta
 from SingelDayEventListDesign import SingelDayEventListDesign
+from Assets import fonts
 
 numberbox_ypos = 0.15
 numberbox_height = 1 - 2 * numberbox_ypos
@@ -22,6 +23,7 @@ numberbox_background_color = "red"
 general_text_color = "black"
 background_color = "white"
 highlight_color = "red"
+weekday_font = fonts["bold"]
 
 class DayHeaderDesign (DesignEntity):
     """Detailed and big view of a given date."""
@@ -75,7 +77,7 @@ class DayHeaderDesign (DesignEntity):
         box_size = (int(numberbox_height * self.size[1]), box_height)
         
         week_day_name = self.date.strftime("%A")
-        week_day = TextDesign(box_size, text=week_day_name, background_color=numberbox_background_color, color=numberbox_font_color, fontsize=font_size, horizontalalignment="center")
+        week_day = TextDesign(box_size, text=week_day_name, background_color=numberbox_background_color, color=numberbox_font_color, fontsize=font_size, horizontalalignment="center", font=weekday_font)
         week_day.pos = box_pos
         self.draw_design(week_day)
 
