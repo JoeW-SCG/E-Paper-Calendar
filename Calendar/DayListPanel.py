@@ -5,15 +5,15 @@ import calendar as callib
 from datetime import datetime, timedelta, date
 from PIL import ImageDraw
 from TextDesign import TextDesign
-from BoxDesign import BoxDesign
-from EllipseDesign import EllipseDesign
 from DayHeaderDesign import DayHeaderDesign
 from DayRowDesign import DayRowDesign
+from RssPostListDesign import RssPostListDesign
 
 todayheader_pos = (0,0)
 todayheader_size = (1,0.25)
 line_color = "black"
 lines_thickness = 1
+infoarea_replacedrowscount = 3
 
 dayrowsarea_ypos = todayheader_size[1]
 dayrowsarea_height = 1 - todayheader_size[1]
@@ -44,6 +44,18 @@ class DayListPanel (PanelDesign):
     def add_rssfeed (self, rss):
         for row in self.__day_rows__:
             row.add_rssfeed(rss)
+        if general_settings["info-area"] is "rss":
+            self.__draw_rss_infoarea__(rss)
+
+    def __draw_rss_infoarea__ (self, rss):
+        height = infoarea_replacedrowscount * self.dayrow_size[1] * self.size[1]
+        ypos = self.size[1] - height
+        size = (self.size[0], height)
+        pos = (0, ypos)
+
+        design = RssPostListDesign(size, rss)
+        design.pos = pos
+        self.draw_design(design)
 
     def __draw_day_rows__ (self):
         following_days = self.__get_following_days__()
@@ -66,6 +78,9 @@ class DayListPanel (PanelDesign):
         row_height = max_area_height / self.dayrow_count
         self.dayrow_size = (1, row_height / self.size[1])
 
+        if general_settings["info-area"] in ["rss"]:
+            self.dayrow_count -= infoarea_replacedrowscount
+
     def __get_following_days__(self):
         following_days = []
         for i in range(self.dayrow_count):
@@ -79,7 +94,7 @@ class DayListPanel (PanelDesign):
 
     def __draw_lines__(self):
         positions = []
-        for i in range(self.dayrow_count):
+        for i in range(self.dayrow_count + 1):
             positions.append(self.__get_day_row_pos__(i)[1])
         for ypos in positions:
             line_start = (0, ypos)
