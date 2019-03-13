@@ -17,8 +17,8 @@ lines_thickness = 1
 
 dayrowsarea_ypos = todayheader_size[1]
 dayrowsarea_height = 1 - todayheader_size[1]
-dayrow_min_format = 55 / 680
-dayrow_max_format = 85 / 680
+dayrow_min_format = 50 / 384
+dayrow_max_format = 70 / 384
 
 class DayListPanel (PanelDesign):
     """Overview that focuses on the current day and
@@ -59,8 +59,8 @@ class DayListPanel (PanelDesign):
 
     def __calc_dayrow_size__ (self):
         max_area_height = dayrowsarea_height * self.size[1]
-        max_row_number = max_area_height / (dayrow_min_format * self.size[1])
-        min_row_number = max_area_height / (dayrow_max_format * self.size[1])
+        max_row_number = max_area_height / (dayrow_min_format * self.size[0])
+        min_row_number = max_area_height / (dayrow_max_format * self.size[0])
         average_row_number = (max_row_number + min_row_number) / 2
         self.dayrow_count = round(average_row_number)
         row_height = max_area_height / self.dayrow_count
