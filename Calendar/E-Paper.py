@@ -10,6 +10,7 @@ Copyright by aceisace
 from datetime import datetime
 from time import sleep
 from Assets import datetime_locals
+from LoopTimer import LoopTimer
 import locale
 from DebugConsole import DebugConsole
 from settings import *
@@ -43,48 +44,49 @@ available_panels = {
     "month-overview" : MonthOvPanel
 }
 
+loop_timer = LoopTimer(update_interval, run_on_hour=True)
+
 """Main loop starts from here"""
 def main ():
     while True:
+        loop_timer.begin_loop()
+        start_time = loop_timer.get_current()[0]
 
-        time = datetime.now()
-        hour = int(time.strftime("%H"))
-        month = int(time.now().strftime('%m'))
-        year = int(time.now().strftime('%Y'))
-
-        for i in range(1):
-            debug.print_line('_________Starting new loop___________')
-            debug.print_line('Date: '+ time.strftime('%a %d %b %y') + ', time: ' + time.strftime('%H:%M') + '\n')
-
-            if hour in calibrate_hours:
-                for output in output_adapters:
-                    output.calibrate()
-
-            if choosen_design in available_panels.keys():            
-                design = available_panels[choosen_design]((epd.width, epd.height))
-            else:
-                raise ImportError("choosen_design must be valid (" + choosen_design + ")")
-
-            debug.print_line("Fetching weather information from open weather map")
-            owm = OwmForecasts.OwmForecasts(location, api_key, paid_api=owm_paid_subscription)
-            design.add_weather(owm)
-
-            debug.print_line('Fetching events from your calendar')
-            events_cal = IcalEvents.IcalEvents(ical_urls, highlighted_ical_urls)
-            design.add_calendar(events_cal)
-
-            debug.print_line('Fetching posts from your rss-feeds')
-            rss = RssParserPosts.RssParserPosts(rss_feeds)
-            design.add_rssfeed(rss)
-
+        if start_time.hour in calibrate_hours and loop_timer.is_new_hour_loop():
+            debug.print_line("Calibrating outputs")
             for output in output_adapters:
-                output.render(design)
+                output.calibrate()
 
-            debug.print_line("=> Finished rendering" + "\n")
+        if choosen_design in available_panels.keys():            
+            design = available_panels[choosen_design]((epd.width, epd.height))
+        else:
+            raise ImportError("choosen_design must be valid (" + choosen_design + ")")
 
-            for i in range(1):
-                nexthour = ((60 - int(time.strftime("%M"))) * 60) - (int(time.strftime("%S")))
-                sleep(nexthour)
+        debug.print_line("Fetching weather information from open weather map")
+        owm = OwmForecasts.OwmForecasts(location, api_key, paid_api=owm_paid_subscription)
+        design.add_weather(owm)
+
+        debug.print_line('Fetching events from your calendar')
+        events_cal = IcalEvents.IcalEvents(ical_urls, highlighted_ical_urls)
+        design.add_calendar(events_cal)
+
+        debug.print_line('Fetching posts from your rss-feeds')
+        rss = RssParserPosts.RssParserPosts(rss_feeds)
+        design.add_rssfeed(rss)
+
+        debug.print_line("Starting to render")
+        for i, output in enumerate(output_adapters):
+            output.render(design)
+            debug.print_line(str(i + 1) + " of " + str(len(output_adapters)) + " rendered")
+
+        debug.print_line("=> Finished rendering" + "\n")
+
+        loop_timer.end_loop()
+        sleep_time = loop_timer.time_until_next()
+
+        debug.print_line("This loop took " + str(loop_timer.get_last_duration()) + " to execute.")
+        debug.print_line("Sleeping " + str(sleep_time) + " until next loop.")
+        sleep(sleep_time.total_seconds())
 
 if __name__ == '__main__':
     main()
