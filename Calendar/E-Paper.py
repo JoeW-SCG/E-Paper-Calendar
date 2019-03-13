@@ -74,7 +74,7 @@ def main ():
         rss = RssParserPosts.RssParserPosts(rss_feeds)
         design.add_rssfeed(rss)
 
-        debug.print_line("Starting to render")
+        debug.print_line("\nStarting to render")
         for i, output in enumerate(output_adapters):
             output.render(design)
             debug.print_line(str(i + 1) + " of " + str(len(output_adapters)) + " rendered")
