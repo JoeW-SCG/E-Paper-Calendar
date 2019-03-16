@@ -112,6 +112,6 @@ class DayHeaderDesign (DesignEntity):
         return (int(coordinates[0] * self.size[0]),int(coordinates[1] * self.size[1]))
 
     def __get_day_text__ (self):
-        if self.date.strftime("%d-%m") is "14-03": #PI-Day
+        if self.date.day is 14 and self.date.month is 3: #PI-Day
             return "π"
         return str(self.date.day)
