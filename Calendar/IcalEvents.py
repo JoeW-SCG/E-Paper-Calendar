@@ -45,6 +45,7 @@ class IcalEvents(CalendarInterface):
                     cal_event.fetch_datetime = datetime.now()
                     cal_event.begin_datetime = event.begin.datetime
                     cal_event.end_datetime = event.end.datetime
+                    cal_event.duration = event.duration
                     cal_event.title = event.name
                     cal_event.description = event.description
                     cal_event.location = event.location
