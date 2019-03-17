@@ -7,8 +7,8 @@ This software fully supports the 3-Colour **and** 2-Colour version of the 7.5" E
 **To get started, follow the instructions below.**
 
 ## News:
-* **Specified README for this fork, added new design and many options (Mid March 2019)**
-* **Version 1.5 released (Early February 2019) with a new layout, displayed events and many back-end improvements**
+* **Specified README for this fork, added new design and many options** (Mid March 2019)
+* **Version 1.5 released with a new layout, displayed events and many back-end improvements** (Early February 2019) 
 * **Added Support for the 2-Colour E-Paper Display as well!** (Late September 2018)
 * **Added Support for Raspbian Stretch lite.** (Late September 2018)
 
