@@ -4,7 +4,7 @@ The order is from latest to oldest and structured in the following way:
 * Version name with date of publishing
 * Sections with either 'added', 'fixed', 'updated' and 'changed'
 
-## [1.6] Early February 2019
+## [1.6] Mid March 2019
 
 ### Added
 * Added day-list panel
