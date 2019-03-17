@@ -42,7 +42,10 @@ class DayHeaderDesign (DesignEntity):
         self.draw_design(design)
 
     def add_calendar (self, calendar):
-        self.__draw_event_list__(calendar)
+        self.__draw_event_list__(calendar.get_today_events())
+
+    def add_events (self, events):
+        self.__draw_event_list__(events)
 
     def add_rssfeed (self, rss):
         pass
@@ -52,7 +55,7 @@ class DayHeaderDesign (DesignEntity):
         self.__draw_month__()
         self.__draw_weekday__()
 
-    def __draw_event_list__ (self, calendar):
+    def __draw_event_list__ (self, events):
         box_ypos = numberbox_ypos * self.size[1]
         box_xpos = numberbox_ypos * self.size[1]
         box_height = numberbox_height * self.size[1]
@@ -63,7 +66,7 @@ class DayHeaderDesign (DesignEntity):
         size = (self.size[0] - pos[0] - weather_width, self.size[1] - pos[1] - box_ypos)
         fontsize = eventlist_y_fontsize * self.size[1]
 
-        event_list = SingelDayEventListDesign(size, calendar, self.date, fontsize, general_color=general_text_color, background_color=background_color, highlight_color=highlight_color)
+        event_list = SingelDayEventListDesign(size, events, fontsize, general_color=general_text_color, background_color=background_color, highlight_color=highlight_color)
         event_list.pos = pos
         self.draw_design(event_list)
 
