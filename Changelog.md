@@ -4,6 +4,23 @@ The order is from latest to oldest and structured in the following way:
 * Version name with date of publishing
 * Sections with either 'added', 'fixed', 'updated' and 'changed'
 
+## [1.6] Early February 2019
+
+### Added
+* Added day-list panel
+* Added support for rss-feeds
+* Added design options
+* Added update-interval option
+* Added debug options
+
+### Changed
+* Extracted functionality to extra classes
+* Changed the month-overview panel to be less based on image-files
+
+### Removed
+* Removed a lot of graphics
+* Removed icons_position file
+
 ## [1.5] Early February 2019
 
 ### Added
