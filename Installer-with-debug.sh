@@ -1,8 +1,8 @@
 #!/bin/bash
 # E-Paper-Calendar software installer for the raspberry pi
-# Version: 1.5 (Early Februrary 2019)
-# Stability status of this installer: pending
+# Version: 1.6 (Mid March 2019)
 # Copyright by aceisace
+# Modified by mgfcf
 
 echo -e "\e[1mPlease select an option from below:"
 echo -e "\e[97mEnter \e[91m1 \e[97m to update the E-Paper software"
@@ -89,9 +89,9 @@ fi
 if [ "$option" = 1 ] || [ "$option" = 2 ]; then
     echo -e "\e[1;36m"Installing the E-Paper-Calendar Software for your display"\e[0m"
     cd
-    git clone https://github.com/aceisace/E-Paper-Calendar-with-iCal-sync-and-live-weather
+    git clone https://github.com/mgfcf/E-Paper-Calendar
     mkdir E-Paper-Master
-    cd E-Paper-Calendar-with-iCal-sync-and-live-weather
+    cd E-Paper-Calendar
     cp -r Calendar /home/pi/E-Paper-Master/
     cp README.md /home/pi/E-Paper-Master/
     cp LICENSE /home/pi/E-Paper-Master/
@@ -103,14 +103,14 @@ if [ "$option" = 1 ] || [ "$option" = 2 ]; then
     cd
 
     # Remove the downloaded (temporary) directory
-    sudo rm -r E-Paper-Calendar-with-iCal-sync-and-live-weather
+    sudo rm -r E-Paper-Calendar
 
     # add a short info
     cat > /home/pi/E-Paper-Master/Info.txt << EOF
 This document contains a short info of the E-Paper-Calendar software version
 
-Version: 1.5
-Installer version: 1.5 (Early February 2019)
+Version: 1.6
+Installer version: 1.6 (Mid March 2019)
 configuration file: /home/pi/E-Paper-Master/Calendar/settings.py
 If the time was set correctly, you installed this software on:
 EOF
