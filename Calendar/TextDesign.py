@@ -40,16 +40,16 @@ class TextDesign (DesignEntity):
         ImageDraw.Draw(self.__image__).text(pos, self.text, fill=self.color, font=self.__font__)
         
     def __truncate_text__ (self):
-        if self.__font__.getsize(self.text)[0] <= self.size[0]: #does not need truncating
+        if self.__font__.getsize_multiline(self.text)[0] <= self.size[0]: #does not need truncating
             return
-        error = truncateerror_fontsize * self.__font__.getsize("A")[0]
-        suffix_length = self.__font__.getsize(self.truncate_suffix)[0]
-        while len(self.text) > 1 and self.__font__.getsize(self.text)[0] + suffix_length >= self.size[0] - error:
+        error = truncateerror_fontsize * self.__font__.getsize_multiline("A")[0]
+        suffix_length = self.__font__.getsize_multiline(self.truncate_suffix)[0]
+        while len(self.text) > 1 and self.__font__.getsize_multiline(self.text)[0] + suffix_length >= self.size[0] - error:
             self.text = self.text[0:-1]
         self.text += self.truncate_suffix
 
     def __pos_from_alignment__ (self):
-        width, height = self.__font__.getsize(self.text)
+        width, height = self.__font__.getsize_multiline(self.text)
         x, y = 0, 0
         
         if self.vertical_alignment == "center":
