@@ -48,13 +48,13 @@ Right: Month-Overview Panel
 ## Installing required packages for python 3.5 
 Execute the following command in the Terminal to install all required packages. This will work on both, Raspbian Stretch with Desktop and Raspbian Stretch lite. 
 
-**`bash -c "$(curl -sL https://raw.githubusercontent.com/aceisace/E-Paper-Calendar-with-iCal-sync-and-live-weather/master/Installer-with-debug.sh)"`**
+**`bash -c "$(curl -sL https://raw.githubusercontent.com/mgfcf/E-Paper-Calendar/master/Installer-with-debug.sh)"`**
 
 If the Installer should fail for any reason, kindly open an issue and paste the error. Thanks.
 
 This is how the installer will run:
 
-<img src="https://github.com/aceisace/E-Paper-Calendar-with-iCal-sync-and-live-weather/blob/master/Gallery/Installer-v1.2-screenshot.png" width="700">
+<img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/Installer-v1.2-screenshot.png" width="700">
 
 ## Adding details to the programm
 Once the packages are installed, navigate to the home directory, open 'E-Paper-Master' and open the file 'settings.py' inside the Calendar folder. Adjust the values as needed. You can use the table below as a reference.
