@@ -89,7 +89,7 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 | --- | --- |
 | render_to_display |  Set to `true` it adds the e-paper display to the outputs. |
 | render_to_file |  Set to `true` it adds a image-file export to the outputs. The exported image can be found in `"/Calendar/design_exported.png"`. |
-| calibrate_hours |  A list containing all the hours in which the outputs get calibrated. That should prevent ghosting on e-paper displays and takes a little while. |
+| calibrate_hours |  A list containing all the hours in which the outputs get calibrated. That should prevent ghosting on e-paper displays. Takes a little while to execute. |
 
 ## iCalendar
 It is a bit tricky to set up the iCalendar so it works correctly without throwing any errors. If you encounter errors related to your iCalendar, please open up an issue and paste the error message there.
