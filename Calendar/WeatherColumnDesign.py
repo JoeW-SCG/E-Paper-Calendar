@@ -11,7 +11,7 @@ icon_width = 1 - 2 * icon_xpos
 info_x_height = icon_width * 0.3
 info_x_ypos = icon_x_ypos + icon_width
 fontsize_y = 0.1
-numbers_x_ypos = icon_x_ypos + icon_width + info_x_height + 0.1
+numbers_x_ypos = icon_x_ypos + icon_width + info_x_height + 0.2
 numbers_x_ypadding = 0.05
 max_symbol_y_width = 0.15
 
@@ -56,11 +56,11 @@ class WeatherColumnDesign (DesignEntity):
 
         fontsize = fontsize_y * self.size[1]
         ypos = numbers_x_ypos * self.size[0]
-        line_spacing = (self.size[1] - ypos - len(numbers_list) * fontsize) / len(numbers_list)
         pos = (0, ypos)
         size = (self.size[0], self.size[1] - pos[1])
+        line_spacing = (size[1] - len(numbers_list) * fontsize) / len(numbers_list) / 1.3
 
-        table = TableTextDesign(size, numbers_list, fontsize=fontsize, line_spacing=line_spacing, column_horizontal_alignments=[ "center" ], max_col_size=[ size[0] ])
+        table = TableTextDesign(size, numbers_list, fontsize=fontsize, line_spacing=line_spacing, column_horizontal_alignments=[ "center" ], max_col_size=[ size[0] ], truncate_rows=False, truncate_text=False)
         table.pos = pos
         self.draw_design(table)
 
