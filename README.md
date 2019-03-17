@@ -59,6 +59,7 @@ This is how the installer will run:
 ## Adding details to the programm
 Once the packages are installed, navigate to the home directory, open 'E-Paper-Master' and open the file 'settings.py' inside the Calendar folder. Adjust the values as needed. You can use the table below as a reference.
 
+### General
 | Parameter |  Description |
 | --- | --- |
 | ical_urls |  Your iCalendar URL/s. To add more than one URL, seperate each with a comma. |
@@ -73,6 +74,22 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 |units| Selecting units allows switching units from km/h (kilometer per hour) and °C (degree Celcius) to mph (miles per hour) and °F (degree Fahrenheit). Possible options are `"metric"` or `"imperial"`. |
 |hours | Which time format do you prefer? This will change the sunrise and sunset times from 24-hours format to 12-hours format. Possible options are `"24"` for 24-hours and `"12"` for 12-hours.|
 |update_interval | The update delay between two updates in minutes. By default there is always an update on a full hour.|
+
+### Design
+| Parameter |  Description |
+| --- | --- |
+| font_boldness | Varies the boldness of the font. Can be one of `extralight`, `light`, `regular`, `semibold`, `bold` or `extrabold`. In same cases the boldness of the font is fixed by the design. |
+| choosen_design |  Sets the desired panel design. Can be one of `month-overview` or `day-list`. |
+| general_settings | A dictionary containing options that some designs use to optimize there design. Possible options are as follows: |
+| `"info-area"` | Defines the content type of an additionaly info area on the design. Can be one of `"rss"`, `"events"` or empty, to remove this area or keep it clean. |
+| `"highlight-event-days"` | If set to `true`, days with events are highlighted in contrast to days without events. |
+
+### Debug
+| Parameter |  Description |
+| --- | --- |
+| render_to_display |  Set to `true` it adds the e-paper display to the outputs. |
+| render_to_file |  Set to `true` it adds a image-file export to the outputs. The exported image can be found in `"/Calendar/design_exported.png"`. |
+| calibrate_hours |  A list containing all the hours in which the outputs get calibrated. That should prevent ghosting on e-paper displays and takes a little while. |
 
 ## iCalendar
 It is a bit tricky to set up the iCalendar so it works correctly without throwing any errors. If you encounter errors related to your iCalendar, please open up an issue and paste the error message there.
