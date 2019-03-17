@@ -24,7 +24,7 @@ update_interval = "60"
 
 """DESIGN"""
 font_boldness = "semibold"   # extralight, light, regular, semibold, bold, extrabold
-choosen_design = "month-overview" # month-overview, day-list
+choosen_design = "month-overview" # month-overview, day-list, day-view
 general_settings = {    # General settings that designs may use
     "info-area" : "rss",    # empty, events, rss
     "highlight-event-days" : True
