@@ -4,7 +4,7 @@ class LoopTimer(object):
     """Manages loop times and sleeps until
     next loop."""
     def __init__(self, loop_interval, run_on_hour=False):
-        self.interval = loop_interval
+        self.interval = int(str(loop_interval))
         self.on_hour = run_on_hour
         self.loop_history = []
 
