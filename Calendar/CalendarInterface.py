@@ -14,7 +14,7 @@ class CalendarInterface (DataSourceInterface):
         raise NotImplementedError("Functions needs to be implemented")
 
     def get_upcoming_events(self):
-        return self.__get_events_to_filter__(lambda x : (x.begin_datetime - datetime.now(timezone.utc)) > timedelta(days=-1))
+        return self.__get_events_to_filter__(lambda x : (x.begin_datetime - datetime.now(timezone.utc)) > timedelta(0))
 
     def get_today_events(self):
         return self.get_day_events(datetime.now(timezone.utc))
@@ -27,7 +27,7 @@ class CalendarInterface (DataSourceInterface):
     def get_month_events(self, month = -1):
         if month < 0:
             month = datetime.now().month
-        return self.__get_events_to_filter__(lambda x : x.begin_datetime.month == month)
+        return self.__get_events_to_filter__(lambda x : x.begin_datetime.month == month or x.end_datetime.month == month)
 
     def get_week_events(self, week = -1):
         if week < 0 and week_starts_on == "Monday":
@@ -36,9 +36,9 @@ class CalendarInterface (DataSourceInterface):
             week = int(datetime.now().strftime('%U')) + 1
 
         if week_starts_on == "Monday":
-            return self.__get_events_to_filter__(lambda x : int(x.begin_datetime.strftime('%W')) + 1 == week)
+            return self.__get_events_to_filter__(lambda x : int(x.begin_datetime.strftime('%W')) + 1 == week or int(x.end_datetime.strftime('%W')) + 1 == week)
         else:
-            return self.__get_events_to_filter__(lambda x : int(x.begin_datetime.strftime('%U')) + 1 == week)
+            return self.__get_events_to_filter__(lambda x : int(x.begin_datetime.strftime('%U')) + 1 == week or int(x.end_datetime.strftime('%U')) + 1 == week)
 
     def __get_events_to_filter__(self, event_filter):
         if self.loaded_events is None:
