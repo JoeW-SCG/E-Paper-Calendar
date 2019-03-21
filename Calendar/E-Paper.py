@@ -49,7 +49,9 @@ available_panels = {
 loop_timer = LoopTimer(update_interval, run_on_hour=True)
 
 """Main loop starts from here"""
-def main ():
+def main():
+    owm = OwmForecasts.OwmForecasts(location, api_key, paid_api=owm_paid_subscription)
+
     while True:
         loop_timer.begin_loop()
         start_time = loop_timer.get_current()[0]
@@ -65,7 +67,6 @@ def main ():
             raise ImportError("choosen_design must be valid (" + choosen_design + ")")
 
         debug.print_line("Fetching weather information from open weather map")
-        owm = OwmForecasts.OwmForecasts(location, api_key, paid_api=owm_paid_subscription)
         design.add_weather(owm)
 
         debug.print_line('Fetching events from your calendar')
