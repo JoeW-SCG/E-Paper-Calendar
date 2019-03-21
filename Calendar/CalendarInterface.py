@@ -20,7 +20,9 @@ class CalendarInterface (DataSourceInterface):
         return self.get_day_events(datetime.now(timezone.utc))
 
     def get_day_events(self, date):
-        return self.__get_events_to_filter__(lambda x : x.begin_datetime.strftime('%d-%m-%y') == date.strftime('%d-%m-%y'))
+        if type(date) is type(datetime.now()):
+            date = date.date()
+        return self.__get_events_to_filter__(lambda x : (x.begin_datetime.date() - date) <= timedelta(0) and (x.end_datetime.date() - date) >= timedelta(0))
 
     def get_month_events(self, month = -1):
         if month < 0:
