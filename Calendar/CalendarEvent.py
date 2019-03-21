@@ -4,7 +4,7 @@ class CalendarEvent (object):
         self.begin_datetime = None
         self.end_datetime = None
         self.duration = None
-        self.all_day = None
+        self.allday = None
 
         self.title = None
         self.description = None
