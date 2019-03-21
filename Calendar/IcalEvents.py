@@ -51,6 +51,9 @@ class IcalEvents(CalendarInterface):
                     cal_event.location = event.location
                     cal_event.allday = event.all_day
 
+                    if cal_event.allday:
+                        cal_event.end_datetime =  cal_event.end_datetime - timedelta(2)
+
                     loaded_events.append(cal_event)
             return loaded_events
         except:
