@@ -46,19 +46,19 @@ class Epd7in5bAdapter (EpdAdapter):
             raise ValueError('Image must be same dimensions as display \
                 ({0}x{1}).' .format(self.height, self.width))
 
-        for y in range(self.width):
-            for x in range(self.height):
+        for x in range(self.width):
+            for y in range(self.height):
                 # Set the bits for the column of pixels at the current
                 # position.
-                pixel = image_rgb.getpixel((x, y))
+                pixel = image_rgb.getpixel((y, x))
                 color = self.__get_color__(pixel)
                 if color is 'white':
-                    buf[int((x + y * self.height) / 4)] |= 0xC0 >> (x % 4 * 2)
+                    buf[int((y + x * self.height) / 4)] |= 0xC0 >> (y % 4 * 2)
                 elif color is 'black':
-                    buf[int((x + y * self.height) / 4)] &= ~(0xC0 >> (x % 4 * 2))
+                    buf[int((y + x * self.height) / 4)] &= ~(0xC0 >> (y % 4 * 2))
                 if color is 'red':
-                    buf[int((x + y * self.height) / 4)] &= ~(0xC0 >> (x % 4 * 2))
-                    buf[int((x + y * self.height) / 4)] |= 0x40 >> (x % 4 * 2)
+                    buf[int((y + x * self.height) / 4)] &= ~(0xC0 >> (y % 4 * 2))
+                    buf[int((y + x * self.height) / 4)] |= 0x40 >> (y % 4 * 2)
         return buf #due to python2 -> python3, int had to be added in 'get_frame
                    #_buffer
 
