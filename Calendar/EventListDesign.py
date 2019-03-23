@@ -1,5 +1,6 @@
 from DesignEntity import DesignEntity
 from TableTextDesign import TableTextDesign
+from settings import language
 
 class EventListDesign (DesignEntity):
     """Creates a TableTextDesign filled with event
@@ -51,11 +52,12 @@ class EventListDesign (DesignEntity):
             return
 
         additional_events_count = len(self.events) - len(visible_events)
+        more_text = self.__get_more_text__()
         if additional_events_count > 0:
-            self.__event_matrix__.append([ "", " + " + str(additional_events_count) + " more" ])
+            self.__event_matrix__.append([ "", " + " + str(additional_events_count) + " " + more_text ])
             self.__props_matrix__.append(self.__get_row_props__(event))
 
-    def __get_row_props__ (self, event=None):
+    def __get_row_props__ (self, event = None):
         color = self.general_color
         bg_color = self.background_color
         if event is not None and event.highlight:
@@ -65,3 +67,10 @@ class EventListDesign (DesignEntity):
             "background_color" : bg_color
         }
         return [ cell, cell ]
+
+    def __get_more_text__ (self):
+        more_texts = {
+            "de" : "weitere",
+            "en" : "more"
+            }
+        return more_texts[language]
