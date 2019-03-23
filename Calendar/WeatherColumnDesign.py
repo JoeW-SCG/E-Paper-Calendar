@@ -6,7 +6,7 @@ from PIL import Image
 from settings import hours
 
 icon_xpos = 0.1
-icon_x_ypos = -0.1
+icon_x_ypos = 0
 icon_width = 1 - 2 * icon_xpos
 info_x_height = icon_width * 0.3
 info_x_ypos = icon_x_ypos + icon_width
