@@ -4,11 +4,12 @@ from TableTextDesign import TableTextDesign
 class EventListDesign (DesignEntity):
     """Creates a TableTextDesign filled with event
     begin date and title"""
-    def __init__ (self, size, events, text_size = 16, line_spacing=2, col_spacing=10, event_prefix_func=None, font_family=None, general_color="black", background_color="white", highlight_color="red"):
+    def __init__ (self, size, events, text_size = 16, line_spacing = 2, col_spacing = 10, event_prefix_func = None, font_family = None, general_color = "black", background_color = "white", highlight_color = "red", show_more_info = False):
         super(EventListDesign, self).__init__(size)
         self.events = events
         self.__event_matrix__ = []
         self.__props_matrix__ = []
+        self.show_more_info = show_more_info
         self.text_size = text_size
         self.line_spacing = line_spacing
         self.col_spacing = col_spacing
@@ -21,10 +22,10 @@ class EventListDesign (DesignEntity):
             self.event_prefix_func = lambda x : self.__remove_leading_zero__(x.begin_datetime.strftime('%d %b'))
 
     def __finish_image__ (self):
+        self.visible_event_count = int((self.size[1] - self.line_spacing) // (self.line_spacing + self.text_size))
         self.__fill_event_matrix__()
         
-        col_hori_alignment = ['right', 'left']
-
+        col_hori_alignment = [ 'right', 'left' ]
         table_design = TableTextDesign(self.size, font=self.font_family, line_spacing=self.line_spacing, col_spacing=self.col_spacing, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False, cell_properties=self.__props_matrix__)
         self.draw_design(table_design)
     
@@ -32,24 +33,35 @@ class EventListDesign (DesignEntity):
         prefix = self.event_prefix_func(event)
         return [ prefix, event.title ]
 
-    def __remove_leading_zero__(self, text):
+    def __remove_leading_zero__ (self, text):
         while text[0] is '0':
             text = text[1:]
         return text
     
     def __fill_event_matrix__ (self):
-        for event in self.events:
+        visible_events = self.events
+        if self.show_more_info and len(visible_events) > self.visible_event_count:
+            visible_events = visible_events[:self.visible_event_count - 1]
+        for event in visible_events:
             row = self.__get_formatted_event__(event)
             self.__event_matrix__.append(row)
             self.__props_matrix__.append(self.__get_row_props__(event))
 
-    def __get_row_props__(self, event):
+        if self.show_more_info is False:
+            return
+
+        additional_events_count = len(self.events) - len(visible_events)
+        if additional_events_count > 0:
+            self.__event_matrix__.append([ "", " + " + str(additional_events_count) + " more" ])
+            self.__props_matrix__.append(self.__get_row_props__(event))
+
+    def __get_row_props__ (self, event=None):
         color = self.general_color
         bg_color = self.background_color
-        if event.highlight:
+        if event is not None and event.highlight:
             color = self.highlight_color
         cell = {
             "color" : color,
             "background_color" : bg_color
         }
-        return [cell, cell]
+        return [ cell, cell ]
