@@ -27,7 +27,7 @@ class EventListDesign (DesignEntity):
         self.__fill_event_matrix__()
         
         col_hori_alignment = [ 'right', 'left' ]
-        table_design = TableTextDesign(self.size, font=self.font_family, line_spacing=self.line_spacing, col_spacing=self.col_spacing, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False, cell_properties=self.__props_matrix__)
+        table_design = TableTextDesign(self.size, background_color = self.background_color, font=self.font_family, line_spacing=self.line_spacing, col_spacing=self.col_spacing, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False, cell_properties=self.__props_matrix__)
         self.draw_design(table_design)
     
     def __get_formatted_event__ (self, event):
