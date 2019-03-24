@@ -24,7 +24,7 @@ class EventListDesign (DesignEntity):
             self.event_prefix_func = lambda x : self.__remove_leading_zero__(x.begin_datetime.strftime('%d %b'))
 
     def __finish_image__ (self):
-        self.visible_event_count = int((self.size[1] - self.line_spacing) // (self.line_spacing + self.text_size))
+        self.visible_event_count = int(int(self.size[1]) // (self.line_spacing + int(self.text_size)))
         self.__fill_event_matrix__()
         
         col_hori_alignment = [ 'right', 'left' ]
