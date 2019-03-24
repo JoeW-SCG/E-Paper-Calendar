@@ -17,6 +17,7 @@ from settings import *
 from MonthOvPanel import MonthOvPanel
 from DayListPanel import DayListPanel
 from DayViewPanel import DayViewPanel
+from AgendaListPanel import AgendaListPanel
 import OwmForecasts
 import IcalEvents
 import RssParserPosts
@@ -43,7 +44,8 @@ if render_to_display:
 available_panels = {
     "day-list" : DayListPanel,
     "month-overview" : MonthOvPanel,
-    "day-view" : DayViewPanel
+    "day-view" : DayViewPanel,
+    "agenda-list" : AgendaListPanel
 }
 
 loop_timer = LoopTimer(update_interval, run_on_hour=True)
