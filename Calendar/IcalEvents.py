@@ -2,6 +2,7 @@ from CalendarInterface import CalendarInterface
 from CalendarEvent import CalendarEvent
 from ics import Calendar
 from datetime import datetime, timedelta, timezone
+import re
 from settings import week_starts_on
 try:
     from urllib.request import urlopen
@@ -36,9 +37,8 @@ class IcalEvents(CalendarInterface):
 
             for calendar in urls:
                 decode = str(urlopen(calendar).read().decode())
-                fixed_decode = self.__fix_errors__(decode)
 
-                ical = Calendar(fixed_decode)
+                ical = Calendar(decode)
                 for event in ical.events:
                     cal_event = CalendarEvent()
 
@@ -50,19 +50,17 @@ class IcalEvents(CalendarInterface):
                     cal_event.description = event.description
                     cal_event.location = event.location
                     cal_event.allday = event.all_day
+                    cal_event.rrule = self.__extract_rrule__(event)
 
                     if cal_event.allday:
-                        cal_event.end_datetime =  cal_event.end_datetime - timedelta(2)
+                        cal_event.end_datetime =  cal_event.end_datetime - timedelta(1)
+                        cal_event.duration = cal_event.duration - timedelta(1)
 
                     loaded_events.append(cal_event)
             return loaded_events
-        except:
+        except BaseException as ex:
+            print(ex)
             return loaded_events
-
-    def __fix_errors__(self, decode):
-        decode = self.__remove_alarms__(decode)
-        return decode.replace('BEGIN:VALARM\r\nACTION:NONE','BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:') \
-               .replace('BEGIN:VALARM\r\nACTION:EMAIL','BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:')
 
     def __remove_alarms__(self, decode):
         alarm_begin = 'BEGIN:VALARM'
@@ -76,3 +74,9 @@ class IcalEvents(CalendarInterface):
                 endAlarmIndex = decode.find(alarm_end, beginAlarmIndex)
                 decode = decode[:beginAlarmIndex] + decode[endAlarmIndex + len(alarm_end) + len(lineseparation):]
         return decode
+
+    def __extract_rrule__(self, event):
+        if re.search('RRULE',str(event)) is None:
+            return None
+
+        return re.search('RRULE:(.+?)\n',str(event)).group(1).rstrip()
