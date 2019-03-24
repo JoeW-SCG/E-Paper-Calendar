@@ -19,7 +19,6 @@ dayrowsarea_ypos = todayheader_size[1]
 dayrowsarea_height = 1 - todayheader_size[1]
 dayrow_min_format = 50 / 384
 dayrow_max_format = 70 / 384
-rss_x_fontsize = 14 / 384
 rss_y_padding = 5
 
 class DayListPanel (PanelDesign):
@@ -53,10 +52,9 @@ class DayListPanel (PanelDesign):
         height = infoarea_replacedrowscount * self.dayrow_size[1] * self.size[1] - rss_y_padding
         ypos = self.size[1] - height
         size = (self.size[0], height)
-        fontsize = rss_x_fontsize * size[0] 
         pos = (0, ypos)
 
-        design = RssPostListDesign(size, rss, fontsize)
+        design = RssPostListDesign(size, rss)
         design.pos = pos
         self.draw_design(design)
 

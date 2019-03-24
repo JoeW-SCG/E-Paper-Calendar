@@ -26,7 +26,6 @@ weekrownameboxsize = (0.143, 0.044)
 eventcirclehorizontalsize = 0.100
 infolisthorizontalpos = 0.008
 infolistsize = (1, 0.77)
-infolisttextsizeize = 16
 
 class MonthOvPanel (PanelDesign):
     """Overview that focuses on the current month and
@@ -71,7 +70,7 @@ class MonthOvPanel (PanelDesign):
         month_height = self.month_block.get_real_height()
         size = self.__abs_pos__(infolistsize)
         size = (size[0], size[1] - month_height)
-        info_list = RssPostListDesign(size, rss, text_size=infolisttextsizeize)
+        info_list = RssPostListDesign(size, rss)
         info_list.pos = (int(month_pos[0] + infolisthorizontalpos * self.size[0]), int(month_pos[1] + month_height))
         self.draw_design(info_list)
 
@@ -82,7 +81,7 @@ class MonthOvPanel (PanelDesign):
         size = (size[0], size[1] - month_height)
 
         events = calendar.get_upcoming_events()
-        info_list = EventListDesign(size, events, text_size=infolisttextsizeize)
+        info_list = EventListDesign(size, events)
         info_list.pos = (int(month_pos[0] + infolisthorizontalpos * self.size[0]), int(month_pos[1] + month_height))
         self.draw_design(info_list)
 

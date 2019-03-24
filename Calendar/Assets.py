@@ -26,6 +26,7 @@ fonts = {
 }
 
 defaultfont = fonts[font_boldness]
+defaultfontsize = 14
 
 datetime_locals = {
     "de" : "de_DE.UTF-8",

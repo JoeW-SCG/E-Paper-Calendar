@@ -1,10 +1,11 @@
 from DesignEntity import DesignEntity
 from TableTextDesign import TableTextDesign
+from Assets import defaultfontsize
 
 class RssPostListDesign (DesignEntity):
     """Creates a TableTextDesign filled with rss post
     date and title"""
-    def __init__ (self, size, rssfeed, text_size = 18):
+    def __init__ (self, size, rssfeed, text_size = defaultfontsize):
         super(RssPostListDesign, self).__init__(size)
         self.rssfeed = rssfeed
         self.__post_matrix__ = []
