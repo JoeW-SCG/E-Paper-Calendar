@@ -2,6 +2,7 @@ from DesignEntity import DesignEntity
 from TableTextDesign import TableTextDesign
 from settings import language
 from Assets import defaultfontsize
+from TextFormatter import date_str
 
 class EventListDesign (DesignEntity):
     """Creates a TableTextDesign filled with event
@@ -21,7 +22,7 @@ class EventListDesign (DesignEntity):
         self.highlight_color = highlight_color
         self.event_prefix_func = event_prefix_func
         if self.event_prefix_func is None:
-            self.event_prefix_func = lambda x : self.__remove_leading_zero__(x.begin_datetime.strftime('%d %b'))
+            self.event_prefix_func = lambda x : date_str(x.begin_datetime)
 
     def __finish_image__ (self):
         self.visible_event_count = int(int(self.size[1]) // (self.line_spacing + int(self.text_size)))
@@ -34,11 +35,6 @@ class EventListDesign (DesignEntity):
     def __get_formatted_event__ (self, event):
         prefix = self.event_prefix_func(event)
         return [ prefix, event.title ]
-
-    def __remove_leading_zero__ (self, text):
-        while text[0] is '0':
-            text = text[1:]
-        return text
     
     def __fill_event_matrix__ (self):
         visible_events = self.events
