@@ -2,6 +2,11 @@ from DesignEntity import DesignEntity
 from Assets import defaultfontsize
 from datetime import datetime, date, timedelta
 from SingelDayEventListDesign import SingelDayEventListDesign
+from TableTextDesign import TableTextDesign
+from PIL import ImageDraw
+
+line_color = "black"
+line_width = 1
 
 class AgendaListDesign (DesignEntity):
     '''Lists upcoming events in chronological order and groups them by days'''
@@ -16,20 +21,25 @@ class AgendaListDesign (DesignEntity):
         self.__calculate_parameter__()
         self.__fetch_events__()
         self.__draw_events__()
-        #self.__draw_dates__()
-        #self.__draw_lines__()
+        self.__draw_dates__()
+        self.__draw_lines__()
 
     def __calculate_parameter__ (self):
         self.__line_height__ = self.line_spacing + int(self.text_size)
         self.__event_number__ = int(int(self.size[1]) // self.__line_height__)
-        self.__date_fontsize__ = self.__line_height__
-        self.__date_width__ = 50
+        self.__date_fontsize__ = self.text_size
+        self.__date_width__ = self.__date_fontsize__ * 5
+        self.__date_linespace__ = self.line_spacing
 
     def __fetch_events__ (self):
         self.__events__ = []
+        self.__dates__ = []
         fetch_day = self.start_dt
         while len(self.__events__) < self.__event_number__:
-            self.__events__.extend(self.calendar.get_day_events(fetch_day))
+            day_events = self.calendar.get_day_events(fetch_day)
+            self.__events__.extend(day_events)
+            for _ in range(len(day_events)):
+                self.__dates__.append(fetch_day)
             fetch_day = fetch_day + timedelta(1)
             
     def __draw_events__ (self):
@@ -40,7 +50,33 @@ class AgendaListDesign (DesignEntity):
         self.draw_design(events)
 
     def __draw_dates__ (self):
-        raise NotImplementedError()
+        size = (self.__date_width__, self.size[1])
+
+        date_matrix = self.__get_date_matrix__()
+        table = TableTextDesign(size, date_matrix, fontsize = self.__date_fontsize__, line_spacing=self.__date_linespace__)
+        table.pos = (0, 0)
+        self.draw_design(table)
+
+    def __get_date_matrix__ (self):
+        matrix = []
+        last_date = ""
+        for date in self.__dates__:
+            current_date = date.strftime(" %d. %b")
+            if current_date != last_date:
+                last_date = current_date
+                matrix.append([current_date])
+            else:
+                matrix.append([""])
+        return matrix
 
     def __draw_lines__ (self):
-        raise NotImplementedError()
+        for i, (first, second) in enumerate(zip(self.__dates__, self.__dates__[1:])):
+            if first is not second:
+                self.__draw_line__(i + 1)
+
+    def __draw_line__(self, index):
+        ypos = index * self.__line_height__ - self.line_spacing / 2
+        pos = (0, ypos)
+        positions = [pos, (self.size[0], ypos)]
+
+        ImageDraw.Draw(self.__image__).line(positions, fill=line_color, width=line_width)
