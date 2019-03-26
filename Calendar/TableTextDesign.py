@@ -1,5 +1,7 @@
 from TextDesign import TextDesign
 from TextWraper import wrap_text_with_font
+from Assets import defaultfontsize
+
 
 default_props = {
     "color" : "black",
@@ -9,7 +11,7 @@ default_props = {
 class TableTextDesign (TextDesign):
     """Gets a matrix with text that is than
     displayed in a table without borders."""
-    def __init__ (self, size, text_matrix, max_col_size = None, max_row_size = None, font = None, fontsize = 12, column_horizontal_alignments = [], mask = True, line_spacing = 0, col_spacing = 0, truncate_rows = True, truncate_cols = True, wrap = False, truncate_text=True, truncate_suffix="...", cell_properties=None, background_color = "white"):
+    def __init__ (self, size, text_matrix, max_col_size = None, max_row_size = None, font = None, fontsize = defaultfontsize, column_horizontal_alignments = [], mask = True, line_spacing = 0, col_spacing = 0, truncate_rows = True, truncate_cols = True, wrap = False, truncate_text=True, truncate_suffix="...", cell_properties=None, background_color = "white"):
         super(TableTextDesign, self).__init__(size, font=font, fontsize=fontsize, mask=mask)
         self.__init_image__(background_color)
         self.matrix = text_matrix
