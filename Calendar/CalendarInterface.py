@@ -98,8 +98,8 @@ class CalendarInterface (DataSourceInterface):
         end = start + duration
         occurrences = []
 
-        r_string=event.rrule
-        rule=rrulestr(r_string,dtstart=parse(str(event.begin_datetime)))
+        r_string=self.__add_timezoneawarness__(event.rrule)
+        rule=rrulestr(r_string,dtstart=event.begin_datetime)
         for occurrence in rule:
             if occurrence - end > timedelta(0):
                 return occurrences
@@ -114,3 +114,18 @@ class CalendarInterface (DataSourceInterface):
             event.end_datetime = start + event.duration
         
         return event
+
+    def __add_timezoneawarness__ (self, rrule):
+        if "UNTIL" not in rrule:
+            return rrule
+
+        timezone_str = "T000000Z"
+        until_example = "UNTIL=YYYYMMDD"
+
+        until_index = rrule.index("UNTIL")
+
+        tz_index = until_index + len(until_example)
+        if rrule[tz_index] is "T":
+            return rrule
+
+        return rrule[:tz_index] + timezone_str + rrule[tz_index:]
