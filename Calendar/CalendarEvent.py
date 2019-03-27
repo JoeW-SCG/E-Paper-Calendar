@@ -5,8 +5,6 @@ class CalendarEvent (object):
         self.end_datetime = None
         self.duration = None
         self.allday = None
-
-        self.rstart = None
         self.rrule = None
 
         self.title = None
