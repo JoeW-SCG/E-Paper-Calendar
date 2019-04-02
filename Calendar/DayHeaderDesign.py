@@ -62,9 +62,9 @@ class DayHeaderDesign (DesignEntity):
         box_xpos = numberbox_ypos * self.size[1]
         box_height = numberbox_height * self.size[1]
         padding = eventlist_padding * self.size[0]
-        month_height = weekday_height * self.size[1]
+        monthbox_height = month_height * self.size[1]
         weather_width = weathercolumn_y_size[0] * self.size[1]
-        pos = (box_xpos + box_height + padding, box_ypos + month_height + padding)
+        pos = (box_xpos + box_height + padding, box_ypos + monthbox_height + padding)
         size = (self.size[0] - pos[0] - weather_width, self.size[1] - pos[1] - box_ypos)
         fontsize = eventlist_y_fontsize * self.size[1]
 
