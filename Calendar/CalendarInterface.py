@@ -20,20 +20,22 @@ class CalendarInterface (DataSourceInterface):
     def get_upcoming_events (self, timespan = None):
         if timespan is None:
             timespan = timedelta(31)
-        return self.__get_events_in_range__(datetime.now(), timespan)
+        return self.__get_events_in_range__(datetime.now(timezone.utc), timespan)
 
     def get_today_events (self):
-        return self.get_day_events(datetime.now())
+        return self.get_day_events(datetime.today())
 
     def get_day_events (self, date):
-        day_start = datetime(date.year, date.month, date.day)
+        if type(date) is not type(date):
+            raise TypeError("get_day_events only takes date-objects as parameters, not \"%s\"" % str(type(date)))
+        day_start = datetime(date.year, date.month, date.day, 0, 0, 0, 0, timezone.utc)
         return self.__get_events_in_range__(day_start, timedelta(1))
 
     def get_month_events (self, month = -1):
         if month < 0:
             month = datetime.now().month
         
-        month_start = datetime(datetime.now().year, month, 1)
+        month_start = datetime(datetime.now().year, month, 1, 0, 0, 0, 0, timezone.utc)
         month_days = calendar.monthrange(month_start.year, month_start.month)[1]
         return self.__get_events_in_range__(month_start, timedelta(month_days))
 
@@ -54,7 +56,7 @@ class CalendarInterface (DataSourceInterface):
             return []
 
         if start.tzinfo is None:
-            start = start.replace(tzinfo=timezone.utc)
+            raise TypeError("start datetime needs to be timezone-aware")
 
         events_in_range = []
         for event in self.events:
