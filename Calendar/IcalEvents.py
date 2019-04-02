@@ -53,6 +53,8 @@ class IcalEvents(CalendarInterface):
                     cal_event.allday = event.all_day
                     cal_event.rrule = self.__extract_rrule__(event)
 
+                    cal_event.begin_datetime = cal_event.begin_datetime.astimezone(None)
+
                     if cal_event.allday:
                         cal_event.end_datetime =  cal_event.end_datetime - timedelta(1)
                         cal_event.duration = cal_event.duration - timedelta(1)
