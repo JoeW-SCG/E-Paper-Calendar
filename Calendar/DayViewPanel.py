@@ -39,7 +39,7 @@ class DayViewPanel (PanelDesign):
         self.__header__.pos = (0, 0)
 
     def __init_hourlist__ (self):
-        self.__hourlist__ = HourListDesign(self.__abs_co__(hourlist_size), datetime.now().hour)
+        self.__hourlist__ = HourListDesign(self.__abs_co__(hourlist_size), 6, 18)
         self.__hourlist__.pos = (0, self.__header__.size[1])
 
     def __add_allday_events__ (self, calendar):
