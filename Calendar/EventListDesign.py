@@ -52,7 +52,7 @@ class EventListDesign (DesignEntity):
         more_text = self.__get_more_text__()
         if additional_events_count > 0:
             self.__event_matrix__.append([ "", " + " + str(additional_events_count) + " " + more_text ])
-            self.__props_matrix__.append(self.__get_row_props__(event))
+            self.__props_matrix__.append(self.__get_row_props__())
 
     def __get_row_props__ (self, event = None):
         color = self.general_color
