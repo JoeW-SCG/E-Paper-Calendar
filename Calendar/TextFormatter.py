@@ -24,18 +24,21 @@ def event_prefix_str (event, relative_date=None):
 
     #Is multiday event
     if event.begin_datetime.day is not event.end_datetime.day or \
-        event.begin_datetime.month is not event.end_datetime.month:
+        event.begin_datetime.month is not event.end_datetime.month or \
+        event.begin_datetime.year is not event.end_datetime.year:
         return event_time_summary(event)
     
     #Relative to
     #First day
     if event.begin_datetime.day is relative_date.day and \
-        event.begin_datetime.month is relative_date.month:
+        event.begin_datetime.month is relative_date.month and \
+        event.begin_datetime.year is relative_date.year:
         return event_time_summary(event) + first_occurrence_char
 
     #Last day
     elif event.end_datetime.day is relative_date.day and \
-        event.end_datetime.month is relative_date.month:
+        event.end_datetime.month is relative_date.month and \
+        event.end_datetime.year is relative_date.year:
         event.begin_datetime = event.end_datetime
         return event_time_summary(event) + last_occurrence_char
 
