@@ -6,7 +6,7 @@ middle_occurrence_char = '|'
 last_occurrence_char = ']'
 multiday_begin_character = ' >'
 multiday_end_character = '< '
-until_character = '-'
+until_character = ' - '
 allday_character = "•"
 
 allday_lang = {
@@ -58,7 +58,7 @@ def event_prefix_str (event, relative_date=None):
     if __is_multiday__(event):
         return multiday_detailed
     else:
-        return event_time_summary(event)
+        return event_time_detailed(event)
 
 def event_time_summary (event):
     if event.allday:
