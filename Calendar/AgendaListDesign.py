@@ -31,6 +31,7 @@ class AgendaListDesign (DesignEntity):
 
     def __create_infos_events__ (self):
         self.infos = []
+        self.cell_props = []
         last_date = ""
         fetch_day = self.start_dt
         while len(self.infos) < self.__event_number__:
@@ -46,12 +47,13 @@ class AgendaListDesign (DesignEntity):
 
                 row.append(event_prefix_str(event, fetch_day))
                 row.append(event.title)
+                self.cell_props.append(self.__get_row_props__(event))
                 
                 self.infos.append(row)
             fetch_day = fetch_day + timedelta(1)
             
     def __draw_infos__ (self):
-        table = TableTextDesign(self.size, self.infos, fontsize = self.__date_fontsize__, line_spacing=self.__date_linespace__, col_spacing = self.col_spacing, truncate_cols = False)
+        table = TableTextDesign(self.size, self.infos, fontsize = self.__date_fontsize__, line_spacing=self.__date_linespace__, col_spacing = self.col_spacing, truncate_cols = False, cell_properties=self.cell_props)
         self.draw_design(table)
 
     def __draw_lines__ (self):
@@ -65,3 +67,18 @@ class AgendaListDesign (DesignEntity):
         positions = [ pos, (self.size[0], ypos) ]
 
         ImageDraw.Draw(self.__image__).line(positions, fill=colors["fg"], width=line_width)
+
+    def __get_row_props__ (self, event = None):
+        color = colors["fg"]
+        bg_color = colors["bg"]
+        default_cell = {
+            "color" : color,
+            "background_color" : bg_color
+        }
+        if event is not None and event.highlight:
+            color = colors["hl"]
+        cell = {
+            "color" : color,
+            "background_color" : bg_color
+        }
+        return [default_cell, default_cell, cell, cell ]
