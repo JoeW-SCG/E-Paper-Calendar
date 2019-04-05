@@ -7,7 +7,7 @@ from TextFormatter import date_str
 class EventListDesign (DesignEntity):
     """Creates a TableTextDesign filled with event
     begin date and title"""
-    def __init__ (self, size, events, text_size = defaultfontsize, line_spacing = 2, col_spacing = 10, event_prefix_func = None, font_family = None, general_color = colors["fg"], background_color = colors["bg"], highlight_color = colors["hl"], show_more_info = False):
+    def __init__ (self, size, events, text_size = defaultfontsize, line_spacing = 2, col_spacing = 10, event_prefix_rel_dates = [], event_prefix_func = None, font_family = None, general_color = colors["fg"], background_color = colors["bg"], highlight_color = colors["hl"], show_more_info = False):
         super(EventListDesign, self).__init__(size)
         self.events = events
         self.__event_matrix__ = []
@@ -21,8 +21,9 @@ class EventListDesign (DesignEntity):
         self.background_color = background_color
         self.highlight_color = highlight_color
         self.event_prefix_func = event_prefix_func
+        self.event_prefix_rel_dates = event_prefix_rel_dates
         if self.event_prefix_func is None:
-            self.event_prefix_func = lambda x : date_str(x.begin_datetime)
+            self.event_prefix_func = lambda x, y : date_str(x.begin_datetime)
 
     def __finish_image__ (self):
         self.visible_event_count = int(int(self.size[1] + self.line_spacing) // (self.line_spacing + int(self.text_size)))
@@ -32,16 +33,17 @@ class EventListDesign (DesignEntity):
         table_design = TableTextDesign(self.size, background_color = self.background_color, font=self.font_family, line_spacing=self.line_spacing, col_spacing=self.col_spacing, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False, cell_properties=self.__props_matrix__)
         self.draw_design(table_design)
     
-    def __get_formatted_event__ (self, event):
-        prefix = self.event_prefix_func(event)
+    def __get_formatted_event__ (self, event, index):
+        rel_date = None if index < 0 or index >= len(self.event_prefix_rel_dates) else self.event_prefix_rel_dates[index]
+        prefix = self.event_prefix_func(event, rel_date)
         return [ prefix, event.title ]
     
     def __fill_event_matrix__ (self):
         visible_events = self.events
         if self.show_more_info and len(visible_events) > self.visible_event_count:
             visible_events = visible_events[:self.visible_event_count - 1]
-        for event in visible_events:
-            row = self.__get_formatted_event__(event)
+        for i, event in enumerate(visible_events):
+            row = self.__get_formatted_event__(event, i)
             self.__event_matrix__.append(row)
             self.__props_matrix__.append(self.__get_row_props__(event))
 
