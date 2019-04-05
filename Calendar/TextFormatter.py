@@ -4,13 +4,22 @@ from datetime import timedelta, datetime, timezone
 first_occurrence_char = '['
 middle_occurrence_char = '|'
 last_occurrence_char = ']'
+multiday_begin_character = ' >'
+multiday_end_character = '< '
 until_character = '-'
+allday_character = "•"
 
 allday_lang = {
     "en" : "All day",
     "de" : "Ganztägig"
 }
 allday_detailed = allday_lang[language]
+
+multiday_lang = {
+    "en" : "Multi-day",
+    "de" : "Mehrtägig"
+}
+multiday_detailed = multiday_lang[language]
 
 def time_str (dt):
     if hours is "12":
@@ -20,7 +29,7 @@ def time_str (dt):
     else:
         return str(dt)
 
-def event_prefix_str (event, relative_date=None):
+def event_prefix_str_md_dif (event, relative_date=None):
     if relative_date is None:
         relative_date = event.begin_datetime.date()
 
@@ -30,21 +39,30 @@ def event_prefix_str (event, relative_date=None):
     #Relative to
     #First day
     elif __equal__(event.begin_datetime, relative_date):
-        return event_time_summary(event) + until_character
+        return event_time_summary(event) + multiday_begin_character
 
     #Last day
     elif __equal__(event.end_datetime, relative_date) or \
         (__day_duration__(event.end_datetime) == timedelta(0) and __equal__(relative_date + timedelta(1), event.end_datetime)):
-        return until_character + event_time_summary(event)
+        return multiday_end_character + event_time_summary(event)
 
     #Some day
     else:
         event.allday = True
-        return until_character + event_time_summary(event) + until_character
+        return multiday_end_character + event_time_summary(event) + multiday_begin_character
+
+def event_prefix_str (event, relative_date=None):
+    if relative_date is None:
+        relative_date = event.begin_datetime.date()
+
+    if __is_multiday__(event):
+        return multiday_detailed
+    else:
+        return event_time_summary(event)
 
 def event_time_summary (event):
     if event.allday:
-        return "•"
+        return allday_character
     else:
         return time_str(event.begin_datetime)
 
@@ -63,7 +81,13 @@ def remove_leading_zero (text):
         return text
 
 def date_summary_str(dt):
-    return dt.strftime('%a %d. %b')
+    day = remove_leading_zero(dt.strftime("%d"))
+    if language is "en":
+        return dt.strftime('%a ' + day + '. %b')
+    elif language is "de":
+        return dt.strftime(day + '. %b., %a')
+    else:
+        return dt.strftime('%a ' + day + '. %b')
 
 def __is_multiday__ (event):
     if event.allday and event.duration == timedelta(1):
