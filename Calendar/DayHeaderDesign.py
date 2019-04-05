@@ -65,7 +65,8 @@ class DayHeaderDesign (DesignEntity):
         size = (self.size[0] - pos[0] - weather_width, self.size[1] - pos[1] - box_ypos)
         fontsize = eventlist_y_fontsize * self.size[1]
 
-        event_list = SingelDayEventListDesign(size, events, fontsize)
+        rel_dates = [self.date for _ in range(len(events))]
+        event_list = SingelDayEventListDesign(size, events, fontsize, event_prefix_rel_dates = rel_dates)
         event_list.pos = pos
         self.draw_design(event_list)
 

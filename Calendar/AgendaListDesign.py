@@ -3,7 +3,7 @@ from Assets import defaultfontsize, colors
 from datetime import datetime, date, timedelta
 from TableTextDesign import TableTextDesign
 from PIL import ImageDraw
-from TextFormatter import date_summary_str, event_time_detailed
+from TextFormatter import date_summary_str, event_prefix_str
 
 line_width = 1
 
@@ -44,7 +44,7 @@ class AgendaListDesign (DesignEntity):
                 else:
                     row.append("")
 
-                row.append(event_time_detailed(event))
+                row.append(event_prefix_str(event, fetch_day))
                 row.append(event.title)
                 
                 self.infos.append(row)

@@ -46,9 +46,10 @@ class DayRowDesign (DesignEntity):
         pos = (number_width + eventlist_xpadding, ypos)
         size = (self.size[0] - pos[0] - weather_width, self.size[1] - pos[1])
         fontsize = eventlist_y_fontsize * self.size[1]
-
+        
         events = calendar.get_day_events(self.date)
-        event_list = SingelDayEventListDesign(size, events, fontsize, line_spacing=0)
+        rel_dates = [self.date for _ in range(len(events))]
+        event_list = SingelDayEventListDesign(size, events, fontsize, line_spacing=0, event_prefix_rel_dates = rel_dates)
         event_list.pos = pos
         self.draw_design(event_list)
 
