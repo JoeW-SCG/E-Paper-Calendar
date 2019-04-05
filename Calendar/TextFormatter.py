@@ -57,7 +57,7 @@ def event_time_detailed (event):
         return time_str(event.begin_datetime) + " - " + time_str(event.end_datetime)
 
 def date_str(dt):
-    return __remove_leading_zero__(dt.strftime('%d. %b'))
+    return remove_leading_zero(dt.strftime('%d. %b'))
 
 def remove_leading_zero (text):
         while text[0] is '0':
