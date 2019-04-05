@@ -34,7 +34,7 @@ class MonthBlockDesign (DesignEntity):
         if self.highlight_today:
             self.__draw_highlight_box__(self.__abs_pos__(dayhighlightboxsize), self.__get_today_box_pos__(), width=3)
 
-    def __draw_highlight_box__ (self, size, pos, color='black', width=1):
+    def __draw_highlight_box__ (self, size, pos, color=colors["fg"], width=1):
         design = BoxDesign(size, outline=color, width = width)
         design.pos = pos
         self.draw_design(design)

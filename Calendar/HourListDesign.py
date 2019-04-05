@@ -2,6 +2,7 @@ from DesignEntity import DesignEntity
 from settings import hours, language
 from TextDesign import TextDesign
 from PIL import ImageDraw
+from Assets import colors
 
 hourbox_y_width = 1
 hour_box_fontsize = 0.75
@@ -12,13 +13,10 @@ line_thickness = 1
 class HourListDesign (DesignEntity):
     """Hours of a day are listed vertically and
     resemble a timeline."""
-    def __init__ (self, size, first_hour = 0, last_hour = 23, background_color="white", general_color="black", highlight_color="red"):
+    def __init__ (self, size, first_hour = 0, last_hour = 23):
         super(HourListDesign, self).__init__(size)
         self.first_hour = first_hour
         self.last_hour = last_hour
-        self.bg_color = background_color
-        self.color = general_color
-        self.highlight_color = highlight_color
         self.__calc_metrics__()
 
     def add_events (self, events):
@@ -72,7 +70,7 @@ class HourListDesign (DesignEntity):
             ypos = i * self.__row_size__[1]
             line_start = (0, ypos)
             line_end = (self.size[0], ypos)
-            ImageDraw.Draw(self.__image__).line([line_start, line_end], fill=self.color, width=line_thickness)
+            ImageDraw.Draw(self.__image__).line([line_start, line_end], fill=colors["fg"], width=line_thickness)
 
     def __get_hour_sub_text__(self, hour):
         if language is "de":

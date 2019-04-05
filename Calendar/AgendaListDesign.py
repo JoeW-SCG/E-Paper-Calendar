@@ -1,11 +1,10 @@
 from DesignEntity import DesignEntity
-from Assets import defaultfontsize
+from Assets import defaultfontsize, colors
 from datetime import datetime, date, timedelta
 from TableTextDesign import TableTextDesign
 from PIL import ImageDraw
 from TextFormatter import date_summary_str, event_time_detailed
 
-line_color = "black"
 line_width = 1
 
 class AgendaListDesign (DesignEntity):
@@ -65,4 +64,4 @@ class AgendaListDesign (DesignEntity):
         pos = (0, ypos)
         positions = [ pos, (self.size[0], ypos) ]
 
-        ImageDraw.Draw(self.__image__).line(positions, fill=line_color, width=line_width)
+        ImageDraw.Draw(self.__image__).line(positions, fill=colors["fg"], width=line_width)

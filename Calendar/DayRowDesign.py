@@ -3,7 +3,7 @@ from TextDesign import TextDesign
 from settings import week_starts_on, owm_paid_subscription
 from DesignEntity import DesignEntity
 from datetime import datetime
-from Assets import weathericons, wpath, fonts
+from Assets import weathericons, wpath, fonts, colors
 from SingelDayEventListDesign import SingelDayEventListDesign
 
 daynumber_y_size = (1, 0.65)
@@ -17,16 +17,13 @@ eventlist_xpadding = 5
 eventlist_ypos = 0.1
 eventlist_y_fontsize = 0.2
 
-general_text_color = "black"
-highlight_text_color = "red"
-background_color = "white"
 font = fonts["regular"]
 
 class DayRowDesign (DesignEntity):
     """Detailed view of a given date."""
     def __init__ (self, size, date):
         super(DayRowDesign, self).__init__(size)
-        self.__init_image__(color=background_color)
+        self.__init_image__()
         self.date = date
 
     def add_weather (self, weather):
@@ -51,7 +48,7 @@ class DayRowDesign (DesignEntity):
         fontsize = eventlist_y_fontsize * self.size[1]
 
         events = calendar.get_day_events(self.date)
-        event_list = SingelDayEventListDesign(size, events, fontsize, line_spacing=0, general_color=general_text_color, background_color=background_color, highlight_color=highlight_text_color)
+        event_list = SingelDayEventListDesign(size, events, fontsize, line_spacing=0)
         event_list.pos = pos
         self.draw_design(event_list)
 
@@ -82,7 +79,7 @@ class DayRowDesign (DesignEntity):
         color = self.__get_day_color__()
         week_day_name = self.date.strftime("%a")
         
-        week_day = TextDesign(size, text=week_day_name, font=font, background_color=background_color, color=color, fontsize=font_size, horizontalalignment="center", verticalalignment="top")
+        week_day = TextDesign(size, text=week_day_name, font=font, color=color, fontsize=font_size, horizontalalignment="center", verticalalignment="top")
         week_day.pos = pos
         self.draw_design(week_day)
 
@@ -94,7 +91,7 @@ class DayRowDesign (DesignEntity):
         day_text = self.__get_day_text__()
         color = self.__get_day_color__()
 
-        number = TextDesign(size, text=day_text, font=font, background_color=background_color, color=color, fontsize=font_size, horizontalalignment="center", verticalalignment="bottom")
+        number = TextDesign(size, text=day_text, font=font, color=color, fontsize=font_size, horizontalalignment="center", verticalalignment="bottom")
         number.pos = pos
         self.draw_design(number)
 
@@ -107,8 +104,8 @@ class DayRowDesign (DesignEntity):
     def __get_day_color__ (self):
         """Depending on week_starts_on"""
         if week_starts_on == "Monday" and self.date.strftime("%w") == "0":
-            return highlight_text_color
+            return colors["hl"]
         elif week_starts_on == "Sunday" and self.date.strftime("%w") == "6":
-            return highlight_text_color
+            return colors["hl"]
         else:
-            return general_text_color
+            return colors["fg"]

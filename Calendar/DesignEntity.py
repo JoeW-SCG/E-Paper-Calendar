@@ -1,4 +1,5 @@
 from PIL import Image, ImageOps, ImageDraw
+from Assets import colors
 
 masking_threshold = 100
 
@@ -14,7 +15,7 @@ class DesignEntity (object):
         self.__finished_image__ = False
         self.color_key = color_key
 
-    def __init_image__ (self, color = 'white'):
+    def __init_image__ (self, color = colors["bg"]):
         rounded_size = (int(self.size[0]),int(self.size[1]))
         self.__image__ = Image.new('RGB', rounded_size, color=color)
 

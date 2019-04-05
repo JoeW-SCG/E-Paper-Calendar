@@ -1,13 +1,13 @@
 from DesignEntity import DesignEntity
 from TableTextDesign import TableTextDesign
 from settings import language
-from Assets import defaultfontsize
+from Assets import defaultfontsize, colors
 from TextFormatter import date_str
 
 class EventListDesign (DesignEntity):
     """Creates a TableTextDesign filled with event
     begin date and title"""
-    def __init__ (self, size, events, text_size = defaultfontsize, line_spacing = 2, col_spacing = 10, event_prefix_func = None, font_family = None, general_color = "black", background_color = "white", highlight_color = "red", show_more_info = False):
+    def __init__ (self, size, events, text_size = defaultfontsize, line_spacing = 2, col_spacing = 10, event_prefix_func = None, font_family = None, general_color = colors["fg"], background_color = colors["bg"], highlight_color = colors["hl"], show_more_info = False):
         super(EventListDesign, self).__init__(size)
         self.events = events
         self.__event_matrix__ = []

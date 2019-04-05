@@ -11,7 +11,6 @@ from RssPostListDesign import RssPostListDesign
 
 todayheader_pos = (0,0)
 todayheader_size = (1,0.25)
-line_color = "black"
 lines_thickness = 1
 infoarea_replacedrowscount = 3
 
@@ -100,7 +99,7 @@ class DayListPanel (PanelDesign):
         for ypos in positions:
             line_start = (0, ypos)
             line_end = (self.size[0], ypos)
-            ImageDraw.Draw(self.__image__).line([line_start, line_end], fill=line_color, width=lines_thickness)
+            ImageDraw.Draw(self.__image__).line([line_start, line_end], fill=colors["fg"], width=lines_thickness)
 
     def __finish_image__(self):
         for design in self.__day_rows__:

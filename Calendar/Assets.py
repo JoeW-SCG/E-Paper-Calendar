@@ -43,3 +43,9 @@ weathericons = {
 '09n': 'wi-night-showers', '10n':'wi-night-rain',
 '11n':'wi-night-thunderstorm', '13n':'wi-night-snow',
 '50n': 'wi-night-alt-cloudy-windy'}
+
+colors = {
+    "hl" : "red",
+    "fg" : "black",
+    "bg" : "white"
+}

@@ -1,7 +1,7 @@
 from DesignEntity import DesignEntity
 from TextDesign import TextDesign
 from TableTextDesign import TableTextDesign
-from Assets import wpath, weathericons, tempicon, humicon, windicon, no_response
+from Assets import wpath, weathericons, tempicon, humicon, windicon, no_response, colors
 from PIL import Image
 from settings import hours
 
@@ -14,9 +14,6 @@ fontsize_y = 0.1
 numbers_x_ypos = icon_x_ypos + icon_width + info_x_height + 0.2
 numbers_x_ypadding = 0.05
 max_symbol_y_width = 0.15
-
-general_text_color = "black"
-background_color = "white"
 
 class WeatherColumnDesign (DesignEntity):
     """Displays weather information in a column"""

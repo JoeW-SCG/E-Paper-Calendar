@@ -4,7 +4,7 @@ from TextDesign import TextDesign
 from WeatherColumnDesign import WeatherColumnDesign
 from datetime import date, timedelta, datetime
 from SingelDayEventListDesign import SingelDayEventListDesign
-from Assets import fonts
+from Assets import fonts, colors
 
 numberbox_ypos = 0.15
 numberbox_height = 1 - 2 * numberbox_ypos
@@ -18,18 +18,15 @@ weathercolumn_y_size = (0.4, 1)
 eventlist_y_fontsize = 0.093
 eventlist_padding = monthbox_xpadding
 
-numberbox_font_color = "white"
-numberbox_background_color = "red"
-general_text_color = "black"
-background_color = "white"
-highlight_color = "red"
+numberbox_font_color = colors["bg"]
+numberbox_background_color = colors["hl"]
 weekday_font = fonts["bold"]
 
 class DayHeaderDesign (DesignEntity):
     """Detailed and big view of a given date."""
     def __init__ (self, size, date):
         super(DayHeaderDesign, self).__init__(size)
-        self.__init_image__(color=background_color)
+        self.__init_image__()
         self.date = date
 
     def add_weather (self, weather):
@@ -68,7 +65,7 @@ class DayHeaderDesign (DesignEntity):
         size = (self.size[0] - pos[0] - weather_width, self.size[1] - pos[1] - box_ypos)
         fontsize = eventlist_y_fontsize * self.size[1]
 
-        event_list = SingelDayEventListDesign(size, events, fontsize, general_color=general_text_color, background_color=background_color, highlight_color=highlight_color)
+        event_list = SingelDayEventListDesign(size, events, fontsize)
         event_list.pos = pos
         self.draw_design(event_list)
 
@@ -95,7 +92,7 @@ class DayHeaderDesign (DesignEntity):
         box_size = (int(monthbox_width * self.size[0]), box_height)
         
         month_name = self.date.strftime("%B")
-        month = TextDesign(box_size, text=month_name, fontsize=font_size, color=general_text_color, background_color=background_color)
+        month = TextDesign(box_size, text=month_name, fontsize=font_size)
         month.pos = box_pos
         self.draw_design(month)
 

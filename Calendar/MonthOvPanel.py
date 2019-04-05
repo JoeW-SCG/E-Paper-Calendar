@@ -126,12 +126,12 @@ class MonthOvPanel (PanelDesign):
         posx, posy = self.__abs_pos__(weekdayrowpos)
         return (int(posx + day_of_week * partialwidth), int(posy))
 
-    def __draw_highlight_box__ (self, size, pos, color = 'black', width = 1):
+    def __draw_highlight_box__ (self, size, pos, color = colors["fg"], width = 1):
         design = BoxDesign(size, outline=color, width = width)
         design.pos = pos
         self.draw_design(design)
 
-    def __draw_highlight_circle__ (self, size, pos, color = 'black', width = 1):
+    def __draw_highlight_circle__ (self, size, pos, color = colors["fg"], width = 1):
         design = EllipseDesign(size, outline=color, width = width)
         design.pos = pos
         self.draw_design(design)
