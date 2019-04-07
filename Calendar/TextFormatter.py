@@ -8,6 +8,7 @@ multiday_begin_character = ' >'
 multiday_end_character = '< '
 until_character = ' - '
 allday_character = "•"
+multiday_character = allday_character + allday_character
 
 allday_lang = {
     "en" : "All day",
@@ -59,6 +60,15 @@ def event_prefix_str (event, relative_date=None):
         return multiday_detailed
     else:
         return event_time_detailed(event)
+
+def event_prefix_str_sum (event, relative_date=None):
+    if relative_date is None:
+        relative_date = event.begin_datetime.date()
+
+    if __is_multiday__(event):
+        return multiday_character
+    else:
+        return event_time_summary(event)
 
 def event_time_summary (event):
     if event.allday:
