@@ -11,26 +11,30 @@ from EllipseDesign import EllipseDesign
 from MonthBlockDesign import MonthBlockDesign, daynumberboxsize
 from EventListDesign import EventListDesign
 from RssPostListDesign import RssPostListDesign
+from settings import general_settings
 
+weatherheadersize = (1,0.113)
 monthtextsize = 40
 monthovsize = (1, 0.5)
-monthovposition = (0, 0.23)
-weatherheadersize = (1,0.113)
+monthovposition = (0, 0.23 - weatherheadersize[1])
 seperatorplace = (0, 0.113)
-monthplace = (0, 0.12)
+monthplace = (0, 0.12 - weatherheadersize[1])
 monthboxsize = (1, 0.085)
-weekdayrowpos = (0, 0.209)
+weekdayrowpos = (0, 0.209 - weatherheadersize[1])
 weekrowboxsize = (1, 0.044)
 weekdaytextsize = 18
 weekrownameboxsize = (0.143, 0.044)
 eventcirclehorizontalsize = 0.100
-infolistsize = (1, 0.77)
+infolistsize = (1, 0.77 + weatherheadersize[1])
 
 class MonthOvPanel (PanelDesign):
     """Overview that focuses on the current month and
     some additional information in the bottom."""
     def __init__ (self, size):
         super(MonthOvPanel, self).__init__(size)
+        self.weather_header_height = 0
+        if general_settings["weather-info"]:
+            self.weather_header_height = self.size[1] * weatherheadersize[1]
         self.__first_render__()
 
     def __first_render__ (self):
@@ -41,14 +45,20 @@ class MonthOvPanel (PanelDesign):
         self.__week_days__ = self.__get_week_days_ordered__()
 
         self.__draw_month_name__()
-        self.__draw_seperator__()
         self.__draw_week_row__()
 
+        if general_settings["weather-info"]:
+            self.__draw_seperator__()
+
         self.month_block = MonthBlockDesign(self.__abs_pos__(monthovsize), datetime.now(), highlight_today = True)
-        self.month_block.pos = self.__abs_pos__(monthovposition)
+        pos = self.__abs_pos__(monthovposition)
+        pos = (pos[0], pos[1] + self.weather_header_height)
+        self.month_block.pos = pos
         self.draw_design(self.month_block)
 
     def add_weather (self, weather):
+        if general_settings["weather-info"] == False:
+            return
         self.draw_design(WeatherHeaderDesign(self.__abs_pos__(weatherheadersize), weather))
 
     def add_rssfeed (self, rss):
@@ -68,20 +78,20 @@ class MonthOvPanel (PanelDesign):
         month_pos = self.__abs_pos__(monthovposition)
         month_height = self.month_block.get_real_height()
         size = self.__abs_pos__(infolistsize)
-        size = (size[0], size[1] - month_height)
+        size = (size[0], size[1] - month_height - self.weather_header_height)
         info_list = RssPostListDesign(size, rss)
-        info_list.pos = (int(month_pos[0]), int(month_pos[1] + month_height))
+        info_list.pos = (int(month_pos[0]), int(month_pos[1] + month_height + self.weather_header_height))
         self.draw_design(info_list)
 
     def __draw_event_list_to_bottom__ (self, calendar):
         month_pos = self.__abs_pos__(monthovposition)
         month_height = self.month_block.get_real_height()
         size = self.__abs_pos__(infolistsize)
-        size = (size[0], size[1] - month_height)
+        size = (size[0], size[1] - month_height - self.weather_header_height)
 
         events = calendar.get_upcoming_events()
         info_list = EventListDesign(size, events)
-        info_list.pos = (int(month_pos[0] + infolisthorizontalpos * self.size[0]), int(month_pos[1] + month_height))
+        info_list.pos = (int(month_pos[0]), int(month_pos[1] + month_height + self.weather_header_height))
         self.draw_design(info_list)
 
     def __draw_highlight_event_day__ (self, date):
@@ -90,7 +100,7 @@ class MonthOvPanel (PanelDesign):
 
         side_length = int(eventcirclehorizontalsize * self.size[0])
         circle_size = (side_length,side_length)
-        pos = self.month_block.get_day_pos(cur_date.isocalendar()[1] - first_month_week, self.__get_day_of_week__(cur_date), rel_pos = self.__abs_pos__(monthovposition))
+        pos = self.month_block.get_day_pos(cur_date.isocalendar()[1] - first_month_week, self.__get_day_of_week__(cur_date), rel_pos = self.month_block.pos)
         place_size = (self.month_block.size[0] * daynumberboxsize[0], self.month_block.size[1] * daynumberboxsize[1])
         pos = (int(pos[0] + (place_size[0] - circle_size[0]) / 2), int(pos[1] + (place_size[1] - circle_size[1]) / 2))
         self.__draw_highlight_circle__(circle_size, pos, 'red', width=2)
@@ -108,7 +118,8 @@ class MonthOvPanel (PanelDesign):
         """Draw the icon with the current month's name"""
         month = datetime.now().strftime("%B")
         txt = TextDesign(self.__abs_pos__(monthboxsize), fontsize=monthtextsize, text=month, verticalalignment="center", horizontalalignment="center")
-        txt.pos = self.__abs_pos__(monthplace)
+        pos = self.__abs_pos__(monthplace)
+        txt.pos = (pos[0], pos[1] + self.weather_header_height)
         self.draw_design(txt)
 
     def __draw_week_row__ (self):
@@ -123,7 +134,7 @@ class MonthOvPanel (PanelDesign):
         maxwidth, _ = self.__abs_pos__(monthovsize)
         partialwidth = maxwidth / 7
         posx, posy = self.__abs_pos__(weekdayrowpos)
-        return (int(posx + day_of_week * partialwidth), int(posy))
+        return (int(posx + day_of_week * partialwidth), int(posy + self.weather_header_height))
 
     def __draw_highlight_box__ (self, size, pos, color = colors["fg"], width = 1):
         design = BoxDesign(size, outline=color, width = width)
