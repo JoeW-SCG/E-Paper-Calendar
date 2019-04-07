@@ -8,7 +8,7 @@ from RssPostListDesign import RssPostListDesign
 
 agenda_ypadding = 5
 weatherheader_height = 0.113
-seperator_width = 1
+seperator_width = 3
 infolist_size = (1, 0.24)
 infolist_padding = 5
 
