@@ -53,7 +53,7 @@ class TableTextDesign (TextDesign):
                     col_sizes[c] = row_col_size
         
         for index, size in enumerate(col_sizes):
-            preceding_size = sum(col_sizes[:index])
+            preceding_size = sum(col_sizes[:index]) + index * self.col_spacing
             if preceding_size + size > self.size[0]:
                 col_sizes[index] = self.size[0] - preceding_size
                 break

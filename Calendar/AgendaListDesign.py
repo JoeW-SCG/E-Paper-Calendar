@@ -53,7 +53,7 @@ class AgendaListDesign (DesignEntity):
             fetch_day = fetch_day + timedelta(1)
             
     def __draw_infos__ (self):
-        table = TableTextDesign(self.size, self.infos, fontsize = self.__date_fontsize__, line_spacing=self.__date_linespace__, col_spacing = self.col_spacing, truncate_cols = False, cell_properties=self.cell_props)
+        table = TableTextDesign(self.size, self.infos, fontsize = self.__date_fontsize__, line_spacing=self.__date_linespace__, col_spacing = self.col_spacing, cell_properties=self.cell_props)
         self.draw_design(table)
 
     def __draw_lines__ (self):
