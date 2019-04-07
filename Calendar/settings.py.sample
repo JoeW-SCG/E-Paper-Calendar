@@ -27,7 +27,8 @@ font_boldness = "semibold"   # extralight, light, regular, semibold, bold, extra
 choosen_design = "month-overview" # month-overview, day-list, day-view, agenda-list
 general_settings = {    # General settings that designs may use
     "info-area" : "rss",    # empty, events, rss
-    "highlight-event-days" : True
+    "highlight-event-days" : True,
+	"weather-info" : True
 }
 
 
