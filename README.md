@@ -12,10 +12,11 @@ This software fully supports the 3-Colour **and** 2-Colour version of the 7.5" E
 * **Added Support for the 2-Colour E-Paper Display as well!** (Late September 2018)
 * **Added Support for Raspbian Stretch lite.** (Late September 2018)
 
-<img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/day-list_example.png" width="400"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/month-overview_example.png" width="400">
+<img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/day-list_example.png" width="400"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/month-overview_example.png" width="400"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/agenda-list_example.png" width="400">
 
-Left: Day-List Panel                                           
-Right: Month-Overview Panel
+1.: Day-List Panel                                           
+2.: Month-Overview Panel                                    
+3.: Agenda-List Panel
 
 ## Main features
 * Display the date and a full monthly calendar or a list of today and the next days
