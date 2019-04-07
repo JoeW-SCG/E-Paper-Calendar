@@ -20,7 +20,7 @@ class RssPostListDesign (DesignEntity):
     def __get_formatted_post__ (self, post):
         date = post.datetime.strftime('%d %b')
         date = self.__remove_leading_zero__(date)
-        return [ '•', post.title ]
+        return [ '', '•', post.title ]
 
     def __remove_leading_zero__(self, text):
         while text[0] is '0':

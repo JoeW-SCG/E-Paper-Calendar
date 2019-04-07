@@ -24,7 +24,6 @@ weekrowboxsize = (1, 0.044)
 weekdaytextsize = 18
 weekrownameboxsize = (0.143, 0.044)
 eventcirclehorizontalsize = 0.100
-infolisthorizontalpos = 0.008
 infolistsize = (1, 0.77)
 
 class MonthOvPanel (PanelDesign):
@@ -71,7 +70,7 @@ class MonthOvPanel (PanelDesign):
         size = self.__abs_pos__(infolistsize)
         size = (size[0], size[1] - month_height)
         info_list = RssPostListDesign(size, rss)
-        info_list.pos = (int(month_pos[0] + infolisthorizontalpos * self.size[0]), int(month_pos[1] + month_height))
+        info_list.pos = (int(month_pos[0]), int(month_pos[1] + month_height))
         self.draw_design(info_list)
 
     def __draw_event_list_to_bottom__ (self, calendar):
