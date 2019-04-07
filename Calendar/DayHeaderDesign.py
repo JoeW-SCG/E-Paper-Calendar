@@ -5,6 +5,7 @@ from WeatherColumnDesign import WeatherColumnDesign
 from datetime import date, timedelta, datetime
 from SingelDayEventListDesign import SingelDayEventListDesign
 from Assets import fonts, colors
+from settings import general_settings
 
 numberbox_ypos = 0.15
 numberbox_height = 1 - 2 * numberbox_ypos
@@ -26,12 +27,16 @@ class DayHeaderDesign (DesignEntity):
     """Detailed and big view of a given date."""
     def __init__ (self, size, date):
         super(DayHeaderDesign, self).__init__(size)
-        self.__init_image__()
+        self.weather_column_width = 0
         self.date = date
 
     def add_weather (self, weather):
+        if general_settings["weather-info"] == False:
+            return
+
         forecast = weather.get_forecast_in_days(self.date.day - date.today().day)
-        size = (weathercolumn_y_size[0] * self.size[1], weathercolumn_y_size[1] * self.size[1])
+        self.weather_column_width = weathercolumn_y_size[0] * self.size[1]
+        size = (self.weather_column_width, weathercolumn_y_size[1] * self.size[1])
         pos = (self.size[0] - size[0], 0)
 
         design = WeatherColumnDesign(size, forecast)
@@ -60,9 +65,8 @@ class DayHeaderDesign (DesignEntity):
         box_height = numberbox_height * self.size[1]
         padding = eventlist_padding * self.size[0]
         monthbox_height = month_height * self.size[1]
-        weather_width = weathercolumn_y_size[0] * self.size[1]
         pos = (box_xpos + box_height + padding, box_ypos + monthbox_height + padding)
-        size = (self.size[0] - pos[0] - weather_width, self.size[1] - pos[1] - box_ypos)
+        size = (self.size[0] - pos[0] - self.weather_column_width, self.size[1] - pos[1] - box_ypos)
         fontsize = eventlist_y_fontsize * self.size[1]
 
         rel_dates = [self.date for _ in range(len(events))]
