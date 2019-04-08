@@ -21,8 +21,9 @@ class DayViewPanel (PanelDesign):
         self.__header__.add_weather(weather)
 
     def add_calendar (self, calendar):
-        self.__add_allday_events__(calendar)
-        self.__add_timed_events__(calendar)
+        allday_ev, timed_ev = self.__split_events__(calendar.get_today_events())
+        self.__header__.add_events(allday_ev)
+        self.__hourlist__.add_events(timed_ev)
 
     def add_rssfeed (self, rss):
         pass
@@ -42,13 +43,33 @@ class DayViewPanel (PanelDesign):
         self.__hourlist__ = HourListDesign(self.__abs_co__(hourlist_size), 6, 18)
         self.__hourlist__.pos = (0, self.__header__.size[1])
 
-    def __add_allday_events__ (self, calendar):
-        allday_events = [event for event in calendar.get_today_events() if event.allday]
-        self.__header__.add_events(allday_events)
-
-    def __add_timed_events__ (self, calendar):
-        timed_events = [event for event in calendar.get_today_events() if event.allday is False]
-        self.__hourlist__.add_events(timed_events)
-
     def __abs_co__ (self, coordinates):
         return (int(coordinates[0] * self.size[0]),int(coordinates[1] * self.size[1]))
+
+    def __split_events__ (self, events):
+        allday_ev = []
+        timed_ev = []
+
+        for event in events:
+            if event.allday:
+                allday_ev.append(event)
+            elif event.multiday:
+                if self.__is_today__(event.begin_datetime):
+                    today = date.today()
+                    event.end_datetime = datetime(today.year, today.month, today.day) + timedelta(1)
+                    allday_ev.append(event)
+                elif self.__is_today__(event.end_datetime):
+                    today = date.today()
+                    event.begin_datetime = datetime(today.year, today.month, today.day)
+                    allday_ev.append(event)
+                else:
+                    allday_ev.append(event)
+            else:
+                timed_ev.append(event)
+        return allday_ev, timed_ev
+
+    def __is_today__ (self, dt):
+        today = date.today()
+        return dt.day == today.day and \
+            dt.month == today.month and \
+            dt.year == today.year
