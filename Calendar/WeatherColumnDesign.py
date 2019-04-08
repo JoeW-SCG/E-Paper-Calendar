@@ -1,7 +1,7 @@
 from DesignEntity import DesignEntity
 from TextDesign import TextDesign
 from TableTextDesign import TableTextDesign
-from Assets import wpath, weathericons, tempicon, humicon, windicon, no_response, colors
+from Assets import wpath, weathericons, tempicon, humicon, windicon, no_response, colors, defaultfontsize
 from PIL import Image
 from settings import hours
 
@@ -10,7 +10,7 @@ icon_x_ypos = 0
 icon_width = 1 - 2 * icon_xpos
 info_x_height = icon_width * 0.3
 info_x_ypos = icon_x_ypos + icon_width
-fontsize_y = 0.1
+fontsize_static = defaultfontsize
 numbers_x_ypos = icon_x_ypos + icon_width + info_x_height + 0.2
 numbers_x_ypadding = 0.05
 max_symbol_y_width = 0.15
@@ -36,7 +36,7 @@ class WeatherColumnDesign (DesignEntity):
         size = (self.size[0], height)
         pos = (0, ypos)
 
-        txt = TextDesign(size, text=info, fontsize=height, horizontalalignment="center")
+        txt = TextDesign(size, text=info, fontsize=fontsize_static, horizontalalignment="center")
         txt.pos = pos
         self.draw_design(txt)
 
@@ -51,7 +51,7 @@ class WeatherColumnDesign (DesignEntity):
                         [ humidity ],
                         [ windspeed ] ]
 
-        fontsize = fontsize_y * self.size[1]
+        fontsize = fontsize_static
         ypos = numbers_x_ypos * self.size[0]
         pos = (0, ypos)
         size = (self.size[0], self.size[1] - pos[1])

@@ -4,7 +4,7 @@ from TextDesign import TextDesign
 from WeatherColumnDesign import WeatherColumnDesign
 from datetime import date, timedelta, datetime
 from SingelDayEventListDesign import SingelDayEventListDesign
-from Assets import fonts, colors
+from Assets import fonts, colors, defaultfontsize
 from settings import general_settings
 
 numberbox_ypos = 0.15
@@ -16,7 +16,7 @@ monthbox_width = 1 - numberbox_ypos - monthbox_xpadding
 weekday_height = numberbox_height * 0.19
 weekday_ypadding = 0.02
 weathercolumn_y_size = (0.4, 1)
-eventlist_y_fontsize = 0.093
+eventlist_static_fontsize = defaultfontsize
 eventlist_padding = monthbox_xpadding
 
 numberbox_font_color = colors["bg"]
@@ -67,7 +67,7 @@ class DayHeaderDesign (DesignEntity):
         monthbox_height = month_height * self.size[1]
         pos = (box_xpos + box_height + padding, box_ypos + monthbox_height + padding)
         size = (self.size[0] - pos[0] - self.weather_column_width, self.size[1] - pos[1] - box_ypos)
-        fontsize = eventlist_y_fontsize * self.size[1]
+        fontsize = eventlist_static_fontsize
 
         rel_dates = [self.date for _ in range(len(events))]
         event_list = SingelDayEventListDesign(size, events, fontsize, event_prefix_rel_dates = rel_dates)
