@@ -1,6 +1,6 @@
 from DesignEntity import DesignEntity
 from PIL import ImageFont, ImageDraw, ImageOps
-from Assets import path, defaultfont, colors
+from Assets import path, defaultfont, colors, defaultfontsize
 from TextWraper import wrap_text_with_font
 
 paddingcorrection = -3
@@ -9,10 +9,8 @@ truncateerror_fontsize = 0.5
 class TextDesign (DesignEntity):
     """Object that manages all information relevant to text
     and prints it to an image"""
-    def __init__ (self, size, color=colors["fg"], background_color=colors["bg"], font = None, fontsize = 12, text = "", horizontalalignment = "left", verticalalignment = "top", mask=True, truncate=False, truncate_suffix = '...', wrap=False):
+    def __init__ (self, size, color=colors["fg"], background_color=colors["bg"], font = defaultfont, fontsize = defaultfontsize, text = "", horizontalalignment = "left", verticalalignment = "top", mask=True, truncate=False, truncate_suffix = '...', wrap=False):
         super(TextDesign, self).__init__(size, mask = mask)
-        if font is None:
-            font = defaultfont
         self.font_family = font
         self.font_size = fontsize
         self.text = text
