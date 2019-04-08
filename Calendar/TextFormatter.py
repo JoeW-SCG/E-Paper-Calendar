@@ -34,7 +34,7 @@ def event_prefix_str_md_dif (event, relative_date=None):
     if relative_date is None:
         relative_date = event.begin_datetime.date()
 
-    if __is_multiday__(event) is False:
+    if event.multiday is False:
         return event_time_summary(event)
     
     #Relative to
@@ -56,7 +56,7 @@ def event_prefix_str (event, relative_date=None):
     if relative_date is None:
         relative_date = event.begin_datetime.date()
 
-    if __is_multiday__(event):
+    if event.multiday:
         return multiday_detailed
     else:
         return event_time_detailed(event)
@@ -65,7 +65,7 @@ def event_prefix_str_sum (event, relative_date=None):
     if relative_date is None:
         relative_date = event.begin_datetime.date()
 
-    if __is_multiday__(event):
+    if event.multiday:
         return multiday_character
     else:
         return event_time_summary(event)
@@ -98,14 +98,6 @@ def date_summary_str(dt):
         return dt.strftime(day + '. %b., %a')
     else:
         return dt.strftime('%a ' + day + '. %b')
-
-def __is_multiday__ (event):
-    if event.allday and event.duration == timedelta(1):
-        return False
-
-    return event.begin_datetime.day != event.end_datetime.day or \
-        event.begin_datetime.month != event.end_datetime.month or \
-        event.begin_datetime.year != event.end_datetime.year
 
 def __equal__(dt1, dt2):
     return dt1.day == dt2.day and \

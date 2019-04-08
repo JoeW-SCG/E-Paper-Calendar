@@ -51,6 +51,7 @@ class IcalEvents(CalendarInterface):
                     cal_event.description = event.description
                     cal_event.location = event.location
                     cal_event.allday = event.all_day
+                    cal_event.multiday = self.__is_multiday__(cal_event)
                     cal_event.rrule = self.__extract_rrule__(event)
 
                     cal_event.begin_datetime = cal_event.begin_datetime.astimezone(None)
@@ -85,3 +86,11 @@ class IcalEvents(CalendarInterface):
             return None
 
         return re.search('RRULE:(.+?)\n',str(event)).group(1).rstrip()
+
+    def __is_multiday__ (self, event):
+        if event.allday and event.duration == timedelta(1):
+            return False
+
+        return event.begin_datetime.day != event.end_datetime.day or \
+            event.begin_datetime.month != event.end_datetime.month or \
+            event.begin_datetime.year != event.end_datetime.year
