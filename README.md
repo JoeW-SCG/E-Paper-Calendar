@@ -67,7 +67,7 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 | highlighted_ical_urls |  Your iCalendar URL/s that should be higlighted in comparison the ical_urls. To add more than one URL, seperate each with a comma. |
 | rss_feeds |  All the sources for your rss-feed. To add more than one URL, seperate each with a comma. |
 | api_key | Your __personal__ openweathermap API-key which you can generate and find in your Account info. |
-| owm_paid_subscription | If you have a paid owm subscription you can set it to `true` and in some panels receive forecast information. |
+| owm_paid_subscription | If you have a paid owm subscription you can set it to `True` and in some panels receive forecast information. |
 | location | Location refers to the closest weather station from your place. It isn't necessarily the place you live in. To find this location, type your city name in the search box on [openweathermap](https://openweathermap.org/). The output should be in the following format: City Name, Country ISO-Code. Not sure what your ISO code is? Check here: [(find iso-code)](https://countrycode.org/).  |
 | week_starts_on | When does the work start on your Region? Possible options are `"Monday"` or `"Sunday"`. |
 | display_colours | This should normally be set by the installer when you choose the type of your display. Options include `"bw"` if you're using the black and white E-Paper or `"bwr"` when you're using the black-white-red or black-white-yellow E-Paper.|
@@ -83,14 +83,16 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 | choosen_design |  Sets the desired panel design. Can be one of `month-overview` or `day-list`. |
 | general_settings | A dictionary containing options that some designs use to optimize there design. Possible options are as follows: |
 | `"info-area"` | Defines the content type of an additionaly info area on the design. Can be one of `"rss"`, `"events"` or empty, to remove this area or keep it clean. |
-| `"highlight-event-days"` | If set to `true`, days with events are highlighted in contrast to days without events. |
+| `"highlight-event-days"` | If set to `True`, days with events are highlighted in contrast to days without events. |
+| `"weather-info"` | If set to `False`, weather info areas disappear and make room for events/rss/etc. (depends on the design). |
 
 ### Debug
 | Parameter |  Description |
 | --- | --- |
-| render_to_display |  Set to `true` it adds the e-paper display to the outputs. |
-| render_to_file |  Set to `true` it adds a image-file export to the outputs. The exported image can be found in `"/Calendar/design_exported.png"`. |
+| render_to_display |  Set to `True` it adds the e-paper display to the outputs. |
+| render_to_file |  Set to `True` it adds a image-file export to the outputs. The exported image can be found in `"/Calendar/design_exported.png"`. |
 | calibrate_hours |  A list containing all the hours in which the outputs get calibrated. That should prevent ghosting on e-paper displays. Takes a little while to execute. |
+| print_technical_data |  Set to `True` it writes start and stop time of the current update cyle and the duration on top of the panel. |
 
 ## iCalendar
 It is a bit tricky to set up the iCalendar so it works correctly without throwing any errors. If you encounter errors related to your iCalendar, please open up an issue and paste the error message there.
