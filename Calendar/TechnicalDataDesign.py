@@ -32,7 +32,7 @@ class TechnicalDataDesign(DesignEntity):
     def __get_data__(self):
         data = "START: "
         data += str(self.start)
-        data += "\nDURATION BEFOR RENDER: "
+        data += "\nDURATION BEFORE RENDER: "
         dur = self.stop - self.start
         data += str(dur)
         data += "\nSTOP: "
