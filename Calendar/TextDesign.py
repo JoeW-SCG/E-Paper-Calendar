@@ -42,10 +42,10 @@ class TextDesign (DesignEntity):
     def __truncate_text__ (self):
         if self.__font__.getsize_multiline(self.text)[0] <= self.size[0]: #does not need truncating
             return
-        error = truncateerror_fontsize * self.__font__.getsize_multiline("A")[0]
         suffix_length = self.__font__.getsize_multiline(self.truncate_suffix)[0]
-        while len(self.text) > 1 and self.__font__.getsize_multiline(self.text)[0] + suffix_length >= self.size[0] - error:
+        while len(self.text) > 1 and self.__font__.getsize_multiline(self.text)[0] + suffix_length >= self.size[0]:
             self.text = self.text[0:-1]
+        self.text = self.text.rstrip(' ')
         self.text += self.truncate_suffix
 
     def __pos_from_alignment__ (self):
