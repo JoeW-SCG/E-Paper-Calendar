@@ -1,7 +1,7 @@
 from PIL import Image, ImageOps, ImageDraw
 from Assets import colors
 
-masking_threshold = 100
+masking_threshold = 200
 
 class DesignEntity (object):
     """General entity that can be drawn on to a panel design or
@@ -44,7 +44,7 @@ class DesignEntity (object):
     def __get_mask__ (self, image, invert_mask, color_key):
         mask = image.convert('L')
         if color_key:
-            mask = mask.point(lambda p : 255 if p >= masking_threshold else 0)
+            mask = mask.point(lambda p : 0 if p < masking_threshold else 255, '1').convert('L')
         if invert_mask:
             mask = ImageOps.invert(mask)
         return ImageOps.invert(mask)

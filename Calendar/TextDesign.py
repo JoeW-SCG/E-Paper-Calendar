@@ -27,7 +27,7 @@ class TextDesign (DesignEntity):
     def __finish_image__ (self):
         if self.color is "white":
             self.invert_mask = True
-        if self.background_color not in ["white", "black"]:
+        if self.background_color not in ["white", "black"] or self.color in ["red"]:
             self.color_key = True
         self.__init_image__(self.background_color)
 
