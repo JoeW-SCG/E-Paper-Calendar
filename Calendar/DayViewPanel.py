@@ -30,7 +30,7 @@ class DayViewPanel (PanelDesign):
     def add_taks (self, tasks):
         pass
 
-    def __finish_image__ (self):
+    def __finish_panel__ (self):
         self.draw_design(self.__header__)
         self.draw_design(self.__hourlist__)
 

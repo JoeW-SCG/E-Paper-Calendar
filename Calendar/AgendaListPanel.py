@@ -43,7 +43,7 @@ class AgendaListPanel (PanelDesign):
     def add_taks (self, tasks):
         pass
 
-    def __finish_image__(self):
+    def __finish_panel__(self):
         self.__draw_calendar__()
         if general_settings["weather-info"]:
             self.__draw_weather__()

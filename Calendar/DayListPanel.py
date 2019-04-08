@@ -101,7 +101,7 @@ class DayListPanel (PanelDesign):
             line_end = (self.size[0], ypos)
             ImageDraw.Draw(self.__image__).line([line_start, line_end], fill=colors["fg"], width=lines_thickness)
 
-    def __finish_image__(self):
+    def __finish_panel__(self):
         for design in self.__day_rows__:
             self.draw_design(design)
         self.__draw_lines__()

@@ -36,3 +36,4 @@ general_settings = {    # General settings that designs may use
 render_to_display = True
 render_to_file = False		# Will be called "design_exported.png" in Calendar-directory
 calibrate_hours = [0, 12, 18]
+print_technical_data = False
