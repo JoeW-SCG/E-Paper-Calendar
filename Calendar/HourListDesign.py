@@ -7,9 +7,9 @@ from BoxDesign import BoxDesign
 from datetime import timedelta, datetime
 
 hourbox_y_width = 1
-hour_box_fontsize = 0.75
-hoursubtext_fontsize = 0.7
-hoursubtext_height = 0.35
+hour_box_fontsize = 0.8
+hoursubtext_fontsize = 0.8
+hoursubtext_height = 0.38
 event_title_fontsize = defaultfontsize
 event_title_padding = 3
 line_thickness = 1
