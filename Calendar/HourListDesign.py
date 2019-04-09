@@ -4,15 +4,16 @@ from TextDesign import TextDesign
 from PIL import ImageDraw
 from Assets import colors, defaultfontsize
 from BoxDesign import BoxDesign
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 hourbox_y_width = 1
 hour_box_fontsize = 0.75
 hoursubtext_fontsize = 0.7
 hoursubtext_height = 0.35
 event_title_fontsize = defaultfontsize
-event_title_padding = 1
+event_title_padding = 3
 line_thickness = 1
+currenttimeline_thickness = 1
 
 class HourListDesign (DesignEntity):
     """Hours of a day are listed vertically and
@@ -29,8 +30,9 @@ class HourListDesign (DesignEntity):
     def __finish_image__ (self):
         self.__calc_parameters__()
         self.__draw_hour_rows__()
-        self.__draw_lines__()
         self.__draw_events__()
+        self.__draw_lines__()
+        self.__draw_current_time_line__()
 
     def __calc_parameters__ (self):
         self.hour_count = self.last_hour - self.first_hour + 1
@@ -113,8 +115,12 @@ class HourListDesign (DesignEntity):
         hours = event.duration.total_seconds() / 3600
         time_height = self.__get_height_for_duration__(hours)
 
-        pos = (xoffset + column_width * column, time_ypos)
-        size = (column_width, time_height)
+        yoffset_correction = 0
+        if time_ypos < 0:
+            yoffset_correction = time_ypos
+
+        pos = (xoffset + column_width * column, time_ypos - yoffset_correction)
+        size = (column_width, time_height + yoffset_correction)
 
         self.__draw_event_block__(pos, size, event)
 
@@ -152,3 +158,11 @@ class HourListDesign (DesignEntity):
         mes_dur = ev_b.begin_datetime - ev_a.begin_datetime
 
         return mes_dur < ev_a.duration
+
+    def __draw_current_time_line__(self):
+        now = datetime.now()
+        ypos = self.__get_ypos_for_time__(now.hour, now.minute)
+        
+        line_start = (0, ypos)
+        line_end = (self.size[0], ypos)
+        ImageDraw.Draw(self.__image__).line([ line_start, line_end ], fill=colors["hl"], width=currenttimeline_thickness)
