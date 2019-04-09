@@ -94,11 +94,12 @@ class DayViewPanel (PanelDesign):
 
     def __get_current_hour_range__(self):
         start_hour = datetime.now().hour
+        additional_hours = self.shownhours_count - 1
         
-        if start_hour + self.shownhours_count > 23:
-            start_hour = 23 - self.shownhours_count
+        if start_hour + additional_hours > 23:
+            start_hour = 23 - additional_hours
 
-        return start_hour, start_hour + self.shownhours_count
+        return start_hour, start_hour + additional_hours
 
     def __abs_co__ (self, coordinates):
         return (int(coordinates[0] * self.size[0]),int(coordinates[1] * self.size[1]))

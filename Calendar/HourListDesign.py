@@ -36,7 +36,7 @@ class HourListDesign (DesignEntity):
         self.__draw_current_time_line__()
 
     def __calc_parameters__ (self):
-        self.hour_count = self.last_hour - self.first_hour
+        self.hour_count = self.last_hour - self.first_hour + 1
         self.row_size = (self.size[0], self.size[1] / self.hour_count)
 
     def __get_hour_text__ (self, hour):
