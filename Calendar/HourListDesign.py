@@ -13,7 +13,7 @@ hoursubtext_height = 0.38
 event_title_fontsize = defaultfontsize
 event_title_padding = 3
 line_thickness = 1
-currenttimeline_thickness = 1
+currenttimeline_thickness = 2
 
 class HourListDesign (DesignEntity):
     """Hours of a day are listed vertically and
