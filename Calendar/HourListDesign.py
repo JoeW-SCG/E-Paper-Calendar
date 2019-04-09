@@ -22,22 +22,22 @@ class HourListDesign (DesignEntity):
         super(HourListDesign, self).__init__(size)
         self.first_hour = first_hour
         self.last_hour = last_hour
+        self.__calc_parameters__()
         self.events = []
 
     def add_events (self, events):
         self.events.extend(events)
 
     def __finish_image__ (self):
-        self.__calc_parameters__()
+        self.number_columns = self.__get_max_num_simultaneous_events__()
         self.__draw_hour_rows__()
         self.__draw_lines__()
         self.__draw_events__()
         self.__draw_current_time_line__()
 
     def __calc_parameters__ (self):
-        self.hour_count = self.last_hour - self.first_hour + 1
+        self.hour_count = self.last_hour - self.first_hour
         self.row_size = (self.size[0], self.size[1] / self.hour_count)
-        self.number_columns = self.__get_max_num_simultaneous_events__()
 
     def __get_hour_text__ (self, hour):
         if hour <= 12 or hours is "24":
