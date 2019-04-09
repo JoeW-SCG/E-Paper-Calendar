@@ -19,9 +19,9 @@ This software fully supports the 3-Colour **and** 2-Colour version of the 7.5" E
 3.: Agenda-List Panel
 
 ## Main features
-* Display the date and a full monthly calendar or a list of today and the next days
+* Display a calendar with one of multiple designes
 * Optionally get RSS-Feed fetched and shown 
-* Syncronise events from any online calendar (like google, yahoo etc.)
+* Syncronise events from any online calendar (like google, yahoo, etc.)
 * Get live weather data (including temperature, humidity, etc.) using openweathermap api
 
 ## Hardware required
@@ -93,14 +93,6 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 | render_to_file |  Set to `True` it adds a image-file export to the outputs. The exported image can be found in `"/Calendar/design_exported.png"`. |
 | calibrate_hours |  A list containing all the hours in which the outputs get calibrated. That should prevent ghosting on e-paper displays. Takes a little while to execute. |
 | print_technical_data |  Set to `True` it writes start and stop time of the current update cyle and the duration on top of the panel. |
-
-## iCalendar
-It is a bit tricky to set up the iCalendar so it works correctly without throwing any errors. If you encounter errors related to your iCalendar, please open up an issue and paste the error message there.
-
-A more detailed section about the iCalendar will be added to the wiki soon, but for now, here are some suggestions to prevent error messages:
-1) Ensure your iCalendar URL is fine. If you receive an error showing error 404, it means the URL is wrong.
-2) If your existing iCalendar doesn't work at all, export the Calendar as a file, then create a new Calendar and import the file from before.
-3) If you receive errors related to 'alarm' or 'trigger', please make sure your iCalendar does not use reminders. The problem is that some actions are not supported by the Raspberry and cause errors. For example, the Rapsberry can't send a mail, make a noise or display a message as soon as an event starts. 
 
 ## Updating
 If you want to update to the latest version, run the Installer from above again and select the 'update' option. 
