@@ -11,7 +11,8 @@ hour_box_fontsize = 0.8
 hoursubtext_fontsize = 0.8
 hoursubtext_height = 0.38
 event_title_fontsize = defaultfontsize
-event_title_padding = 3
+event_title_xpadding = 3
+event_title_ypadding = 5
 line_thickness = 1
 currenttimeline_thickness = 2
 
@@ -30,10 +31,10 @@ class HourListDesign (DesignEntity):
 
     def __finish_image__ (self):
         self.number_columns = self.__get_max_num_simultaneous_events__()
-        self.__draw_hour_rows__()
         self.__draw_lines__()
         self.__draw_events__()
         self.__draw_current_time_line__()
+        self.__draw_hour_rows__()
 
     def __calc_parameters__ (self):
         self.hour_count = self.last_hour - self.first_hour + 1
@@ -139,11 +140,16 @@ class HourListDesign (DesignEntity):
 
         text = event.title
         text_color = colors["bg"]
-        textbox_size = (size[0] - event_title_padding, size[1] - event_title_padding)
+        textbox_size = (size[0] - event_title_xpadding, size[1] - event_title_ypadding)
         txt = TextDesign(textbox_size, text = text, fontsize=event_title_fontsize, color=text_color, background_color=box_color, wrap=True)
         txt.mask = False
-        txt.pos = (pos[0] + event_title_padding, pos[1] + event_title_padding)
+        txt.pos = (pos[0] + event_title_xpadding, pos[1] + event_title_ypadding)
         self.draw_design(txt)
+
+        half_ypadding = int(event_title_ypadding / 2)
+        line_start = (pos[0] + event_title_xpadding, pos[1] + half_ypadding)
+        line_end = (pos[0] + size[0] - event_title_xpadding, pos[1] + half_ypadding)
+        ImageDraw.Draw(self.__image__).line([ line_start, line_end ], fill=colors["bg"], width=1)
 
     def __get_max_num_simultaneous_events__ (self):
         parallelity_count = 1
@@ -166,7 +172,7 @@ class HourListDesign (DesignEntity):
 
         return mes_dur < ev_a.duration
 
-    def __draw_current_time_line__(self):
+    def __draw_current_time_line__ (self):
         now = datetime.now()
         ypos = self.__get_ypos_for_time__(now.hour, now.minute)
         
