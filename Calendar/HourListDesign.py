@@ -135,6 +135,7 @@ class HourListDesign (DesignEntity):
         text_color = colors["bg"]
         textbox_size = (size[0] - event_title_padding, size[1] - event_title_padding)
         txt = TextDesign(textbox_size, text = text, fontsize=event_title_fontsize, color=text_color, background_color=box_color, wrap=True)
+        txt.mask = False
         txt.pos = (pos[0] + event_title_padding, pos[1] + event_title_padding)
         self.draw_design(txt)
 
