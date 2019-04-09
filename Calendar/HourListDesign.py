@@ -107,6 +107,7 @@ class HourListDesign (DesignEntity):
             return "Uhr"
         elif language is "en":
             return "o'c"
+        return ""
 
     def __draw_event__ (self, event, column = 0):
         xoffset = hourbox_y_width * self.row_size[1]
