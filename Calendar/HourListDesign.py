@@ -30,9 +30,7 @@ class HourListDesign (DesignEntity):
         self.__calc_parameters__()
         self.__draw_hour_rows__()
         self.__draw_lines__()
-        
-        for event in self.events:
-            self.__draw_event__(event)
+        self.__draw_events__()
 
     def __calc_parameters__ (self):
         self.hour_count = self.last_hour - self.first_hour + 1
@@ -52,6 +50,25 @@ class HourListDesign (DesignEntity):
     def __get_height_for_duration__ (self, hours, minutes = 0):
         row_height = self.__row_size__[1]
         return row_height * (hours + minutes / 60)
+
+    def __draw_events__ (self):
+        column_events = []
+        for _ in range(self.number_columns):
+            column_events.append(None)
+        for event in self.events:
+            column_events = self.__update_columns_events__(column_events, event)
+            self.__draw_event__(event, column_events.index(event))
+
+    def __update_columns_events__ (self, column_events, new_event):
+        current_time = new_event.begin_datetime
+        new_event_added = False
+        for index in range(len(column_events)):
+            if column_events[index] != None and column_events[index].end_datetime <= current_time:
+                column_events[index] = None
+            if new_event_added == False and column_events[index] == None:
+                column_events[index] = new_event
+                new_event_added = True
+        return column_events
 
     def __draw_hour_rows__ (self):
         for hour in range(self.first_hour, self.last_hour + 1):
@@ -111,11 +128,11 @@ class HourListDesign (DesignEntity):
         text = event.title
         text_color = colors["bg"]
         textbox_size = (size[0] - event_title_padding, size[1] - event_title_padding)
-        txt = TextDesign(textbox_size, text = text, fontsize=event_title_fontsize, color=text_color, background_color=box_color)
+        txt = TextDesign(textbox_size, text = text, fontsize=event_title_fontsize, color=text_color, background_color=box_color, wrap=True)
         txt.pos = (pos[0] + event_title_padding, pos[1] + event_title_padding)
         self.draw_design(txt)
 
-    def __get_max_num_simultaneous_events__(self):
+    def __get_max_num_simultaneous_events__ (self):
         parallelity_count = 1
 
         for index, event in enumerate(self.events):
@@ -128,7 +145,7 @@ class HourListDesign (DesignEntity):
                 parallelity_count = current_parallelity
         return parallelity_count
 
-    def __are_simultaneous__(self, ev_a, ev_b):
+    def __are_simultaneous__ (self, ev_a, ev_b):
         if ev_a.begin_datetime > ev_b.begin_datetime:
             ev_a, ev_b = ev_b, ev_a
         
