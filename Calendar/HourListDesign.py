@@ -101,10 +101,12 @@ class HourListDesign (DesignEntity):
             ImageDraw.Draw(self.__image__).line([ line_start, line_end ], fill=colors["fg"], width=line_thickness)
 
     def __get_hour_sub_text__ (self, hour):
-        if language is "de":
+        if hours == "12":
+            return "AM" if hour < 12 else "PM"
+        elif language is "de":
             return "Uhr"
         elif language is "en":
-            return "AM" if hour < 12 else "PM"
+            return "o'c"
 
     def __draw_event__ (self, event, column = 0):
         xoffset = hourbox_y_width * self.row_size[1]
