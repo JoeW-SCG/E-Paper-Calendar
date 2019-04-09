@@ -30,8 +30,8 @@ class HourListDesign (DesignEntity):
     def __finish_image__ (self):
         self.__calc_parameters__()
         self.__draw_hour_rows__()
-        self.__draw_events__()
         self.__draw_lines__()
+        self.__draw_events__()
         self.__draw_current_time_line__()
 
     def __calc_parameters__ (self):
