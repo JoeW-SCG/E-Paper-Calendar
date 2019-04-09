@@ -4,6 +4,7 @@ from TextDesign import TextDesign
 from PIL import ImageDraw
 from Assets import colors, defaultfontsize
 from BoxDesign import BoxDesign
+from datetime import timedelta
 
 hourbox_y_width = 1
 hour_box_fontsize = 0.75
@@ -36,7 +37,7 @@ class HourListDesign (DesignEntity):
     def __calc_parameters__ (self):
         self.hour_count = self.last_hour - self.first_hour + 1
         self.__row_size__ = (self.size[0], self.size[1] / self.hour_count)
-        self.number_columns = 1
+        self.number_columns = self.__get_max_num_simultaneous_events__()
 
     def __get_hour_text__ (self, hour):
         if hour <= 12 or hours is "24":
@@ -113,3 +114,24 @@ class HourListDesign (DesignEntity):
         txt = TextDesign(textbox_size, text = text, fontsize=event_title_fontsize, color=text_color, background_color=box_color)
         txt.pos = (pos[0] + event_title_padding, pos[1] + event_title_padding)
         self.draw_design(txt)
+
+    def __get_max_num_simultaneous_events__(self):
+        parallelity_count = 1
+
+        for index, event in enumerate(self.events):
+            current_parallelity = 1
+            preceding = self.events[:index] #Assumption: Events are ordered chronologically
+            for pre_event in preceding:
+                if self.__are_simultaneous__(event, pre_event):
+                    current_parallelity += 1
+            if parallelity_count < current_parallelity:
+                parallelity_count = current_parallelity
+        return parallelity_count
+
+    def __are_simultaneous__(self, ev_a, ev_b):
+        if ev_a.begin_datetime > ev_b.begin_datetime:
+            ev_a, ev_b = ev_b, ev_a
+        
+        mes_dur = ev_b.begin_datetime - ev_a.begin_datetime
+
+        return mes_dur < ev_a.duration
