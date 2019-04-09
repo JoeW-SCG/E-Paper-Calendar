@@ -13,7 +13,7 @@ hourlist_size = (1, 1 - header_size[1])
 default_shownhours_count = 12
 
 infoarea_replaced_hours = 4
-infoarea_borderline_width = 3
+infoarea_borderline_width = 1
 infoarea_padding = 5
 
 class DayViewPanel (PanelDesign):
