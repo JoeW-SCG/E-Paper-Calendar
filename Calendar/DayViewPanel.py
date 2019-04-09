@@ -56,11 +56,13 @@ class DayViewPanel (PanelDesign):
             elif event.multiday:
                 if self.__is_today__(event.begin_datetime):
                     today = date.today()
-                    event.end_datetime = datetime(today.year, today.month, today.day) + timedelta(1)
+                    tzinfo = event.end_datetime.tzinfo
+                    event.end_datetime = datetime(today.year, today.month, today.day, 0, 0, 0, 0, tzinfo) + timedelta(1)
                     timed_ev.append(event)
                 elif self.__is_today__(event.end_datetime):
                     today = date.today()
-                    event.begin_datetime = datetime(today.year, today.month, today.day)
+                    tzinfo = event.begin_datetime.tzinfo
+                    event.begin_datetime = datetime(today.year, today.month, today.day, 0, 0, 0, 0, tzinfo)
                     timed_ev.append(event)
                 else:
                     allday_ev.append(event)
