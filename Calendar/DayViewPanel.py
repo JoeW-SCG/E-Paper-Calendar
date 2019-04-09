@@ -5,6 +5,7 @@ from HourListDesign import HourListDesign
 
 header_size = (1, 0.2)
 hourlist_size = (1, 1 - header_size[1])
+showhours_count = 12
 
 class DayViewPanel (PanelDesign):
     """Overview that focuses on the current day and
@@ -40,8 +41,17 @@ class DayViewPanel (PanelDesign):
         self.__header__.pos = (0, 0)
 
     def __init_hourlist__ (self):
-        self.__hourlist__ = HourListDesign(self.__abs_co__(hourlist_size), 6, 18)
+        start, end = self.__get_current_hour_range__()
+        self.__hourlist__ = HourListDesign(self.__abs_co__(hourlist_size), start, end)
         self.__hourlist__.pos = (0, self.__header__.size[1])
+
+    def __get_current_hour_range__(self):
+        start_hour = datetime.now().hour
+        
+        if start_hour + showhours_count > 23:
+            start_hour = 23 - showhours_count
+
+        return start_hour, start_hour + showhours_count
 
     def __abs_co__ (self, coordinates):
         return (int(coordinates[0] * self.size[0]),int(coordinates[1] * self.size[1]))
