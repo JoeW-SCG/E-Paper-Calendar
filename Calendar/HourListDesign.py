@@ -36,7 +36,7 @@ class HourListDesign (DesignEntity):
 
     def __calc_parameters__ (self):
         self.hour_count = self.last_hour - self.first_hour + 1
-        self.__row_size__ = (self.size[0], self.size[1] / self.hour_count)
+        self.row_size = (self.size[0], self.size[1] / self.hour_count)
         self.number_columns = self.__get_max_num_simultaneous_events__()
 
     def __get_hour_text__ (self, hour):
@@ -50,7 +50,7 @@ class HourListDesign (DesignEntity):
         return self.__get_height_for_duration__(hour, minute) - self.__get_height_for_duration__(self.first_hour)
 
     def __get_height_for_duration__ (self, hours, minutes = 0):
-        row_height = self.__row_size__[1]
+        row_height = self.row_size[1]
         return row_height * (hours + minutes / 60)
 
     def __draw_events__ (self):
@@ -77,10 +77,10 @@ class HourListDesign (DesignEntity):
             self.__draw_row__(hour)
 
     def __draw_row__ (self, hour):
-        subtext_height = self.__row_size__[1] * hoursubtext_height
+        subtext_height = self.row_size[1] * hoursubtext_height
         sub_fontsize = subtext_height * hoursubtext_fontsize
-        width = hourbox_y_width * self.__row_size__[1]
-        height = self.__row_size__[1] - subtext_height
+        width = hourbox_y_width * self.row_size[1]
+        height = self.row_size[1] - subtext_height
         size = (width, height)
         pos = (0, self.__get_ypos_for_time__(hour))
         fontsize = size[1] * hour_box_fontsize
@@ -95,7 +95,7 @@ class HourListDesign (DesignEntity):
 
     def __draw_lines__ (self):
         for i in range(self.hour_count):
-            ypos = i * self.__row_size__[1]
+            ypos = i * self.row_size[1]
             line_start = (0, ypos)
             line_end = (self.size[0], ypos)
             ImageDraw.Draw(self.__image__).line([ line_start, line_end ], fill=colors["fg"], width=line_thickness)
@@ -107,7 +107,7 @@ class HourListDesign (DesignEntity):
             return "AM" if hour < 12 else "PM"
 
     def __draw_event__ (self, event, column = 0):
-        xoffset = hourbox_y_width * self.__row_size__[1]
+        xoffset = hourbox_y_width * self.row_size[1]
         column_width = (self.size[0] - xoffset) / self.number_columns
 
         begin = event.begin_datetime
@@ -121,6 +121,9 @@ class HourListDesign (DesignEntity):
 
         pos = (xoffset + column_width * column, time_ypos - yoffset_correction)
         size = (column_width, time_height + yoffset_correction)
+
+        if size[1] < 0:
+            return  #Event not in shown time range
 
         self.__draw_event_block__(pos, size, event)
 
