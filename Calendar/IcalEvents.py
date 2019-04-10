@@ -51,7 +51,6 @@ class IcalEvents(CalendarInterface):
                     cal_event.description = event.description
                     cal_event.location = event.location
                     cal_event.allday = event.all_day
-                    cal_event.multiday = self.__is_multiday__(cal_event)
                     cal_event.rrule = self.__extract_rrule__(event)
 
                     cal_event.begin_datetime = cal_event.begin_datetime.astimezone(None)
@@ -60,6 +59,8 @@ class IcalEvents(CalendarInterface):
                     if cal_event.allday:
                         cal_event.end_datetime =  cal_event.end_datetime - timedelta(1)
                         cal_event.duration = cal_event.duration - timedelta(1)
+
+                    cal_event.multiday = self.__is_multiday__(cal_event)
 
                     loaded_events.append(cal_event)
             return loaded_events
