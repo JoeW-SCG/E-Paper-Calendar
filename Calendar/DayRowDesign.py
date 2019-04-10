@@ -82,6 +82,7 @@ class DayRowDesign (DesignEntity):
         
         week_day = TextDesign(size, text=week_day_name, font=font, color=color, fontsize=font_size, horizontalalignment="center", verticalalignment="top")
         week_day.pos = pos
+        week_day.mask = False
         self.draw_design(week_day)
 
     def __draw_day_number__ (self):
@@ -94,6 +95,7 @@ class DayRowDesign (DesignEntity):
 
         number = TextDesign(size, text=day_text, font=font, color=color, fontsize=font_size, horizontalalignment="center", verticalalignment="bottom")
         number.pos = pos
+        number.mask = False
         self.draw_design(number)
 
     def __abs_co__ (self, coordinates):
