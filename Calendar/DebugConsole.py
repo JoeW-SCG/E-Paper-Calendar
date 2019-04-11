@@ -1,5 +1,7 @@
 from DebugInterface import DebugInterface
 from Assets import weathericons
+from datetime import datetime
+import traceback
 
 class DebugConsole (DebugInterface):
     """Defines concrete console export of debug objects"""
@@ -10,6 +12,7 @@ class DebugConsole (DebugInterface):
         print('End datetime: ' + str(event.end_datetime))
         print('Duration: ' + str(event.duration))
         print('All day: ' + str(event.allday))
+        print('Multi-day: ' + str(event.multiday))
         print('RRULE: ' + str(event.rrule))
         print('Title: ' + str(event.title))
         print('Description: ' + str(event.description))
@@ -46,3 +49,15 @@ class DebugConsole (DebugInterface):
         if content is None:
             return
         print(str(content))
+
+    def print_err (self, exception, msg=""):
+        if exception is None:
+            return
+
+        content = "[ERR: "
+        content += datetime.now().strftime("")
+        content += "]\n" + str(exception)
+        content += "\n" + str(msg) + "\n"
+        traceback.print_exc()
+
+        self.print_line(str(content))
