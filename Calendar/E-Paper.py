@@ -81,8 +81,11 @@ def main():
 
         debug.print_line("\nStarting to render")
         for i, output in enumerate(output_adapters):
-            output.render(design)
-            debug.print_line(str(i + 1) + " of " + str(len(output_adapters)) + " rendered")
+            try:
+                output.render(design)
+                debug.print_line(str(i + 1) + " of " + str(len(output_adapters)) + " rendered")
+            except BaseException as ex:
+                debug.print_err(ex, "Failed to render output " + str(i + 1) + " of " + str(len(output_adapters)))
 
         debug.print_line("=> Finished rendering" + "\n")
 
