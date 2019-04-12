@@ -17,7 +17,7 @@ eventlist_xpadding = 5
 eventlist_ypos = 0.1
 eventlist_y_fontsize = 0.2
 
-font = fonts["regular"]
+font = fonts["light"]
 
 class DayRowDesign (DesignEntity):
     """Detailed view of a given date."""
