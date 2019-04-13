@@ -1,13 +1,19 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from PIL import Image, ImageFont
-from settings import *
+from settings import font_boldness
+import os
 im_open = Image.open
 
-path =      ''
+path = os.path.dirname(os.path.relpath(__file__)).replace("\\", "/")
+if path != "" and path[-1] != "/":
+    path += "/"
+
 wpath =     path+'weather-icons/'
 opath =     path+'other/'
-fpath =     path+'fonts/'
+fpath =     'fonts/'
+print(fpath)
+print(os.getcwd())
 
 tempicon =      im_open(opath+'temperature.jpeg')
 humicon =       im_open(opath+'humidity.jpeg')

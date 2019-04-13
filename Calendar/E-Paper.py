@@ -9,11 +9,11 @@ Copyright by aceisace
 """
 from datetime import datetime
 from time import sleep
-from Assets import datetime_locals
+from Assets import datetime_locals, path
 from LoopTimer import LoopTimer
 import locale
 from DebugConsole import DebugConsole
-from settings import *
+from settings import language, render_to_display, render_to_file, display_colours, location, api_key, owm_paid_subscription, choosen_design, ical_urls, highlighted_ical_urls, rss_feeds, update_interval, calibrate_hours
 from MonthOvPanel import MonthOvPanel
 from DayListPanel import DayListPanel
 from DayViewPanel import DayViewPanel
@@ -28,7 +28,7 @@ output_adapters = []
 
 if render_to_file:
     import ImageFileAdapter
-    epd = ImageFileAdapter.ImageFileAdapter()
+    epd = ImageFileAdapter.ImageFileAdapter(path)
     output_adapters.append(epd)
 
 if render_to_display:
