@@ -12,8 +12,6 @@ if path != "" and path[-1] != "/":
 wpath =     path+'weather-icons/'
 opath =     path+'other/'
 fpath =     'fonts/'
-print(fpath)
-print(os.getcwd())
 
 tempicon =      im_open(opath+'temperature.jpeg')
 humicon =       im_open(opath+'humidity.jpeg')
