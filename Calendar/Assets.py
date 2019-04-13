@@ -5,7 +5,7 @@ from settings import font_boldness
 import os
 im_open = Image.open
 
-path = os.path.dirname(os.path.relpath(__file__)).replace("\\", "/")
+path = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
 if path != "" and path[-1] != "/":
     path += "/"
 
