@@ -2,6 +2,7 @@ from EpdAdapter import EpdAdapter, DISPLAY_REFRESH, DATA_START_TRANSMISSION_1
 from settings import display_colours
 from PIL import Image, ImageDraw
 from math import sqrt, pow
+import numpy as np
 
 class Epd7in5bAdapter (EpdAdapter):
     def __init__ (self):
@@ -40,46 +41,32 @@ class Epd7in5bAdapter (EpdAdapter):
 
     def get_frame_buffer (self, image):
         buf = [ 0x00 ] * int(self.height * self.width / 4)
-        image_rgb = image
-        imwidth, imheight = image_rgb.size
+        imwidth, imheight = image.size
         if imwidth != self.height or imheight != self.width:
             raise ValueError('Image must be same dimensions as display \
                 ({0}x{1}).' .format(self.height, self.width))
 
+        image_buf = self.__prepare_image__(image)
         for x in range(self.width):
             for y in range(self.height):
                 # Set the bits for the column of pixels at the current
                 # position.
-                pixel = image_rgb.getpixel((y, x))
-                color = self.__get_color__(pixel)
-                if color is 'white':
+                if image_buf[x, y, 1] == 255:   #White
                     buf[int((y + x * self.height) / 4)] |= 0xC0 >> (y % 4 * 2)
-                elif color is 'black':
+                elif image_buf[x, y, 0] == 0:   #Black
                     buf[int((y + x * self.height) / 4)] &= ~(0xC0 >> (y % 4 * 2))
-                if color is 'red':
+                else:  #Red
                     buf[int((y + x * self.height) / 4)] &= ~(0xC0 >> (y % 4 * 2))
                     buf[int((y + x * self.height) / 4)] |= 0x40 >> (y % 4 * 2)
-        return buf #due to python2 -> python3, int had to be added in 'get_frame
-                   #_buffer
+        return buf
 
-    def __get_color__ (self, pixel):
-        color_percent = self.__get_color_percentage__(pixel)
-        brightness = self.__brightness__(pixel)
-        if brightness > 240:
-            return 'white'
-        elif color_percent[0] > 35:
-            return 'red'
-        else:
-            return 'black'
-
-    def __get_color_percentage__ (self, pixel):
-        sum = pixel[0] + pixel[1] + pixel[2]
-        if sum is 0:
-            return (0,0,0)
-        return (pixel[0] / sum * 100, pixel[1] / sum * 100, pixel[2] / sum * 100)
-
-    def __brightness__ (self, pixel):
-        return (pixel[0] + pixel[1] + pixel[2]) / 3
+    def __prepare_image__(self, image):
+        buffer = np.array(image)
+        r,g = buffer[:,:,0], buffer[:,:,1]
+        buffer[np.logical_and(r > 240, g > 240)] = [255,255,255]
+        buffer[r > g] = [255,0,0]
+        buffer[r != 255] = [0,0,0]
+        return buffer
 
     def calibrate (self):
         for _ in range(2):
