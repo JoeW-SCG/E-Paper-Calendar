@@ -9,7 +9,7 @@ line_width = 1
 
 class AgendaListDesign (DesignEntity):
     '''Lists upcoming events in chronological order and groups them by days'''
-    def __init__ (self, size, calendar, line_spacing = 3, col_spacing = 6, text_size = defaultfontsize, start_date = date.today()):
+    def __init__ (self, size, calendar, line_spacing = 3, col_spacing = 8, text_size = defaultfontsize, start_date = date.today()):
         super(AgendaListDesign, self).__init__(size)
         self.calendar = calendar
         self.line_spacing = line_spacing
