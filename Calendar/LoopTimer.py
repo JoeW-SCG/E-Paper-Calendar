@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 min_sleep_minutes = 0
+max_history_entries = 25
 
 class LoopTimer (object):
     """Manages loop times and sleeps until
@@ -18,6 +19,10 @@ class LoopTimer (object):
 
     def __add_beginning__ (self, time):
         self.loop_history.append((time,))
+
+        if len(self.loop_history) > max_history_entries:
+            dif = len(self.loop_history) - max_history_entries
+            self.loop_history = self.loop_history[dif:]
 
     def __add_ending__ (self, time):
         current = self.get_current()
