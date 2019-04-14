@@ -13,7 +13,7 @@ class LoopTimer (object):
 
     def begin_loop (self):
         begin_time = datetime.now()
-        print('\n_________Starting new loop___________')
+        print('\n__________Starting new loop__________')
         print('Date: ' + begin_time.strftime('%a %d %b %y') + ', time: ' + begin_time.strftime('%H:%M') + '\n')
         self.__add_beginning__(begin_time)
 
