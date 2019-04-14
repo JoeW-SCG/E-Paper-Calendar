@@ -32,7 +32,6 @@ class AgendaListDesign (DesignEntity):
     def __create_infos_events__ (self):
         self.infos = []
         self.cell_props = []
-        last_date = ""
         fetch_day = self.start_dt
         while len(self.infos) < self.__event_number__:
             day_events = self.calendar.get_day_events(fetch_day)
