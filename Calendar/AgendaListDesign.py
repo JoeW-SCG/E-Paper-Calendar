@@ -9,13 +9,14 @@ line_width = 1
 
 class AgendaListDesign (DesignEntity):
     '''Lists upcoming events in chronological order and groups them by days'''
-    def __init__ (self, size, calendar, line_spacing = 3, col_spacing = 8, text_size = defaultfontsize, start_date = date.today()):
+    def __init__ (self, size, calendar, line_spacing = 3, col_spacing = 8, text_size = defaultfontsize, start_date = date.today(), always_add_start_row = True):
         super(AgendaListDesign, self).__init__(size)
         self.calendar = calendar
         self.line_spacing = line_spacing
         self.col_spacing = col_spacing
         self.text_size = text_size
         self.start_dt = datetime(start_date.year, start_date.month, start_date.day)
+        self.always_add_start_row = always_add_start_row
 
     def __finish_image__ (self):
         self.__calculate_parameter__()
@@ -50,6 +51,12 @@ class AgendaListDesign (DesignEntity):
                 
                 self.infos.append(row)
             fetch_day = fetch_day + timedelta(1)
+        
+        if self.infos[0][1] != date_summary_str(self.start_dt) and self.always_add_start_row:
+            row = ["", date_summary_str(self.start_dt), "", ""]
+            props = self.__get_row_props__()
+            self.infos.insert(0, row)
+            self.cell_props.insert(0, props)
             
     def __draw_infos__ (self):
         table = TableTextDesign(self.size, self.infos, fontsize = self.__date_fontsize__, line_spacing=self.__date_linespace__, col_spacing = self.col_spacing, cell_properties=self.cell_props)
