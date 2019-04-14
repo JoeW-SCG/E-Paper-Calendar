@@ -44,8 +44,6 @@ class WeatherColumnDesign (DesignEntity):
         temperature = forecast.air_temperature + " " + self.__get_unit__(("°C", "°F"))
         humidity = forecast.air_humidity + "%"
         windspeed = forecast.wind_speed + " " + self.__get_unit__(("km/h", "mph"))
-        sunrise = self.__get_time__(forecast.sunrise)
-        sunset = self.__get_time__(forecast.sunset)
 
         numbers_list = [ [ temperature ],
                         [ humidity ],
