@@ -22,12 +22,15 @@ class OwmForecasts (WeatherInterface):
         if self.is_available() is False:
             return None
         
-        location = self.location if location is None else location
+        try:
+            location = self.location if location is None else location
 
-        observation = self.api.weather_at_place(location)
-        weather = observation.get_weather()
+            observation = self.api.weather_at_place(location)
+            weather = observation.get_weather()
 
-        return self.__get_forecast_from_weather__(weather, location=location)
+            return self.__get_forecast_from_weather__(weather, location=location)
+        except:
+            return None
 
     def get_forecast_in_days (self, offset_by_days, location=None):
         if offset_by_days is 0:
@@ -42,7 +45,7 @@ class OwmForecasts (WeatherInterface):
             target_weather = forecast.get_forecast().get_weathers()[-1]
 
             return self.__get_forecast_from_weather__(target_weather, location=location)
-        except: # only allowed for paied membership
+        except: # only allowed for paid membership
             return None
 
     def __get_forecast_from_weather__ (self, weather, location):

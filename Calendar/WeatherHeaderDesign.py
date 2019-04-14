@@ -1,5 +1,5 @@
 from DesignEntity import DesignEntity
-from Assets import *
+from Assets import no_response, windicon, tempicon, sunseticon, sunriseicon, wpath, weathericons, humicon
 from TextDesign import TextDesign
 from settings import units, hours
 
@@ -24,6 +24,10 @@ class WeatherHeaderDesign (DesignEntity):
 
         cur_weather = self.__weather__.get_today_forecast()
 
+        if cur_weather == None:
+            self.__render_missing_connection__()
+            return
+
         temperature = cur_weather.air_temperature + " " + self.__get_unit__(("°C", "°F"))
         windspeed = cur_weather.wind_speed + " " + self.__get_unit__(("km/h", "mph"))
 
@@ -42,7 +46,7 @@ class WeatherHeaderDesign (DesignEntity):
         self.draw_image(wpath + weathericons[cur_weather.icon] + '.jpeg', self.__abs_pos__(wiconplace))
 
     def __render_missing_connection__ (self):
-        self.draw_image(no_response, self.__abs_pos__(wiconplace))
+        self.draw(no_response, self.__abs_pos__(wiconplace))
 
     def __abs_pos__ (self, pos):
         return (int(pos[0] * self.size[0]), int(pos[1] * self.size[1]))
