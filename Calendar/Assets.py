@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from PIL import Image, ImageFont
-from settings import font_boldness
+from settings import font_boldness, font_size
 import os
 im_open = Image.open
 
@@ -30,7 +30,7 @@ fonts = {
 }
 
 defaultfont = fonts[font_boldness]
-defaultfontsize = 14
+defaultfontsize = int(font_size)
 
 datetime_locals = {
     "de" : "de_DE.UTF-8",
