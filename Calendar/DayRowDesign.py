@@ -3,7 +3,7 @@ from TextDesign import TextDesign
 from settings import week_starts_on, owm_paid_subscription
 from DesignEntity import DesignEntity
 from datetime import datetime
-from Assets import weathericons, wpath, fonts, colors
+from Assets import weathericons, wpath, fonts, colors, defaultfontsize
 from SingelDayEventListDesign import SingelDayEventListDesign
 
 daynumber_y_size = (1, 0.65)
@@ -15,7 +15,7 @@ weathericon_ypos = 0.1
 weathericon_height = 1 - 2 * weathericon_ypos
 eventlist_xpadding = 5
 eventlist_ypos = 0.1
-eventlist_y_fontsize = 0.2
+eventlist_y_fontsize = 0.2 * defaultfontsize / 14
 
 font = fonts["light"]
 

@@ -8,11 +8,8 @@ from settings import hours
 icon_xpos = 0.1
 icon_x_ypos = 0
 icon_width = 1 - 2 * icon_xpos
-info_x_height = icon_width * 0.3
 info_x_ypos = icon_x_ypos + icon_width
 fontsize_static = defaultfontsize
-numbers_x_ypos = icon_x_ypos + icon_width + info_x_height + 0.2
-numbers_x_ypadding = 0.05
 max_symbol_y_width = 0.15
 
 class WeatherColumnDesign (DesignEntity):
@@ -27,35 +24,24 @@ class WeatherColumnDesign (DesignEntity):
             return
 
         self.__draw_icon__(self.forecast.icon)
-        self.__draw_info__(self.forecast.short_description)
-        self.__draw_numbers_text__(self.forecast)
+        self.__draw_infos__(self.forecast)
 
-    def __draw_info__ (self, info):
-        height = info_x_height * self.size[0]
-        ypos = info_x_ypos * self.size[0]
-        size = (self.size[0], height)
-        pos = (0, ypos)
-
-        txt = TextDesign(size, text=info, fontsize=fontsize_static, horizontalalignment="center")
-        txt.pos = pos
-        self.draw_design(txt)
-
-    def __draw_numbers_text__ (self, forecast):
+    def __draw_infos__ (self, forecast):
         temperature = forecast.air_temperature + " " + self.__get_unit__(("°C", "°F"))
         humidity = forecast.air_humidity + "%"
         windspeed = forecast.wind_speed + " " + self.__get_unit__(("km/h", "mph"))
 
-        numbers_list = [ [ temperature ],
+        numbers_list = [ [ forecast.short_description ],
+                        [ temperature ],
                         [ humidity ],
                         [ windspeed ] ]
 
-        fontsize = fontsize_static
-        ypos = numbers_x_ypos * self.size[0]
+        ypos = info_x_ypos * self.size[0]
         pos = (0, ypos)
         size = (self.size[0], self.size[1] - pos[1])
-        line_spacing = (size[1] - len(numbers_list) * fontsize) / len(numbers_list) / 1.3
+        line_spacing = (size[1] - len(numbers_list) * fontsize_static) / (len(numbers_list) + 1)
 
-        table = TableTextDesign(size, numbers_list, fontsize=fontsize, line_spacing=line_spacing, column_horizontal_alignments=[ "center" ], max_col_size=[ size[0] ], truncate_rows=False, truncate_text=False)
+        table = TableTextDesign(size, numbers_list, fontsize=fontsize_static, line_spacing=line_spacing, column_horizontal_alignments=[ "center" ], max_col_size=[ size[0] ], truncate_text=False)
         table.pos = pos
         self.draw_design(table)
 
