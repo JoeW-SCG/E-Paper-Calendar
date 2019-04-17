@@ -4,10 +4,7 @@ from ics import Calendar
 from datetime import datetime, timedelta, timezone
 import re
 from settings import week_starts_on
-try:
-    from urllib.request import urlopen
-except Exception as e:
-    print("Something didn't work right, maybe you're offline?" + e.reason)
+from urllib.request import urlopen
 
 class IcalEvents(CalendarInterface):
     """Fetches events from ical addresses."""
