@@ -80,7 +80,8 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 ### Design
 | Parameter |  Description |
 | --- | --- |
-| font_boldness | Varies the boldness of the font. Can be one of `extralight`, `light`, `regular`, `semibold`, `bold` or `extrabold`. In same cases the boldness of the font is fixed by the design. |
+| font_size | Varies the size of the font. Can be any number >0. In some cases the size of the font is fixed by the design. Default value is `14`. |
+| font_boldness | Varies the boldness of the font. Can be one of `extralight`, `light`, `regular`, `semibold`, `bold` or `extrabold`. In some cases the boldness of the font is fixed by the design. Default value is `regular`. |
 | choosen_design |  Sets the desired panel design. Can be one of `month-overview` or `day-list`. |
 | general_settings | A dictionary containing options that some designs use to optimize there design. Possible options are as follows: |
 | `"info-area"` | Defines the content type of an additionaly info area on the design. Can be one of `"rss"`, `"events"` or empty, to remove this area or keep it clean. |
