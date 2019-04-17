@@ -1,7 +1,6 @@
 from RssInterface import RssInterface
 from datetime import datetime, timedelta, date
 import feedparser
-import arrow
 import RssPost
 
 max_range_days = 14
