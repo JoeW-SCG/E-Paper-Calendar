@@ -7,6 +7,7 @@ This software fully supports the 3-Colour **and** 2-Colour version of the 7.5" E
 **To get started, follow the instructions below.**
 
 ## News:
+* **Version 1.7 released with two new designs, offline support and improved support for events** (Mid April 2019)
 * **Specified README for this fork, added new design and many options** (Mid March 2019)
 * **Version 1.5 released with a new layout, displayed events and many back-end improvements** (Early February 2019) 
 * **Added Support for the 2-Colour E-Paper Display as well!** (Late September 2018)
