@@ -13,6 +13,13 @@ class IcalEvents(CalendarInterface):
         self.highlighted_urls = highlighted_urls
         super(IcalEvents, self).__init__()
 
+    def is_available(self):
+        try:
+            urlopen("https://google.com", timeout=2)
+            return True
+        except:
+            return False
+
     def __get_events__(self):
         events = self.__get_events_from_urls__(self.urls)
 

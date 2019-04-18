@@ -7,16 +7,20 @@ from settings import units
 class OwmForecasts (WeatherInterface):
     """Fetches weather through the Openweathermap-api."""
     def __init__ (self, location, api_key, paid_api=False):
-        subscription = "pro" if paid_api else None
-        self.api = pyowm.OWM(api_key, subscription_type=subscription)
+        self.subscription = "pro" if paid_api else None
+        self.api_key = api_key
         self.units = units
         self.location = location
+        self.api = pyowm.OWM(self.api_key, subscription_type=self.subscription)
 
     def is_available (self):
         try:
             return self.api.is_API_online()
         except:
             return False
+    
+    def reload(self):
+        pass
 
     def get_today_forecast (self, location=None):
         if self.is_available() is False:

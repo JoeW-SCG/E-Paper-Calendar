@@ -7,6 +7,12 @@ import calendar
 class CalendarInterface (DataSourceInterface):
     """Interface for fetching and processing calendar event information."""
     def __init__ (self):
+        self.events = []
+        self.reload()
+
+    def reload (self):
+        if self.is_available() == False:
+            return
         self.events = self.__get_events__()
         self.events = self.__sort_events__(self.events)
 

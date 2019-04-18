@@ -2,6 +2,7 @@ from RssInterface import RssInterface
 from datetime import datetime, timedelta, date
 import feedparser
 import RssPost
+from urllib.request import urlopen
 
 max_range_days = 14
 
@@ -10,6 +11,13 @@ class RssParserPosts (RssInterface):
     def __init__(self, urls):
         self.urls = urls
         super(RssParserPosts, self).__init__()
+
+    def is_available(self):
+        try:
+            urlopen("https://google.com", timeout=2)
+            return True
+        except:
+            return False
 
     def __get_posts__(self):
         posts = []

@@ -53,6 +53,8 @@ loop_timer = LoopTimer(update_interval, run_on_hour=True)
 """Main loop starts from here"""
 def main():
     owm = OwmForecasts.OwmForecasts(location, api_key, paid_api=owm_paid_subscription)
+    events_cal = IcalEvents.IcalEvents(ical_urls, highlighted_ical_urls)
+    rss = RssParserPosts.RssParserPosts(rss_feeds)
 
     while True:
         loop_timer.begin_loop()
@@ -69,14 +71,15 @@ def main():
             raise ImportError("choosen_design must be valid (" + choosen_design + ")")
 
         debug.print_line("Fetching weather information from open weather map")
+        owm.reload()
         design.add_weather(owm)
 
         debug.print_line('Fetching events from your calendar')
-        events_cal = IcalEvents.IcalEvents(ical_urls, highlighted_ical_urls)
+        events_cal.reload()
         design.add_calendar(events_cal)
 
         debug.print_line('Fetching posts from your rss-feeds')
-        rss = RssParserPosts.RssParserPosts(rss_feeds)
+        rss.reload()
         design.add_rssfeed(rss)
 
         debug.print_line("\nStarting to render")
