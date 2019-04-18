@@ -23,7 +23,7 @@ class RssInterface(DataSourceInterface):
         return self.get_day_posts(datetime.now())
 
     def get_day_posts(self, day):
-        return self.__get_posts_to_filter__(lambda x : x.datetime.strftime('%d-%m-%y') == date.strftime('%d-%m-%y'))
+        return self.__get_posts_to_filter__(lambda x : x.datetime.strftime('%d-%m-%y') == day.strftime('%d-%m-%y'))
 
     def __get_posts_to_filter__(self, post_filter):
         if self.loaded_posts is None:
