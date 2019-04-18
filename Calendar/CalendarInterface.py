@@ -47,15 +47,6 @@ class CalendarInterface (DataSourceInterface):
 
     def get_week_events (self, week = -1):
         raise NotImplementedError("Support dropped. Needs update.")
-        if week < 0 and week_starts_on == "Monday":
-            week = int(datetime.now().strftime('%W')) + 1
-        elif week < 0:
-            week = int(datetime.now().strftime('%U')) + 1
-
-        if week_starts_on == "Monday":
-            return self.__get_events_in_range__(lambda x : int(x.begin_datetime.strftime('%W')) + 1 == week or int(x.end_datetime.strftime('%W')) + 1 == week)
-        else:
-            return self.__get_events_in_range__(lambda x : int(x.begin_datetime.strftime('%U')) + 1 == week or int(x.end_datetime.strftime('%U')) + 1 == week)
 
     def __get_events_in_range__ (self, start, duration):
         if self.events is None:
