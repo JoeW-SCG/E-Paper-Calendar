@@ -34,7 +34,7 @@ class CalendarInterface (DataSourceInterface):
     def get_day_events (self, date):
         if type(date) is not type(date):
             raise TypeError("get_day_events only takes date-objects as parameters, not \"%s\"" % str(type(date)))
-        day_start = datetime(date.year, date.month, date.day, 0, 0, 0, 0, timezone.utc)
+        day_start = datetime(date.year, date.month, date.day, 0, 0, 0, 0, timezone.utc).astimezone(None)
         return self.__get_events_in_range__(day_start, timedelta(1))
 
     def get_month_events (self, month = -1):
@@ -79,14 +79,10 @@ class CalendarInterface (DataSourceInterface):
             first_start = start
             first_duration = duration
             second_start = event.begin_datetime
-            second_duration = event.duration
         else:
             first_start = event.begin_datetime
             first_duration = event.duration
             second_start = start
-            second_duration = duration
-
-        event_end = event.begin_datetime + event.duration
 
         if (second_start - first_start) < first_duration:
             return [ event ]
