@@ -44,9 +44,6 @@ class CalendarInterface (DataSourceInterface):
         month_days = calendar.monthrange(month_start.year, month_start.month)[1]
         return self.__get_events_in_range__(month_start, timedelta(month_days))
 
-    def get_week_events (self, week = -1):
-        raise NotImplementedError("Support dropped. Needs update.")
-
     def __get_events_in_range__ (self, start, duration):
         if self.events is None:
             return []
