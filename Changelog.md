@@ -4,6 +4,21 @@ The order is from latest to oldest and structured in the following way:
 * Version name with date of publishing
 * Sections with either 'added', 'fixed', 'updated' and 'changed'
 
+## [1.7] Mid April 2019
+
+### Added
+* Added agenda-list panel
+* Added day-view panel
+* Added offline calendar and rss support
+* Added more settings
+* Added support for multi-day and repeating events
+
+### Changed
+* Improved internal event management
+
+### Removed
+* Bugs
+
 ## [1.6] Mid March 2019
 
 ### Added

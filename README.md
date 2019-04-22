@@ -1,5 +1,7 @@
 # E-Paper Calendar
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0962be8b02e947e9aa4326e73b387e01)](https://app.codacy.com/app/m.giller.dev/E-Paper-Calendar?utm_source=github.com&utm_medium=referral&utm_content=mgfcf/E-Paper-Calendar&utm_campaign=Badge_Grade_Dashboard)
+
 This is a software written in python3 that allows you to transform an E-Paper display (like the kindle) into an information display. It fetches live data from Openweathermap (a weather info provider), rss-feeds and your Online Calendar (Google/Yahoo Calendar/...) and displays them on a large, beautiful and ultra-low power E-Paper display. It's ideal for staying organised and keeping track of important details without having to check them up online. 
 
 This software fully supports the 3-Colour **and** 2-Colour version of the 7.5" E-Paper display from waveshare/gooddisplay and works with Raspberry Pi 2, 3 and 0 (Zero, Zero W, Zero WH). 
@@ -7,6 +9,7 @@ This software fully supports the 3-Colour **and** 2-Colour version of the 7.5" E
 **To get started, follow the instructions below.**
 
 ## News:
+* **Version 1.7 released with two new designs, offline support and improved support for events** (Mid April 2019)
 * **Specified README for this fork, added new design and many options** (Mid March 2019)
 * **Version 1.5 released with a new layout, displayed events and many back-end improvements** (Early February 2019) 
 * **Added Support for the 2-Colour E-Paper Display as well!** (Late September 2018)

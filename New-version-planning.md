@@ -1,15 +1,13 @@
 ### This file contains features in planning for the next release
 
-# For version 1.7
+# For version 1.8
 
 ## Installer
 * Optimise the installer by adding a few more options when updating     
 
 ## Main script
-* Implement weekly view (may take a lot of time)
+* Implement multi-calendar panel
 * Implement feature to fetch tasks
-* Add code in E-Paper.py for fixing errors related to the iCalendar (ics.py is pretty picky)
-* Fix a bug where past events are shown along with ones in the future
 * Add support for ics files along with iCalendar URLs
 * Allow connecting to the openweathermap API servers even when the SSL certificate has expired
 * Try using the weathericons.io font instead of icons
