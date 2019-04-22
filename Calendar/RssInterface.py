@@ -5,7 +5,6 @@ class RssInterface(DataSourceInterface):
     """Interface for fetching and processing rss post information."""
     def __init__(self):
         self.loaded_posts = []
-        self.reload()
 
     def reload(self):
         if self.is_available() == False:

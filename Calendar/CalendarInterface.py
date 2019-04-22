@@ -8,7 +8,6 @@ class CalendarInterface (DataSourceInterface):
     """Interface for fetching and processing calendar event information."""
     def __init__ (self):
         self.events = []
-        self.reload()
 
     def reload (self):
         if self.is_available() == False:
@@ -34,7 +33,7 @@ class CalendarInterface (DataSourceInterface):
     def get_day_events (self, date):
         if type(date) is not type(date):
             raise TypeError("get_day_events only takes date-objects as parameters, not \"%s\"" % str(type(date)))
-        day_start = datetime(date.year, date.month, date.day, 0, 0, 0, 0, timezone.utc).astimezone(None)
+        day_start = datetime(date.year, date.month, date.day, 0, 0, 0, 0, timezone.utc)
         return self.__get_events_in_range__(day_start, timedelta(1))
 
     def get_month_events (self, month = -1):
