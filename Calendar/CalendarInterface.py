@@ -1,5 +1,5 @@
 from DataSourceInterface import DataSourceInterface
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone, timedelta, date
 from dateutil.rrule import rrulestr
 from dateutil.parser import parse
 import calendar
@@ -30,10 +30,10 @@ class CalendarInterface (DataSourceInterface):
     def get_today_events (self):
         return self.get_day_events(datetime.today())
 
-    def get_day_events (self, date):
-        if type(date) is not type(date):
-            raise TypeError("get_day_events only takes date-objects as parameters, not \"%s\"" % str(type(date)))
-        day_start = datetime(date.year, date.month, date.day, 0, 0, 0, 0, timezone.utc)
+    def get_day_events (self, day):
+        if type(day) is not type(date.today()):
+            raise TypeError("get_day_events only takes date-objects as parameters, not \"%s\"" % str(type(day)))
+        day_start = datetime(day.year, day.month, day.day, 0, 0, 0, 0, timezone.utc)
         return self.__get_events_in_range__(day_start, timedelta(1))
 
     def get_month_events (self, month = -1):
