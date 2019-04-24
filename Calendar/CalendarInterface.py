@@ -19,6 +19,12 @@ class CalendarInterface (DataSourceInterface):
         events.sort(key=lambda x : x.begin_datetime)
         return events
 
+    def __sort_event_types__ (self, events):
+        multiday = [ev for ev in events if ev.multiday]
+        allday = [ev for ev in events if ev.allday and ev.multiday == False]
+        timed = [ev for ev in events if ev.allday == False and ev.multiday == False]
+        return multiday + allday + timed
+
     def __get_events__ (self):
         raise NotImplementedError("Functions needs to be implemented")
 
@@ -58,7 +64,7 @@ class CalendarInterface (DataSourceInterface):
                 events_in_range.extend(event_occurrence)
 
         events_in_range = self.__sort_events__(events_in_range)
-        return events_in_range
+        return self.__sort_event_types__(events_in_range)
 
     def __get_if_event_in_range__ (self, event, start, duration):
         '''Returns list or None'''
