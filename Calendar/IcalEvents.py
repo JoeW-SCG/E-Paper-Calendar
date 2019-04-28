@@ -15,7 +15,14 @@ class IcalEvents(CalendarInterface):
 
     def is_available(self):
         try:
-            urlopen("https://google.com", timeout=2)
+            testurl = ""
+            if self.urls:
+                testurl = self.urls[0]
+            elif self.highlighted_urls:
+                testurl = self.highlighted_urls[0]
+            else:
+                return False
+            urlopen(testurl)
             return True
         except:
             return False
@@ -35,11 +42,12 @@ class IcalEvents(CalendarInterface):
 
     def __get_events_from_urls__(self, urls):
         loaded_events = []
-        try:
-            if urls is None:
-                return loaded_events
 
-            for calendar in urls:
+        if urls is None:
+            return loaded_events
+
+        for calendar in urls:
+            try:
                 decode = str(urlopen(calendar).read().decode())
                 decode = self.__remove_alarms__(decode)
 
@@ -61,17 +69,26 @@ class IcalEvents(CalendarInterface):
                     cal_event.end_datetime = cal_event.end_datetime.astimezone(None)
 
                     if cal_event.allday:
-                        cal_event.end_datetime =  cal_event.end_datetime - timedelta(1)
-                        cal_event.duration = cal_event.duration - timedelta(1)
+                        cal_event = self.__fix_allday__(cal_event)
 
                     cal_event.multiday = self.__is_multiday__(cal_event)
 
                     loaded_events.append(cal_event)
-            return loaded_events
-        except BaseException as ex:
-            print("ICal-Error [" + calendar + "]")
-            print(ex)
-            return loaded_events
+            except BaseException as ex:
+                print("ICal-Error [" + calendar + "]")
+                print(ex)
+        return loaded_events
+
+    def __fix_allday__(self, event):
+        local_tzinfo = datetime.now(timezone.utc).astimezone().tzinfo
+        begin_utc = event.begin_datetime.astimezone(timezone.utc)
+        end_utc = event.end_datetime.astimezone(timezone.utc)
+
+        event.begin_datetime =  datetime(begin_utc.year, begin_utc.month, begin_utc.day, 0, 0, 0, 0, local_tzinfo)
+        event.end_datetime =  datetime(end_utc.year, end_utc.month, end_utc.day, 0, 0, 0, 0, local_tzinfo) - timedelta(1)
+        event.duration = event.duration - timedelta(1)
+
+        return event
 
     def __remove_alarms__(self, decode):
         alarm_begin = 'BEGIN:VALARM'

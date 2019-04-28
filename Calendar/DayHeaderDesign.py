@@ -2,7 +2,7 @@ from DesignEntity import DesignEntity
 from PIL import ImageDraw
 from TextDesign import TextDesign
 from WeatherColumnDesign import WeatherColumnDesign
-from datetime import date, timedelta, datetime
+from datetime import date, timedelta, datetime, timezone
 from SingelDayEventListDesign import SingelDayEventListDesign
 from Assets import fonts, colors, defaultfontsize
 from settings import general_settings
@@ -45,9 +45,10 @@ class DayHeaderDesign (DesignEntity):
         self.draw_design(design)
 
     def add_calendar (self, calendar):
-        now = datetime.now()
-        time_until_tomorrow = (datetime(now.year, now.month, now.day) + timedelta(1)) - now
-        self.__draw_event_list__(calendar.get_upcoming_events(time_until_tomorrow))
+        local_tzinfo = datetime.now(timezone.utc).astimezone().tzinfo
+        now = datetime.now(local_tzinfo)
+        time_until_tomorrow = (datetime(now.year, now.month, now.day, 0, 0, 0, 0, local_tzinfo) + timedelta(1)) - now
+        self.__draw_event_list__(calendar.get_upcoming_events(time_until_tomorrow, now))
 
     def add_events (self, events):
         self.__draw_event_list__(events)

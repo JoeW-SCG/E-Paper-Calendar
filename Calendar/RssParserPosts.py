@@ -14,7 +14,12 @@ class RssParserPosts (RssInterface):
 
     def is_available(self):
         try:
-            urlopen("https://google.com", timeout=2)
+            testurl = ""
+            if self.urls:
+                testurl = self.urls[0]
+            else:
+                return False
+            urlopen(testurl)
             return True
         except:
             return False

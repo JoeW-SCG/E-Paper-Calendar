@@ -28,11 +28,13 @@ class CalendarInterface (DataSourceInterface):
     def __get_events__ (self):
         raise NotImplementedError("Functions needs to be implemented")
 
-    def get_upcoming_events (self, timespan = None):
+    def get_upcoming_events (self, timespan = None, start_time = None):
         if timespan is None:
             timespan = timedelta(31)
-        local_tzinfo = datetime.now(timezone.utc).astimezone().tzinfo
-        return self.__get_events_in_range__(datetime.now(local_tzinfo), timespan)
+        if start_time == None:
+            local_tzinfo = datetime.now(timezone.utc).astimezone().tzinfo
+            start_time = datetime.now(local_tzinfo)
+        return self.__get_events_in_range__(start_time, timespan)
 
     def get_today_events (self):
         return self.get_day_events(datetime.today())
