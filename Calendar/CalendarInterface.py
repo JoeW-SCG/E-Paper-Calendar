@@ -37,7 +37,7 @@ class CalendarInterface (DataSourceInterface):
         return self.__get_events_in_range__(start_time, timespan)
 
     def get_today_events (self):
-        return self.get_day_events(datetime.today())
+        return self.get_day_events(date.today())
 
     def get_day_events (self, day):
         if type(day) is not type(date.today()):
