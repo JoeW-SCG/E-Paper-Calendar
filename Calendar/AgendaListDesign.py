@@ -15,7 +15,7 @@ class AgendaListDesign (DesignEntity):
         self.line_spacing = line_spacing
         self.col_spacing = col_spacing
         self.text_size = text_size
-        self.start_dt = datetime(start_date.year, start_date.month, start_date.day)
+        self.start_dt = date(start_date.year, start_date.month, start_date.day)
         self.always_add_start_row = always_add_start_row
 
     def __finish_image__ (self):
