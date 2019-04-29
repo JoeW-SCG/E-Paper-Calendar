@@ -86,7 +86,7 @@ class IcalEvents(CalendarInterface):
 
         event.begin_datetime =  datetime(begin_utc.year, begin_utc.month, begin_utc.day, 0, 0, 0, 0, local_tzinfo)
         event.end_datetime =  datetime(end_utc.year, end_utc.month, end_utc.day, 0, 0, 0, 0, local_tzinfo) - timedelta(1)
-        event.duration = event.duration - timedelta(1)
+        event.duration = event.end_datetime - event.begin_datetime
 
         return event
 
