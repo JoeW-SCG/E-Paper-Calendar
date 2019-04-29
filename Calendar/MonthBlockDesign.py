@@ -6,7 +6,7 @@ from Assets import *
 from settings import *
 from BoxDesign import BoxDesign
 
-daynumberboxsize = (0.143, 0.286)
+daynumberboxsize = (0.143, 0.2)   #(0.143, 0.286)
 dayhighlightboxsize = (0.143, 0.14)
 daynumbersize = 25
 
