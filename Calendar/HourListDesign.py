@@ -28,6 +28,7 @@ class HourListDesign (DesignEntity):
 
     def add_events (self, events):
         self.events.extend(events)
+        self.events.sort(key=lambda x : x.begin_datetime)
 
     def __finish_image__ (self):
         self.number_columns = self.__get_max_num_simultaneous_events__()
@@ -158,7 +159,7 @@ class HourListDesign (DesignEntity):
             current_parallelity = 1
             preceding = self.events[:index] #Assumption: Events are ordered chronologically
             for pre_event in preceding:
-                if self.__are_simultaneous__(event, pre_event):
+                if self.__are_simultaneous__(pre_event, event):
                     current_parallelity += 1
             if parallelity_count < current_parallelity:
                 parallelity_count = current_parallelity
