@@ -34,7 +34,7 @@ class Epd7in5Adapter (EpdAdapter):
         buf = [0x00] * int(self.height * self.width / 8)
         # Set buffer to value of Python Imaging Library image.
         # Image must be in mode 1.
-        image_monocolor = image.convert('1') #with ot withour dithering?
+        image_monocolor = image.convert('L') #with ot withour dithering?
         imwidth, imheight = image_monocolor.size
         if imwidth != self.height or imheight != self.width:
             raise ValueError('Image must be same dimensions as display \
@@ -44,7 +44,7 @@ class Epd7in5Adapter (EpdAdapter):
         for y in range(self.width):
             for x in range(self.height):
                 # Set the bits for the column of pixels at the current position.
-                if pixels[x, y] != 0:
+                if pixels[x, y] >= 240:   #White
                     buf[int((x + y * self.height) / 8)] |= 0x80 >> (x % 8)
         return buf
 
