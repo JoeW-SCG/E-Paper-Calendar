@@ -1,9 +1,9 @@
 from DesignEntity import DesignEntity
-from TableTextDesign import TableTextDesign
+from TableDesign import TableDesign
 from Assets import defaultfontsize
 
 class RssPostListDesign (DesignEntity):
-    """Creates a TableTextDesign filled with rss post
+    """Creates a TableDesign filled with rss post
     date and title"""
     def __init__ (self, size, rssfeed, text_size = defaultfontsize):
         super(RssPostListDesign, self).__init__(size)
@@ -14,7 +14,7 @@ class RssPostListDesign (DesignEntity):
     def __finish_image__ (self):
         self.__fill_post_matrix__()
 
-        table_design = TableTextDesign(self.size, line_spacing=5, col_spacing=3, text_matrix=self.__post_matrix__, fontsize = self.text_size, mask=False, truncate_cols=False, wrap=True)
+        table_design = TableDesign(self.size, line_spacing=5, col_spacing=3, text_matrix=self.__post_matrix__, fontsize = self.text_size, mask=False, truncate_cols=False, wrap=True)
         self.draw_design(table_design)
     
     def __get_formatted_post__ (self, post):

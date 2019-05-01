@@ -1,6 +1,6 @@
 from PanelDesign import PanelDesign
-from Assets import *
-from settings import *
+from Assets import colors
+from settings import general_settings
 import calendar as callib 
 from datetime import datetime, timedelta, date
 from PIL import ImageDraw

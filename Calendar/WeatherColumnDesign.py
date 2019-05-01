@@ -1,6 +1,6 @@
 from DesignEntity import DesignEntity
 from TextDesign import TextDesign
-from TableTextDesign import TableTextDesign
+from TableDesign import TableDesign
 from Assets import wpath, weathericons, tempicon, humicon, windicon, no_response, colors, defaultfontsize
 from PIL import Image
 from settings import hours
@@ -41,7 +41,7 @@ class WeatherColumnDesign (DesignEntity):
         size = (self.size[0], self.size[1] - pos[1])
         line_spacing = (size[1] - len(numbers_list) * fontsize_static) / (len(numbers_list) + 1)
 
-        table = TableTextDesign(size, numbers_list, fontsize=fontsize_static, line_spacing=line_spacing, column_horizontal_alignments=[ "center" ], max_col_size=[ size[0] ], truncate_text=False)
+        table = TableDesign(size, numbers_list, fontsize=fontsize_static, line_spacing=line_spacing, column_horizontal_alignments=[ "center" ], max_col_size=[ size[0] ], truncate_text=False)
         table.pos = pos
         self.draw_design(table)
 

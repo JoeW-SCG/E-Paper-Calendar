@@ -1,7 +1,7 @@
 from DesignEntity import DesignEntity
 from Assets import defaultfontsize, colors
 from datetime import datetime, date, timedelta
-from TableTextDesign import TableTextDesign
+from TableDesign import TableDesign
 from PIL import ImageDraw
 from TextFormatter import date_summary_str, event_prefix_str
 
@@ -59,7 +59,7 @@ class AgendaListDesign (DesignEntity):
             self.cell_props.insert(0, props)
             
     def __draw_infos__ (self):
-        table = TableTextDesign(self.size, self.infos, fontsize = self.__date_fontsize__, line_spacing=self.__date_linespace__, col_spacing = self.col_spacing, cell_properties=self.cell_props)
+        table = TableDesign(self.size, self.infos, fontsize = self.__date_fontsize__, line_spacing=self.__date_linespace__, col_spacing = self.col_spacing, cell_properties=self.cell_props)
         self.draw_design(table)
 
     def __draw_lines__ (self):

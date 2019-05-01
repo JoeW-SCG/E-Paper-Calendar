@@ -2,8 +2,8 @@ from DesignEntity import DesignEntity
 import calendar as callib
 from datetime import datetime, timedelta
 from TextDesign import TextDesign
-from Assets import *
-from settings import *
+from Assets import colors
+from settings import week_starts_on
 from BoxDesign import BoxDesign
 
 daynumberboxsize = (0.143, 0.2)   #(0.143, 0.286)

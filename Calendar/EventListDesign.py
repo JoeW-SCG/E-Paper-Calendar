@@ -1,11 +1,11 @@
 from DesignEntity import DesignEntity
-from TableTextDesign import TableTextDesign
+from TableDesign import TableDesign
 from settings import language
 from Assets import defaultfontsize, colors
 from TextFormatter import date_str
 
 class EventListDesign (DesignEntity):
-    """Creates a TableTextDesign filled with event
+    """Creates a TableDesign filled with event
     begin date and title"""
     def __init__ (self, size, events, text_size = defaultfontsize, line_spacing = 2, col_spacing = 10, event_prefix_rel_dates = [], event_prefix_func = None, font_family = None, general_color = colors["fg"], background_color = colors["bg"], highlight_color = colors["hl"], show_more_info = False):
         super(EventListDesign, self).__init__(size)
@@ -30,7 +30,7 @@ class EventListDesign (DesignEntity):
         self.__fill_event_matrix__()
         
         col_hori_alignment = [ 'right', 'left' ]
-        table_design = TableTextDesign(self.size, background_color = self.background_color, font=self.font_family, line_spacing=self.line_spacing, col_spacing=self.col_spacing, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False, cell_properties=self.__props_matrix__)
+        table_design = TableDesign(self.size, background_color = self.background_color, font=self.font_family, line_spacing=self.line_spacing, col_spacing=self.col_spacing, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False, cell_properties=self.__props_matrix__)
         self.draw_design(table_design)
     
     def __get_formatted_event__ (self, event, index):
