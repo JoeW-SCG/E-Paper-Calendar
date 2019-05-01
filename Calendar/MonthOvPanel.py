@@ -15,8 +15,8 @@ from settings import general_settings
 
 weatherheadersize = (1,0.113)
 monthtextsize = 40
-monthovsize = (1, 0.5)
-monthovposition = (0, 0.23 - weatherheadersize[1])
+monthovsize = (1, 0.48)
+monthovposition = (0, 0.25 - weatherheadersize[1])
 seperatorplace = (0, 0.113)
 monthplace = (0, 0.12 - weatherheadersize[1])
 monthboxsize = (1, 0.085)
