@@ -6,7 +6,8 @@ from DesignEntity import DesignEntity
 
 default_props = {
     "color" : colors["fg"],
-    "background_color" : colors["bg"]
+    "background_color" : colors["bg"],
+    "font-size" : defaultfontsize
 }
 
 class TableDesign (TextDesign):
@@ -29,6 +30,7 @@ class TableDesign (TextDesign):
         self.truncate_text = truncate_text
         self.truncate_suffix = truncate_suffix
         self.cell_properties = cell_properties
+        default_props["font-size"] = fontsize
 
     def __finish_image__ (self):
         if len(self.matrix) is 0:
@@ -118,8 +120,9 @@ class TableDesign (TextDesign):
     def __draw_text__ (self, pos, size, row, col):
         color = self.__get_cell_prop__(row, col, "color")
         bg_color = self.__get_cell_prop__(row, col, "background_color")
+        fontsize = self.__get_cell_prop__(row, col, "font-size")
 
-        design = TextDesign(size, text=self.matrix[row][col], font=self.font_family, color=color, background_color=bg_color, fontsize=self.font_size, horizontalalignment=self.__get_col_hori_alignment__(col), wrap=self.wrap, truncate=self.truncate_text, truncate_suffix=self.truncate_suffix)
+        design = TextDesign(size, text=self.matrix[row][col], font=self.font_family, color=color, background_color=bg_color, fontsize=fontsize, horizontalalignment=self.__get_col_hori_alignment__(col), wrap=self.wrap, truncate=self.truncate_text, truncate_suffix=self.truncate_suffix)
         design.pos = pos
         self.draw_design(design)
                 
