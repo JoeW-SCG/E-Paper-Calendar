@@ -17,6 +17,7 @@ location = "Julich, DE"
 week_starts_on = "Monday"
 display_colours = "bwr"
 language = "en"
+datetime_encoding = "UTF-8" # UTF-8
 units = "metric"
 hours = "24"
 update_interval = 60
@@ -25,7 +26,7 @@ update_interval = 60
 """DESIGN"""
 font_size = 14  # does not affect every text
 font_boldness = "semibold"   # extralight, light, regular, semibold, bold, extrabold
-choosen_design = "month-overview" # month-overview, day-list, day-view, agenda-list
+choosen_design = "month-overview" # month-overview, day-list, day-view, agenda-list, month-view
 general_settings = {    # General settings that designs may use
     "info-area" : "rss",    # empty, events, rss
     "highlight-event-days" : True,

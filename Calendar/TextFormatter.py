@@ -1,5 +1,7 @@
 from settings import hours, language
 from datetime import timedelta, datetime, timezone
+from DictionaryMapper import get_text
+from Dictionary import multiday_events, allday_events
 
 first_occurrence_char = '['
 middle_occurrence_char = '|'
@@ -9,18 +11,6 @@ multiday_end_character = '< '
 until_character = ' - '
 allday_character = "•"
 multiday_character = allday_character + allday_character
-
-allday_lang = {
-    "en" : "All day",
-    "de" : "Ganztägig"
-}
-allday_detailed = allday_lang[language]
-
-multiday_lang = {
-    "en" : "Multi-day",
-    "de" : "Mehrtägig"
-}
-multiday_detailed = multiday_lang[language]
 
 def time_str (dt):
     if hours is "12":
@@ -57,7 +47,7 @@ def event_prefix_str (event, relative_date=None):
         relative_date = event.begin_datetime.date()
 
     if event.multiday:
-        return multiday_detailed
+        return get_text(multiday_events)
     else:
         return event_time_detailed(event)
 
@@ -78,7 +68,7 @@ def event_time_summary (event):
 
 def event_time_detailed (event):
     if event.allday:
-        return allday_detailed
+        return get_text(allday_events)
     else:
         return time_str(event.begin_datetime) + until_character + time_str(event.end_datetime)
 

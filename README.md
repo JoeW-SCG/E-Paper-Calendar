@@ -75,7 +75,8 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 | location | Location refers to the closest weather station from your place. It isn't necessarily the place you live in. To find this location, type your city name in the search box on [openweathermap](https://openweathermap.org/). The output should be in the following format: City Name, Country ISO-Code. Not sure what your ISO code is? Check here: [(find iso-code)](https://countrycode.org/).  |
 | week_starts_on | When does the work start on your Region? Possible options are `"Monday"` or `"Sunday"`. |
 | display_colours | This should normally be set by the installer when you choose the type of your display. Options include `"bw"` if you're using the black and white E-Paper or `"bwr"` when you're using the black-white-red or black-white-yellow E-Paper.|
-| language | Choosing the language allows changing the language of the month and week-icons. Possible options are `"en"` for english and `"de"` for german.|
+| language | Sets the language and the related locale for datetime-information. Some texts depend on additional translations that can be added to the dictionary-file.|
+| datetime_encoding | Sets the encoding that will be used in the datetime-texts (month, weekday, ...). Default is `"UTF-8"`.|
 |units| Selecting units allows switching units from km/h (kilometer per hour) and °C (degree Celcius) to mph (miles per hour) and °F (degree Fahrenheit). Possible options are `"metric"` or `"imperial"`. |
 |hours | Which time format do you prefer? This will change the sunrise and sunset times from 24-hours format to 12-hours format. Possible options are `"24"` for 24-hours and `"12"` for 12-hours.|
 |update_interval | The update delay between two updates in minutes. By default there is always an update on a full hour.|

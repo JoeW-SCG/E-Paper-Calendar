@@ -9,20 +9,25 @@ Copyright by aceisace
 """
 from datetime import datetime
 from time import sleep
-from Assets import datetime_locals, path
+from Assets import path
 from LoopTimer import LoopTimer
 import locale
 from DebugConsole import DebugConsole
-from settings import language, render_to_display, render_to_file, display_colours, location, api_key, owm_paid_subscription, choosen_design, ical_urls, highlighted_ical_urls, rss_feeds, update_interval, calibrate_hours
+from settings import datetime_encoding, language, render_to_display, render_to_file, display_colours, location, api_key, owm_paid_subscription, choosen_design, ical_urls, highlighted_ical_urls, rss_feeds, update_interval, calibrate_hours
 from MonthOvPanel import MonthOvPanel
 from DayListPanel import DayListPanel
 from DayViewPanel import DayViewPanel
+from MonthViewPanel import MonthViewPanel
 from AgendaListPanel import AgendaListPanel
 import OwmForecasts
 import IcalEvents
 import RssParserPosts
 
-locale.setlocale(locale.LC_ALL, datetime_locals[language])
+all_locales = locale.locale_alias
+if language not in all_locales.keys():
+    raise Exception("The locale for \"%s\" is currently not supported! If you need support, please open an issue on github." % language)
+locale.setlocale(locale.LC_ALL, "%s.%s" % (all_locales[language].split('.')[0], datetime_encoding))
+
 debug = DebugConsole()
 output_adapters = []
 
@@ -45,7 +50,8 @@ available_panels = {
     "day-list" : DayListPanel,
     "month-overview" : MonthOvPanel,
     "day-view" : DayViewPanel,
-    "agenda-list" : AgendaListPanel
+    "agenda-list" : AgendaListPanel,
+    "month-view" : MonthViewPanel
 }
 
 loop_timer = LoopTimer(update_interval, run_on_hour=True)

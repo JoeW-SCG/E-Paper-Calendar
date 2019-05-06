@@ -1,6 +1,7 @@
 from TextDesign import TextDesign
 from TextWraper import wrap_text_with_font
 from Assets import defaultfontsize, colors
+from DesignEntity import DesignEntity
 
 
 default_props = {
@@ -11,10 +12,10 @@ default_props = {
 class TableDesign (TextDesign):
     """Gets a matrix with text or designs that is than
     displayed in a table without borders."""
-    def __init__ (self, size, text_matrix, max_col_size = None, max_row_size = None, font = None, fontsize = defaultfontsize, column_horizontal_alignments = [], mask = True, line_spacing = 0, col_spacing = 0, truncate_rows = True, truncate_cols = True, wrap = False, truncate_text=True, truncate_suffix="...", cell_properties=None, background_color = colors["bg"]):
+    def __init__ (self, size, matrix, max_col_size = None, max_row_size = None, font = None, fontsize = defaultfontsize, column_horizontal_alignments = [], mask = True, line_spacing = 0, col_spacing = 0, truncate_rows = True, truncate_cols = True, wrap = False, truncate_text=True, truncate_suffix="...", cell_properties=None, background_color = colors["bg"]):
         super(TableDesign, self).__init__(size, font=font, fontsize=fontsize, mask=mask)
         self.__init_image__(background_color)
-        self.matrix = text_matrix
+        self.matrix = matrix
         self.max_col_size = max_col_size
         self.max_row_size = max_row_size
         self.line_spacing = line_spacing
@@ -42,11 +43,10 @@ class TableDesign (TextDesign):
         if self.max_col_size is not None:
             return
         
-        font = self.__get_font__()
         col_sizes = []
         for c in range(len(self.matrix[0])):    #amout of columns
             for r in range(len(self.matrix)):
-                row_col_size = font.getsize(self.matrix[r][c])[0]    #get width of text in that row/col
+                row_col_size = self.__get_cell_size__(r,c)[0]
                 if len(col_sizes) - 1 < c:
                     col_sizes.append(row_col_size)
                 elif row_col_size > col_sizes[c]:
@@ -64,20 +64,34 @@ class TableDesign (TextDesign):
         if self.max_row_size is not None:
             return
         
-        font = self.__get_font__()
         row_sizes = []
         for r in range(len(self.matrix)):
             for c in range(len(self.matrix[0])):    #amout of columns
-                cell_text = self.matrix[r][c]
-                if self.wrap:
-                    cell_text = wrap_text_with_font(cell_text, self.max_col_size[c], font)
-                col_row_size = font.getsize_multiline(cell_text)[1]    #get height of text in that col/row
+                col_row_size = self.__get_cell_size__(r,c)[1]
                 if len(row_sizes) - 1 < r:
                     row_sizes.append(col_row_size)
                 elif col_row_size > row_sizes[r]:
                     row_sizes[r] = col_row_size
         
         self.max_row_size = row_sizes
+
+    def __get_cell_size__(self, r, c):
+        content = self.matrix[r][c]
+        size = (0, 0)
+
+        if content == None:
+            return size
+        elif type(content) == str:
+            font = self.__get_font__()
+            width = font.getsize(self.matrix[r][c])[0]    #get width of text in that row/col
+            if self.wrap and self.max_col_size != None:
+                content = wrap_text_with_font(content, self.max_col_size[c], font)
+            height = font.getsize_multiline(content)[1]    #get height of text in that col/row
+            size = (width, height)
+        else:   #DesignEntity
+            size = content.size
+
+        return size
 
     def __get_truncated_counts__ (self):
         max_col = 0
@@ -99,9 +113,7 @@ class TableDesign (TextDesign):
     def __print_table__ (self, matrix):
         for r in range(self.max_row):
             for c in range(self.max_col):
-                size = self.cell_sizes[r][c]
-                pos = self.__get_cell_pos__(r,c)
-                self.__draw_text__(pos, size, r, c)
+                self.__draw_cell__(r,c)
                 
     def __draw_text__ (self, pos, size, row, col):
         color = self.__get_cell_prop__(row, col, "color")
@@ -110,6 +122,30 @@ class TableDesign (TextDesign):
         design = TextDesign(size, text=self.matrix[row][col], font=self.font_family, color=color, background_color=bg_color, fontsize=self.font_size, horizontalalignment=self.__get_col_hori_alignment__(col), wrap=self.wrap, truncate=self.truncate_text, truncate_suffix=self.truncate_suffix)
         design.pos = pos
         self.draw_design(design)
+                
+    def __draw_design__ (self, pos, size, row, col):
+        bg_color = self.__get_cell_prop__(row, col, "background_color")
+
+        source_design = self.matrix[row][col]
+        source_design.mask = False
+
+        framed_design = DesignEntity(size, mask = False)
+        framed_design.__init_image__(color=bg_color)
+        framed_design.draw_design(source_design)
+
+        framed_design.pos = pos
+        self.draw_design(framed_design)
+
+    def __draw_cell__ (self, row, col):
+        size = self.cell_sizes[row][col]
+        pos = self.__get_cell_pos__(row,col)
+
+        if self.matrix[row][col] == None:
+            return
+        elif type(self.matrix[row][col]) == str:
+            self.__draw_text__(pos, size, row, col)
+        else:
+            self.__draw_design__(pos, size, row, col)
         
     def __get_cell_pos__ (self, row, col):
         xpos, ypos = (0, 0)

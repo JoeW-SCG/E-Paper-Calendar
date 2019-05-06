@@ -3,6 +3,8 @@ from TableDesign import TableDesign
 from settings import language
 from Assets import defaultfontsize, colors
 from TextFormatter import date_str
+from DictionaryMapper import get_text
+from Dictionary import more_events
 
 class EventListDesign (DesignEntity):
     """Creates a TableDesign filled with event
@@ -30,7 +32,7 @@ class EventListDesign (DesignEntity):
         self.__fill_event_matrix__()
         
         col_hori_alignment = [ 'right', 'left' ]
-        table_design = TableDesign(self.size, background_color = self.background_color, font=self.font_family, line_spacing=self.line_spacing, col_spacing=self.col_spacing, text_matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False, cell_properties=self.__props_matrix__)
+        table_design = TableDesign(self.size, background_color = self.background_color, font=self.font_family, line_spacing=self.line_spacing, col_spacing=self.col_spacing, matrix=self.__event_matrix__, fontsize = self.text_size, column_horizontal_alignments=col_hori_alignment, mask=False, truncate_cols=False, cell_properties=self.__props_matrix__)
         self.draw_design(table_design)
     
     def __get_formatted_event__ (self, event, index):
@@ -51,9 +53,9 @@ class EventListDesign (DesignEntity):
             return
 
         additional_events_count = len(self.events) - len(visible_events)
-        more_text = self.__get_more_text__()
+        more_text = " " + get_text(more_events, additional_events_count)
         if additional_events_count > 0:
-            self.__event_matrix__.append([ "", " + " + str(additional_events_count) + " " + more_text ])
+            self.__event_matrix__.append([ "", more_text ])
             self.__props_matrix__.append(self.__get_row_props__())
 
     def __get_row_props__ (self, event = None):
@@ -66,10 +68,3 @@ class EventListDesign (DesignEntity):
             "background_color" : bg_color
         }
         return [ cell, cell ]
-
-    def __get_more_text__ (self):
-        more_texts = {
-            "de" : "weitere",
-            "en" : "more"
-            }
-        return more_texts[language]

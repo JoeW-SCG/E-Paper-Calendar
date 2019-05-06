@@ -32,12 +32,6 @@ fonts = {
 defaultfont = fonts[font_boldness]
 defaultfontsize = int(font_size)
 
-datetime_locals = {
-    "de" : "de_DE.UTF-8",
-    "en" : "en_US.UTF-8",
-    "zh_TW" : "zh_TW.UTF-8"
-}
-
 weathericons = {
 '01d': 'wi-day-sunny', '02d':'wi-day-cloudy', '03d': 'wi-cloudy',
 '04d': 'wi-cloudy-windy', '09d': 'wi-showers', '10d':'wi-rain',

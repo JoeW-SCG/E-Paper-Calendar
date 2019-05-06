@@ -14,18 +14,13 @@ class IcalEvents(CalendarInterface):
         super(IcalEvents, self).__init__()
 
     def is_available(self):
-        try:
-            testurl = ""
-            if self.urls:
-                testurl = self.urls[0]
-            elif self.highlighted_urls:
-                testurl = self.highlighted_urls[0]
-            else:
-                return False
-            urlopen(testurl)
-            return True
-        except:
-            return False
+        for url in self.urls + self.highlighted_urls:
+            try:
+                urlopen(url)
+                return True
+            except:
+                pass
+        return False
 
     def __get_events__(self):
         events = self.__get_events_from_urls__(self.urls)
