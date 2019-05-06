@@ -1,6 +1,6 @@
 from PIL import ImageDraw, Image
 from TextDesign import TextDesign
-from settings import week_starts_on, owm_paid_subscription
+from settings import week_starts_on, owm_paid_subscription, general_settings
 from DesignEntity import DesignEntity
 from datetime import datetime
 from Assets import weathericons, wpath, fonts, colors, defaultfontsize
@@ -41,7 +41,7 @@ class DayRowDesign (DesignEntity):
         number_width = daynumber_y_size[0] * self.size[1]
         ypos = eventlist_ypos * self.size[1]
         weather_width = 0
-        if owm_paid_subscription:
+        if owm_paid_subscription and general_settings["weather-info"]:
             weather_width = weathericon_height * self.size[1]
         pos = (number_width + eventlist_xpadding, ypos)
         size = (self.size[0] - pos[0] - weather_width, self.size[1] - pos[1])
