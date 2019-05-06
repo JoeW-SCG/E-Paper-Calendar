@@ -1,6 +1,5 @@
 from DesignEntity import DesignEntity
 from TableDesign import TableDesign
-from settings import language
 from Assets import defaultfontsize, colors
 from TextFormatter import date_str
 from DictionaryMapper import get_text
