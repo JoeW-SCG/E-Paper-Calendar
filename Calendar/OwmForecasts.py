@@ -2,7 +2,7 @@ from WeatherForecast import WeatherForecast
 from WeatherInterface import WeatherInterface
 import pyowm
 from datetime import datetime
-from settings import units
+from settings import units, language
 
 class OwmForecasts (WeatherInterface):
     """Fetches weather through the Openweathermap-api."""
@@ -11,7 +11,7 @@ class OwmForecasts (WeatherInterface):
         self.api_key = api_key
         self.units = units
         self.location = location
-        self.api = pyowm.OWM(self.api_key, subscription_type=self.subscription)
+        self.api = pyowm.OWM(self.api_key, subscription_type=self.subscription, language=language)
 
     def is_available (self):
         try:
