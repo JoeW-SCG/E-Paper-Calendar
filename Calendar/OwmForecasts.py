@@ -3,6 +3,7 @@ from WeatherInterface import WeatherInterface
 import pyowm
 from datetime import datetime
 from settings import units, language
+from Translator import translate
 
 class OwmForecasts (WeatherInterface):
     """Fetches weather through the Openweathermap-api."""
@@ -62,7 +63,7 @@ class OwmForecasts (WeatherInterface):
         forecast_object.icon = weather.get_weather_icon_name()
         forecast_object.air_humidity = str(weather.get_humidity())
         forecast_object.clouds = str(weather.get_clouds())
-        forecast_object.short_description = str(weather.get_status())
+        forecast_object.short_description = translate(str(weather.get_status()))
         forecast_object.detailed_description = str(weather.get_detailed_status())
         forecast_object.air_pressure = str(weather.get_pressure()['press'])
 
