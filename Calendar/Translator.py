@@ -12,6 +12,8 @@ def translate(phrase, target_lang = language, dictionary_collection = dictionary
 
     if target_lang in dictionary.keys():
         return dictionary[target_lang]
+    elif '_' in target_lang and target_lang.split('_')[0] in dictionary.keys():
+        return dictionary[target_lang.split('_')[0]]
     else:
         return dictionary[default_language]
 

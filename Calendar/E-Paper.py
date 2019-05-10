@@ -24,9 +24,9 @@ import IcalEvents
 import RssParserPosts
 
 all_locales = locale.locale_alias
-if language not in all_locales.keys():
+if language.lower() not in all_locales.keys():
     raise Exception("The locale for \"%s\" is currently not supported! If you need support, please open an issue on github." % language)
-locale.setlocale(locale.LC_ALL, "%s.%s" % (all_locales[language].split('.')[0], datetime_encoding))
+locale.setlocale(locale.LC_ALL, "%s.%s" % (all_locales[language.lower()].split('.')[0], datetime_encoding))
 
 debug = DebugConsole()
 output_adapters = []
