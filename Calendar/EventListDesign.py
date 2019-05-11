@@ -8,7 +8,7 @@ from Dictionary import more_events
 class EventListDesign (DesignEntity):
     """Creates a TableDesign filled with event
     begin date and title"""
-    def __init__ (self, size, events, text_size = defaultfontsize, line_spacing = 2, col_spacing = 10, event_prefix_rel_dates = [], event_prefix_func = None, font_family = None, general_color = colors["fg"], background_color = colors["bg"], highlight_color = colors["hl"], show_more_info = False):
+    def __init__ (self, size, events, text_size = defaultfontsize, line_spacing = 0, col_spacing = 10, event_prefix_rel_dates = [], event_prefix_func = None, font_family = None, general_color = colors["fg"], background_color = colors["bg"], highlight_color = colors["hl"], show_more_info = False):
         super(EventListDesign, self).__init__(size)
         self.events = events
         self.__event_matrix__ = []

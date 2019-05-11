@@ -14,7 +14,7 @@ class RssPostListDesign (DesignEntity):
     def __finish_image__ (self):
         self.__fill_post_matrix__()
 
-        table_design = TableDesign(self.size, line_spacing=5, col_spacing=3, matrix=self.__post_matrix__, fontsize = self.text_size, mask=False, truncate_cols=False, wrap=True)
+        table_design = TableDesign(self.size, line_spacing=2, col_spacing=3, matrix=self.__post_matrix__, fontsize = self.text_size, mask=False, wrap=True, truncate_rows=True)
         self.draw_design(table_design)
     
     def __get_formatted_post__ (self, post):

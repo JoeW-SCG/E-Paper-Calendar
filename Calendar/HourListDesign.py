@@ -7,9 +7,10 @@ from BoxDesign import BoxDesign
 from datetime import timedelta, datetime
 
 hourbox_y_width = 1
-hour_box_fontsize = 0.8
-hoursubtext_fontsize = 0.8
-hoursubtext_height = 0.38
+hour_box_fontsize = 0.85
+hour_ypadding = 0.1
+hoursubtext_fontsize = 0.7
+hoursubtext_height = 0.45
 event_title_fontsize = defaultfontsize
 event_title_xpadding = 3
 event_title_ypadding = 5
@@ -81,10 +82,11 @@ class HourListDesign (DesignEntity):
     def __draw_row__ (self, hour):
         subtext_height = self.row_size[1] * hoursubtext_height
         sub_fontsize = subtext_height * hoursubtext_fontsize
+        ypadding = hour_ypadding * self.row_size[1]
         width = hourbox_y_width * self.row_size[1]
         height = self.row_size[1] - subtext_height
         size = (width, height)
-        pos = (0, self.__get_ypos_for_time__(hour))
+        pos = (0, self.__get_ypos_for_time__(hour) + ypadding)
         fontsize = size[1] * hour_box_fontsize
 
         txt = TextDesign(size, text=self.__get_hour_text__(hour), fontsize=fontsize, verticalalignment="bottom", horizontalalignment="center")

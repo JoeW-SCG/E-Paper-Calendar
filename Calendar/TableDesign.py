@@ -88,7 +88,8 @@ class TableDesign (TextDesign):
             width = font.getsize(self.matrix[r][c])[0]    #get width of text in that row/col
             if self.wrap and self.max_col_size != None:
                 content = wrap_text_with_font(content, self.max_col_size[c], font)
-            height = font.getsize_multiline(content)[1]    #get height of text in that col/row
+            line_count = content.count('\n') + 1
+            height = font.font.height * line_count    #get height of text in that col/row
             size = (width, height)
         else:   #DesignEntity
             size = content.size
@@ -177,7 +178,8 @@ class TableDesign (TextDesign):
     def __get_cell_prop__(self, r, c, prop):
         if self.cell_properties is None:
             return default_props[prop]
-        try:
+            
+        if r < len(self.cell_properties) and c < len(self.cell_properties[r]) and prop in self.cell_properties[r][c].keys():
             return self.cell_properties[r][c][prop]
-        except:
+        else:
             return default_props[prop]

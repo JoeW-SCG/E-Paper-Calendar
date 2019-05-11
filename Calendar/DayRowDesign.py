@@ -6,16 +6,17 @@ from datetime import datetime
 from Assets import weathericons, wpath, fonts, colors, defaultfontsize
 from SingelDayEventListDesign import SingelDayEventListDesign
 
-daynumber_y_size = (1, 0.65)
+daynumber_y_size = (1, 0.60)
 weekday_y_size = (daynumber_y_size[0], 1 - daynumber_y_size[1])
 weekday_ypos = daynumber_y_size[1]
-daynumber_fontsize = daynumber_y_size[1] * 0.8
-weekday_fontsize = weekday_y_size[1] * 0.75
+daynumber_fontsize = daynumber_y_size[1] * 0.85
+daynumber_ypadding = 0.1
+weekday_fontsize = weekday_y_size[1] * 0.65
 weathericon_ypos = 0.1
 weathericon_height = 1 - 2 * weathericon_ypos
 eventlist_xpadding = 5
-eventlist_ypos = 0.1
-eventlist_y_fontsize = 0.2 * defaultfontsize / 14
+eventlist_ypos = 0.02
+eventlist_y_fontsize = 0.2
 
 font = fonts["light"]
 
@@ -49,7 +50,7 @@ class DayRowDesign (DesignEntity):
         
         events = calendar.get_day_events(self.date)
         rel_dates = [self.date for _ in range(len(events))]
-        event_list = SingelDayEventListDesign(size, events, fontsize, line_spacing=0, event_prefix_rel_dates = rel_dates)
+        event_list = SingelDayEventListDesign(size, events, fontsize, event_prefix_rel_dates = rel_dates)
         event_list.pos = pos
         self.draw_design(event_list)
 
@@ -68,8 +69,8 @@ class DayRowDesign (DesignEntity):
         self.draw(resized_icon, pos)
 
     def __finish_image__ (self):
-        self.__draw_day_number__()
         self.__draw_weekday__()
+        self.__draw_day_number__()
 
     def __draw_weekday__ (self):
         font_size = int(weekday_fontsize * self.size[1])
@@ -87,15 +88,15 @@ class DayRowDesign (DesignEntity):
 
     def __draw_day_number__ (self):
         font_size = int(daynumber_fontsize * self.size[1])
+        ypadding = daynumber_ypadding * self.size[1]
         size = (daynumber_y_size[0] * self.size[1], daynumber_y_size[1] * self.size[1])
-        pos = (0, 0)
+        pos = (0, ypadding)
 
         day_text = self.__get_day_text__()
         color = self.__get_day_color__()
 
         number = TextDesign(size, text=day_text, font=font, color=color, fontsize=font_size, horizontalalignment="center", verticalalignment="bottom")
         number.pos = pos
-        number.mask = False
         self.draw_design(number)
 
     def __abs_co__ (self, coordinates):

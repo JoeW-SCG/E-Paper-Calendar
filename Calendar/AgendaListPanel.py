@@ -10,7 +10,7 @@ agenda_ypadding = 5
 weatherheader_height = 0.113
 seperator_width = 3
 infolist_size = (1, 0.24)
-infolist_padding = 5
+infolist_padding = 2
 
 class AgendaListPanel (PanelDesign):
     '''Lists upcoming events in chronological order and groups them by days'''

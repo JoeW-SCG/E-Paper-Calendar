@@ -11,14 +11,17 @@ from BoxDesign import BoxDesign
 numberbox_ypos = 0.15
 numberbox_height = 1 - 2 * numberbox_ypos
 number_height = numberbox_height * 0.83
+number_boxypos = 0.17
 month_height = numberbox_height / 4
 monthbox_xpadding = 0.013
+monthbox_ypadding = -0.05
 monthbox_width = 1 - numberbox_ypos - monthbox_xpadding
-weekday_height = numberbox_height * 0.19
 weathercolumn_y_size = (0.4, 1)
-weekdaybox_height = 0.22
+weekday_height = numberbox_height * 0.19
+weekdaybox_height = (weekday_height / numberbox_height) * 1.5
 eventlist_static_fontsize = defaultfontsize
-eventlist_padding = monthbox_xpadding
+eventlist_xpadding = monthbox_xpadding
+eventlist_ypadding = 0.01
 
 numberbox_font_color = colors["bg"]
 numberbox_background_color = colors["hl"]
@@ -64,9 +67,10 @@ class DayHeaderDesign (DesignEntity):
         box_ypos = numberbox_ypos * self.size[1]
         box_xpos = numberbox_ypos * self.size[1]
         box_height = numberbox_height * self.size[1]
-        padding = eventlist_padding * self.size[0]
-        monthbox_height = month_height * self.size[1]
-        pos = (box_xpos + box_height + padding, box_ypos + monthbox_height + padding)
+        xpadding = eventlist_xpadding * self.size[0]
+        ypadding = eventlist_ypadding * self.size[1]
+        monthbox_height = (monthbox_ypadding + month_height) * self.size[1]
+        pos = (box_xpos + box_height + xpadding, box_ypos + monthbox_height + ypadding)
         size = (self.size[0] - pos[0] - self.weather_column_width, self.size[1] - pos[1] - box_ypos)
         fontsize = eventlist_static_fontsize
 
@@ -77,10 +81,11 @@ class DayHeaderDesign (DesignEntity):
 
     def __draw_month__ (self):
         font_size = int(month_height * self.size[1])
-        padding = int(monthbox_xpadding * self.size[0])
+        xpadding = int(monthbox_xpadding * self.size[0])
+        ypadding = int(monthbox_ypadding * self.size[1])
         box_ypos = int(numberbox_ypos * self.size[1])
         box_height = int(numberbox_height * self.size[1])
-        box_pos = (box_ypos + box_height + padding, box_ypos)
+        box_pos = (box_ypos + box_height + xpadding, box_ypos + ypadding)
         box_size = (int(monthbox_width * self.size[0]), box_height)
         
         month_name = self.date.strftime("%B")
@@ -105,8 +110,9 @@ class DayHeaderDesign (DesignEntity):
         font_size = number_height * self.size[1]
         box_height = numberbox_height * self.size[1]
         box_ypos = numberbox_ypos * self.size[1]
-        size = (box_height, box_height)
-        pos = (box_ypos, box_ypos)
+        ypadding = number_boxypos * box_height
+        size = (box_height, box_height - ypadding)
+        pos = (box_ypos, box_ypos + ypadding)
 
         day_text = self.__get_day_text__()
         number = TextDesign(size, text=day_text, background_color=numberbox_background_color, color=numberbox_font_color, fontsize=font_size, horizontalalignment="center", verticalalignment="center")

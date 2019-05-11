@@ -6,9 +6,10 @@ from Assets import colors
 from settings import week_starts_on
 from BoxDesign import BoxDesign
 
-daynumberboxsize = (0.143, 0.2)   #(0.143, 0.286)
+daynumberboxsize = (0.143, 0.2)
 dayhighlightboxsize = (0.143, 0.14)
-daynumbersize = 25
+daynumbersize = daynumberboxsize[0] * 0.45
+day_number_ypadding = -0.002
 
 class MonthBlockDesign (DesignEntity):
     """Creates a view containing one week of the month in
@@ -42,8 +43,8 @@ class MonthBlockDesign (DesignEntity):
     def __draw_day_number__ (self, number, pos):
         if number <= 0:
             return
-        txt = TextDesign(self.__abs_pos__(daynumberboxsize), fontsize=daynumbersize, text=str(number), verticalalignment="center", horizontalalignment="center")
-        txt.pos = pos
+        txt = TextDesign(self.__abs_pos__(daynumberboxsize), fontsize=daynumbersize * self.size[0], text=str(number), verticalalignment="center", horizontalalignment="center")
+        txt.pos = (pos[0], pos[1] + day_number_ypadding * self.size[1])
         self.draw_design(txt)
         
     def get_day_pos (self, week_in_month, day_of_week, rel_pos=(0,0)):

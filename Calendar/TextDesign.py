@@ -3,7 +3,6 @@ from PIL import ImageFont, ImageDraw, ImageOps
 from Assets import path, defaultfont, colors, defaultfontsize
 from TextWraper import wrap_text_with_font
 
-paddingcorrection = -3
 truncateerror_fontsize = 0.5
 
 class TextDesign (DesignEntity):
@@ -49,7 +48,7 @@ class TextDesign (DesignEntity):
         self.text += self.truncate_suffix
 
     def __pos_from_alignment__ (self):
-        width, height = self.__font__.getsize_multiline(self.text)
+        width, height = self.__get_text_size__()
         x, y = 0, 0
         
         if self.vertical_alignment == "center":
@@ -62,7 +61,12 @@ class TextDesign (DesignEntity):
         elif self.horizontal_alignment == "right":
             x = int(self.size[0] - width)
 
-        return (x, y + paddingcorrection)
+        return (x, y)
+
+    def __get_text_size__(self):
+        widht = self.__font__.getsize_multiline(self.text)[0]
+        height = (self.text.count('\n') + 1) * self.__font__.font.height
+        return widht, height
 
     def __wrap_text__ (self):
         self.text = wrap_text_with_font(self.text, self.size[0], self.__font__)

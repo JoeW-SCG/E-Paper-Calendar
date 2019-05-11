@@ -1,15 +1,15 @@
 from DesignEntity import DesignEntity
-from Assets import defaultfontsize, colors
+from Assets import defaultfontsize, colors, defaultfont, path
 from datetime import datetime, date, timedelta
 from TableDesign import TableDesign
-from PIL import ImageDraw
+from PIL import ImageDraw, ImageFont
 from TextFormatter import date_summary_str, event_prefix_str
 
-line_width = 1
+separator_width = 1
 
 class AgendaListDesign (DesignEntity):
     '''Lists upcoming events in chronological order and groups them by days'''
-    def __init__ (self, size, calendar, line_spacing = 3, col_spacing = 8, text_size = defaultfontsize, start_date = date.today(), always_add_start_row = True):
+    def __init__ (self, size, calendar, line_spacing = 0, col_spacing = 8, text_size = defaultfontsize, start_date = date.today(), always_add_start_row = True):
         super(AgendaListDesign, self).__init__(size)
         self.calendar = calendar
         self.line_spacing = line_spacing
@@ -25,7 +25,7 @@ class AgendaListDesign (DesignEntity):
         self.__draw_lines__()
 
     def __calculate_parameter__ (self):
-        self.__line_height__ = self.line_spacing + int(self.text_size)
+        self.__line_height__ = self.line_spacing + self.__get_text_height__()
         self.__event_number__ = int(int(self.size[1]) // self.__line_height__)
         self.__date_fontsize__ = self.text_size
         self.__date_linespace__ = self.line_spacing
@@ -72,7 +72,7 @@ class AgendaListDesign (DesignEntity):
         pos = (0, ypos)
         positions = [ pos, (self.size[0], ypos) ]
 
-        ImageDraw.Draw(self.__image__).line(positions, fill=colors["fg"], width=line_width)
+        ImageDraw.Draw(self.__image__).line(positions, fill=colors["fg"], width=separator_width)
 
     def __get_row_props__ (self, event = None):
         color = colors["fg"]
@@ -88,3 +88,6 @@ class AgendaListDesign (DesignEntity):
             "background_color" : bg_color
         }
         return [default_cell, default_cell, cell, cell ]
+
+    def __get_text_height__(self):
+        return ImageFont.truetype(path + defaultfont, self.text_size).font.height
