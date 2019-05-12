@@ -125,6 +125,7 @@ class TableDesign (TextDesign):
 
         design = TextDesign(size, text=self.matrix[row][col], font=self.font_family, color=color, background_color=bg_color, fontsize=fontsize, horizontalalignment=self.__get_col_hori_alignment__(col), wrap=self.wrap, truncate=self.truncate_text, truncate_suffix=self.truncate_suffix)
         design.pos = pos
+        design.mask = False
         self.draw_design(design)
                 
     def __draw_design__ (self, pos, size, row, col):
