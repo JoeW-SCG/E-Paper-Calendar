@@ -63,7 +63,7 @@ class Epd7in5bAdapter (EpdAdapter):
     def __prepare_image__(self, image):
         buffer = np.array(image)
         r,g = buffer[:,:,0], buffer[:,:,1]
-        buffer[np.logical_and(r > 240, g > 240)] = [255,255,255]
+        buffer[np.logical_and(r > 220, g > 220)] = [255,255,255]
         buffer[r > g] = [255,0,0]
         buffer[r != 255] = [0,0,0]
         return buffer

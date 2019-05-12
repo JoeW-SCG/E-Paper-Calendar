@@ -2,7 +2,7 @@ from DesignEntity import DesignEntity
 from settings import hours, language
 from TextDesign import TextDesign
 from PIL import ImageDraw
-from Assets import colors, defaultfontsize
+from Assets import colors, defaultfontsize, fonts
 from BoxDesign import BoxDesign
 from datetime import timedelta, datetime
 
@@ -16,6 +16,8 @@ event_title_xpadding = 3
 event_title_ypadding = 5
 line_thickness = 1
 currenttimeline_thickness = 2
+
+event_title_font = fonts['bold']
 
 class HourListDesign (DesignEntity):
     """Hours of a day are listed vertically and
@@ -144,7 +146,7 @@ class HourListDesign (DesignEntity):
         text = event.title
         text_color = colors["bg"]
         textbox_size = (size[0] - event_title_xpadding, size[1] - event_title_ypadding)
-        txt = TextDesign(textbox_size, text = text, fontsize=event_title_fontsize, color=text_color, background_color=box_color, wrap=True)
+        txt = TextDesign(textbox_size, text = text, font=event_title_font, fontsize=event_title_fontsize, color=text_color, background_color=box_color, wrap=True)
         txt.mask = False
         txt.pos = (pos[0] + event_title_xpadding, pos[1] + event_title_ypadding)
         self.draw_design(txt)
