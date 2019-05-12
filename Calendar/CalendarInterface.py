@@ -46,12 +46,14 @@ class CalendarInterface (DataSourceInterface):
         day_start = datetime(day.year, day.month, day.day, 0, 0, 0, 0, local_tzinfo)
         return self.__get_events_in_range__(day_start, timedelta(1))
 
-    def get_month_events (self, month = -1):
+    def get_month_events (self, month = -1, year = -1):
         if month < 0:
             month = datetime.now().month
+        if year < 0:
+            year = datetime.now().year
         
         local_tzinfo = datetime.now(timezone.utc).astimezone().tzinfo
-        month_start = datetime(datetime.now().year, month, 1, 0, 0, 0, 0, local_tzinfo)
+        month_start = datetime(year, month, 1, 0, 0, 0, 0, local_tzinfo)
         month_days = calendar.monthrange(month_start.year, month_start.month)[1]
         return self.__get_events_in_range__(month_start, timedelta(month_days))
 
