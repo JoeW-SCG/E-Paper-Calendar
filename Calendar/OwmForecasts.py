@@ -66,7 +66,8 @@ class OwmForecasts (WeatherInterface):
         forecast_object.short_description = translate(str(weather.get_status()))
         forecast_object.detailed_description = str(weather.get_detailed_status())
         forecast_object.air_pressure = str(weather.get_pressure()['press'])
-        forecast_object.wind_deg = str(int(weather.get_wind()['deg']))
+        if 'deg' in weather.get_wind().keys():
+            forecast_object.wind_deg = str(int(weather.get_wind()['deg']))
 
         if forecast_object.units == "metric":
             forecast_object.air_temperature = str(int(weather.get_temperature(unit='celsius')['temp']))

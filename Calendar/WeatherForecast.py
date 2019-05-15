@@ -11,6 +11,7 @@ class WeatherForecast (object):
         self.sunset = None
         self.moon_phase = None
         self.wind_speed = None
+        self.wind_deg = None
         self.clouds = None
 
         self.icon = None

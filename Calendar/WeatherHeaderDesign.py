@@ -30,10 +30,12 @@ class WeatherHeaderDesign (DesignEntity):
 
         temperature = cur_weather.air_temperature + " " + self.__get_unit__(("°C", "°F"))
         if units== "aviation": #pick up aviation
-            if len(forecast.wind_deg)==1:   #if deg is 2, add two zeros for format
-                forecast.wind_deg = "00" + forecast.wind_deg
-            elif len(forecast.wind_deg)==2:
-                forecast.wind_deg = "0" + forecast.wind_deg
+            if cur_weather.wind_deg == None:
+                cur_weather.wind_deg = ""
+            elif len(cur_weather.wind_deg)==1:   #if deg is 2, add two zeros for format
+                cur_weather.wind_deg = "00" + cur_weather.wind_deg
+            elif len(cur_weather.wind_deg)==2:
+                cur_weather.wind_deg = "0" + cur_weather.wind_deg
             if int(cur_weather.wind_speed)<10:
                 windspeed = cur_weather.wind_deg + "@" + "0" + cur_weather.wind_speed  + self.__get_unit__(("", "")) #added degrees, if wind<10 add a 0 to make two digit
             else:
