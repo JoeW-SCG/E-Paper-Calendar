@@ -63,7 +63,7 @@ class WeatherHeaderDesign (DesignEntity):
         self.draw_design(txt)
 
     def __get_unit__ (self, tuple):
-        if units == "metric":
+        if units == "metric" or units == "aviation":
             return tuple[0]
         else:
             return tuple[1]

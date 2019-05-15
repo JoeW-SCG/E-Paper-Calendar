@@ -82,7 +82,7 @@ class WeatherColumnDesign (DesignEntity):
 
 
     def __get_unit__ (self, tuple):
-        if self.forecast.units == "metric":
+        if self.forecast.units == "metric" or self.forecast.units == "aviation":
             return tuple[0]
         else:
             return tuple[1]
