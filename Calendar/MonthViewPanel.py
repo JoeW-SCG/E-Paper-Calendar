@@ -38,10 +38,12 @@ class MonthViewPanel (PanelDesign):
             self.weather_height = weather_height
         self.day_area_height = 1 - self.weather_height - self.info_height
         self.day_area_ypos = self.weather_height
+        
+        self.week_count = self.__get_week_count__()
 
         area_height = self.size[1] * self.day_area_height
         area_width = self.size[0]
-        self.day_box_size = (area_width / 7, area_height)
+        self.day_box_size = (area_width / 7, area_height / self.week_count)
 
     def add_weather (self, weather):
         if general_settings["weather-info"] == False:
@@ -80,7 +82,7 @@ class MonthViewPanel (PanelDesign):
 
     def __draw_days__(self):
         size = (self.size[0], self.size[1] * self.day_area_height)
-        pos = (0, self.size[0] * self.day_area_ypos)
+        pos = (0, self.size[1] * self.day_area_ypos)
 
         table = TableDesign(size, matrix = self.day_table)
         table.pos = pos
@@ -108,3 +110,6 @@ class MonthViewPanel (PanelDesign):
         design = DayBoxDesign(self.day_box_size, date(self.year, self.month, int(day)))
 
         return design
+    
+    def __get_week_count__(self):
+        return len(callib.monthcalendar(self.year, self.month))
