@@ -46,7 +46,6 @@ class WeatherColumnDesign (DesignEntity):
         ypos = info_x_ypos * self.size[0]
         pos = (0, ypos)
         size = (self.size[0], self.size[1] + info_yresize * self.size[1] - pos[1])
-        print(size)
         line_spacing = (size[1] - len(numbers_list) * fontsize_static) / (len(numbers_list) + 1)
 
         table = TableDesign(size, numbers_list, fontsize=fontsize_static, line_spacing=line_spacing, column_horizontal_alignments=[ "center" ], max_col_size=[ size[0] ], truncate_text=False, truncate_rows=False)
