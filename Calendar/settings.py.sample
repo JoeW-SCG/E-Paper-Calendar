@@ -18,7 +18,7 @@ week_starts_on = "Monday"
 display_colours = "bwr"
 language = "en"
 datetime_encoding = "UTF-8" # UTF-8
-units = "metric"
+units = "metric" #aviation (celcius,degrees/knots), metric (celcius,kmh), imperial(f,mph)
 hours = "24"
 update_interval = 60
 

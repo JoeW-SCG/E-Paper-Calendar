@@ -19,14 +19,14 @@ class OwmForecasts (WeatherInterface):
             return self.api.is_API_online()
         except:
             return False
-    
+
     def reload(self):
         pass
 
     def get_today_forecast (self, location=None):
         if self.is_available() is False:
             return None
-        
+
         try:
             location = self.location if location is None else location
 
@@ -40,10 +40,10 @@ class OwmForecasts (WeatherInterface):
     def get_forecast_in_days (self, offset_by_days, location=None):
         if offset_by_days is 0:
             return self.get_today_forecast(location)
-        
+
         if self.is_available() is False:
             return None
-                
+
         location = self.location if location is None else location
         try:
             forecast = self.api.daily_forecast(location, limit=offset_by_days)
@@ -66,14 +66,19 @@ class OwmForecasts (WeatherInterface):
         forecast_object.short_description = translate(str(weather.get_status()))
         forecast_object.detailed_description = str(weather.get_detailed_status())
         forecast_object.air_pressure = str(weather.get_pressure()['press'])
+        forecast_object.wind_deg = str(int(weather.get_wind()['deg']))
 
         if forecast_object.units == "metric":
             forecast_object.air_temperature = str(int(weather.get_temperature(unit='celsius')['temp']))
-            forecast_object.wind_speed = str(int(weather.get_wind()['speed']))
+            forecast_object.wind_speed = str(int(weather.get_wind()['speed'])) #kmh
+
+        if forecast_object.units == "aviation":
+            forecast_object.air_temperature = str(int(weather.get_temperature(unit='celsius')['temp']))
+            forecast_object.wind_speed = str(int(weather.get_wind()['speed'] * 1.94384)) #knots
 
         if forecast_object.units == "imperial":
             forecast_object.air_temperature = str(int(weather.get_temperature('fahrenheit')['temp']))
-            forecast_object.wind_speed = str(int(weather.get_wind()['speed'] * 0.621))
+            forecast_object.wind_speed = str(int(weather.get_wind()['speed'] * 0.621)) #mph
 
         forecast_object.sunrise = datetime.fromtimestamp(int(weather.get_sunrise_time(timeformat='unix')))
         forecast_object.sunset = datetime.fromtimestamp(int(weather.get_sunset_time(timeformat='unix')))

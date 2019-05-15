@@ -29,7 +29,13 @@ class WeatherHeaderDesign (DesignEntity):
             return
 
         temperature = cur_weather.air_temperature + " " + self.__get_unit__(("°C", "°F"))
-        windspeed = cur_weather.wind_speed + " " + self.__get_unit__(("km/h", "mph"))
+        if units== "aviation": #pick up aviation
+            if int(cur_weather.wind_speed)<10:
+                windspeed = cur_weather.wind_deg + "@" + "0" + cur_weather.wind_speed  + self.__get_unit__(("", "")) #added degrees, if wind<10 add a 0 to make two digit
+            else:
+                windspeed = cur_weather.wind_deg + "@" + cur_weather.wind_speed  + self.__get_unit__(("", "")) #added degrees
+        else:
+            windspeed = cur_weather.wind_speed + " " + self.__get_unit__(("km/h", "mph"))
 
         self.__draw_text__(temperature, self.__abs_pos__((0.87, 0)), (50,35))
         self.__draw_text__(windspeed, self.__abs_pos__((0.297, 0.05)), (100,35))
