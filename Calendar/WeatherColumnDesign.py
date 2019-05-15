@@ -31,6 +31,10 @@ class WeatherColumnDesign (DesignEntity):
         temperature = forecast.air_temperature + " " + self.__get_unit__(("°C", "°F"))
         humidity = forecast.air_humidity + "%"
         if self.forecast.units== "aviation":
+            if len(forecast.wind_deg)==1:
+                forecast.wind_deg = "00" + forecast.wind_deg
+            elif len(forecast.wind_deg)==2:
+                forecast.wind_deg = "0" + forecast.wind_deg
             if int(forecast.wind_speed)<10:
                 windspeed = forecast.wind_deg + "@" + "0" + forecast.wind_speed  + self.__get_unit__(("", "")) #added degrees, if wind<10 add a 0 to make two digit
             else:
