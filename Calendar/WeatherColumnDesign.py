@@ -30,9 +30,9 @@ class WeatherColumnDesign (DesignEntity):
     def __draw_infos__ (self, forecast):
         temperature = forecast.air_temperature + " " + self.__get_unit__(("°C", "°F"))
         humidity = forecast.air_humidity + "%"
-        if self.forecast.units== "aviation":
-            if cur_weather.wind_deg == None:
-                cur_weather.wind_deg = ""
+        if forecast.units== "aviation":
+            if forecast.wind_deg == None:
+                forecast.wind_deg = ""
             elif len(forecast.wind_deg)==1:
                 forecast.wind_deg = "00" + forecast.wind_deg
             elif len(forecast.wind_deg)==2:
