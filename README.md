@@ -77,7 +77,7 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 | display_colours | This should normally be set by the installer when you choose the type of your display. Options include `"bw"` if you're using the black and white E-Paper or `"bwr"` when you're using the black-white-red or black-white-yellow E-Paper.|
 | language | Sets the language and the related locale for datetime-information. Some texts depend on additional translations that can be added to the dictionary-file.|
 | datetime_encoding | Sets the encoding that will be used in the datetime-texts (month, weekday, ...). Default is `"UTF-8"`. Not to confuse with the full locale, this is only the encoding. |
-|units| Selecting units allows switching units from km/h (kilometer per hour) and °C (degree Celcius) to mph (miles per hour) and °F (degree Fahrenheit). Possible options are `"metric"`, `"imperial"` or `"aviation"` (Celsius/Knots). |
+|units| Selecting units allows switching units from km/h (kilometer per hour) and °C (degree Celcius) to mph (miles per hour) and °F (degree Fahrenheit). Possible options are `"metric"`, `"imperial"` or `"aviation"` (Celsius, Degree/Knots). |
 |hours | Which time format do you prefer? This will change the sunrise and sunset times from 24-hours format to 12-hours format. Possible options are `"24"` for 24-hours and `"12"` for 12-hours.|
 |update_interval | The update delay between two updates in minutes. By default there is always an update on a full hour.|
 
