@@ -26,6 +26,7 @@ update_interval = 60
 """DESIGN"""
 font_size = 14  # does not affect every text
 font_boldness = "semibold"   # extralight, light, regular, semibold, bold, extrabold
+line_thickness = 1 #1-3 Thickness advised // Default = 1 // day-list view only!
 choosen_design = "month-overview" # month-overview, day-list, day-view, agenda-list, month-view
 general_settings = {    # General settings that designs may use
     "info-area" : "rss",    # empty, events, rss

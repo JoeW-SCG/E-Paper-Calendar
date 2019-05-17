@@ -8,10 +8,11 @@ from TextDesign import TextDesign
 from DayHeaderDesign import DayHeaderDesign
 from DayRowDesign import DayRowDesign
 from RssPostListDesign import RssPostListDesign
+from settings import line_thickness
 
 todayheader_pos = (0,0)
 todayheader_size = (1,0.25)
-lines_thickness = 1
+lines_thickness = line_thickness
 infoarea_replacedrowscount = 3
 
 dayrowsarea_ypos = todayheader_size[1]
