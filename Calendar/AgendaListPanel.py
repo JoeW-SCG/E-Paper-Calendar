@@ -1,14 +1,14 @@
 from PanelDesign import PanelDesign
 from AgendaListDesign import AgendaListDesign
 from WeatherHeaderDesign import WeatherHeaderDesign
-from settings import general_settings
+from settings import general_settings, line_thickness
 from PIL import ImageDraw
 from Assets import colors
 from RssPostListDesign import RssPostListDesign
 
 agenda_ypadding = 5
 weatherheader_height = 0.113
-seperator_width = 3
+seperator_width = line_thickness
 infolist_size = (1, 0.24)
 infolist_padding = 2
 

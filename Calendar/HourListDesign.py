@@ -1,5 +1,5 @@
 from DesignEntity import DesignEntity
-from settings import hours, language
+from settings import hours, language,line_thickness
 from TextDesign import TextDesign
 from PIL import ImageDraw
 from Assets import colors, defaultfontsize, fonts
@@ -14,8 +14,8 @@ hoursubtext_height = 0.45
 event_title_fontsize = defaultfontsize
 event_title_xpadding = 3
 event_title_ypadding = 5
-line_thickness = 1
-currenttimeline_thickness = 2
+line_thickness = line_thickness
+currenttimeline_thickness = line_thickness
 
 event_title_font = fonts['bold']
 

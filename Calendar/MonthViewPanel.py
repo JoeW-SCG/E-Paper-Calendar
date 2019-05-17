@@ -1,5 +1,5 @@
 from PanelDesign import PanelDesign
-from settings import general_settings, week_starts_on
+from settings import general_settings, week_starts_on, line_thickness
 from PIL import ImageDraw
 from datetime import date
 from Assets import colors
@@ -12,7 +12,7 @@ from WeatherHeaderDesign import WeatherHeaderDesign
 weather_height = 0.113
 info_height = 0.25
 info_padding = 5
-seperator_width = 3
+seperator_width = line_thickness
 
 class MonthViewPanel (PanelDesign):
     """Displays a grid of the day of the current month

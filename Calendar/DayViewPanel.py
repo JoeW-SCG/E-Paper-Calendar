@@ -2,7 +2,7 @@ from PanelDesign import PanelDesign
 from datetime import datetime, timedelta, date
 from DayHeaderDesign import DayHeaderDesign
 from HourListDesign import HourListDesign
-from settings import general_settings
+from settings import general_settings, line_thickness
 from RssPostListDesign import RssPostListDesign
 from PIL import ImageDraw
 from Assets import colors
@@ -13,7 +13,7 @@ hourlist_size = (1, 1 - header_size[1])
 default_shownhours_count = 12
 
 infoarea_replaced_hours = 4
-infoarea_borderline_width = 1
+infoarea_borderline_width = line_thickness
 infoarea_padding = 5
 
 class DayViewPanel (PanelDesign):

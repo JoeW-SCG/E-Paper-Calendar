@@ -11,7 +11,7 @@ from EllipseDesign import EllipseDesign
 from MonthBlockDesign import MonthBlockDesign, daynumberboxsize
 from EventListDesign import EventListDesign
 from RssPostListDesign import RssPostListDesign
-from settings import general_settings
+from settings import general_settings, line_thickness
 
 weatherheadersize = (1,0.113)
 monthboxsize = (1, 0.085)
@@ -110,7 +110,7 @@ class MonthOvPanel (PanelDesign):
 
     def __draw_seperator__ (self):
         """Draw a line seperating the weather and Calendar section"""
-        ImageDraw.Draw(self.__image__).line([ self.__abs_pos__(seperatorplace), self.__abs_pos__((1, seperatorplace[1])) ], fill='red', width=5)
+        ImageDraw.Draw(self.__image__).line([ self.__abs_pos__(seperatorplace), self.__abs_pos__((1, seperatorplace[1])) ], fill='red', width=line_thickness)
 
     def __draw_month_name__ (self):
         """Draw the icon with the current month's name"""

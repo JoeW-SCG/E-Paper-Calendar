@@ -4,8 +4,9 @@ from datetime import datetime, date, timedelta
 from TableDesign import TableDesign
 from PIL import ImageDraw, ImageFont
 from TextFormatter import date_summary_str, event_prefix_str
+from settings import line_thickness
 
-separator_width = 1
+separator_width = line_thickness
 
 class AgendaListDesign (DesignEntity):
     '''Lists upcoming events in chronological order and groups them by days'''
