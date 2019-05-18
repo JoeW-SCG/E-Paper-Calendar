@@ -21,7 +21,7 @@ if [ -z "$option" ]; then
 fi
 if [ "$option" = 3 ]; then
     echo -e "Removing the E-Paper software now..."
-    pip3 uninstall feedparser -y && sudo pip3 uninstall feedparser -y && pip3 uninstall numpy -y && sudo pip3 uninstall numpy -y && pip3 uninstall Pillow -y && sudo pip3 uninstall Pillow -y && sudo pip3 uninstall pyowm -y&& sudo pip3 uninstall ics -y && pip3 uninstall pyowm -y && pip3 uninstall ics -y && sudo apt-get remove supervisor -y && sudo apt-get clean && sudo apt-get autoremove -y
+    pip3 uninstall json -y && sudo pip3 uninstall json -y && pip3 uninstall feedparser -y && sudo pip3 uninstall feedparser -y && pip3 uninstall numpy -y && sudo pip3 uninstall numpy -y && pip3 uninstall Pillow -y && sudo pip3 uninstall Pillow -y && sudo pip3 uninstall pyowm -y&& sudo pip3 uninstall ics -y && pip3 uninstall pyowm -y && pip3 uninstall ics -y && sudo apt-get remove supervisor -y && sudo apt-get clean && sudo apt-get autoremove -y
     if [ -e /etc/supervisor/conf.d/E-Paper.conf ]; then
         sudo rm /etc/supervisor/conf.d/E-Paper.conf
     fi
@@ -83,10 +83,12 @@ if [ "$option" = 2 ]; then
     sudo pip3 install ics
     sudo pip3 install feedparser
     sudo pip3 install numpy
+    sudo pip3 install json
     pip3 install pyowm
     pip3 install ics
     pip3 install feedparser
     pip3 install numpy
+    pip3 install json
     echo -e "\e[1;36m"Finished installing libraries"\e[0m"
 fi
 

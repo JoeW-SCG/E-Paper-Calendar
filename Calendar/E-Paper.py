@@ -22,7 +22,7 @@ from AgendaListPanel import AgendaListPanel
 import OwmForecasts
 import IcalEvents
 import RssParserPosts
-import CryptoPrices
+from GeckoCrypto import GeckoCrypto
 
 all_locales = locale.locale_alias
 if language.lower() not in all_locales.keys():
@@ -62,7 +62,7 @@ def main():
     owm = OwmForecasts.OwmForecasts(location, api_key, paid_api=owm_paid_subscription)
     events_cal = IcalEvents.IcalEvents(ical_urls, highlighted_ical_urls)
     rss = RssParserPosts.RssParserPosts(rss_feeds)
-    coin = CryptoPrices.CryptoPrices(crypto_coins)
+    crypto = GeckoCrypto(crypto_coins)
 
     while True:
         loop_timer.begin_loop()
@@ -78,9 +78,9 @@ def main():
         else:
             raise ImportError("choosen_design must be valid (" + choosen_design + ")")
 
-        debug.print_line('Getting crypto prices')
-        coin.reload()
-        design.add_crypto(coin)
+        debug.print_line('Fetching crypto prices from coin gecko')
+        crypto.reload()
+        design.add_crypto(crypto)
 
         debug.print_line("Fetching weather information from open weather map")
         owm.reload()
