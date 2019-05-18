@@ -18,9 +18,7 @@ class CryptoListDesign (DesignEntity):
         self.draw_design(table_design)
 
     def __fill_post_matrix__ (self):
-        price,name=CryptoPrices.__get_prices__(self.coin)
-        x=0
-        while x < len(name):
-            row = name[x]+": $"+str(price[x])
+        prices, coins = CryptoPrices.__get_prices__(self.coin)
+        for price, coin in zip(prices, coins):
+            row = coin + ": $" + str(price)
             self.__post_matrix__[0].append(row)
-            x= x+1
