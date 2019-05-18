@@ -2,14 +2,14 @@ from DesignEntity import DesignEntity
 from TableDesign import TableDesign
 from Assets import defaultfontsize
 from CryptoPrices import CryptoPrices
-from settings import coins as cryptos
+from settings import crypto_coins as cryptos
 
 
 class CryptoListDesign (DesignEntity):
     def __init__ (self, size, coin, text_size = defaultfontsize):
         super(CryptoListDesign, self).__init__(size)
         self.coin = coin
-        self.__post_matrix__ = []
+        self.__post_matrix__ = [[]]
         self.text_size = text_size
 
     def __finish_image__ (self):
@@ -22,6 +22,5 @@ class CryptoListDesign (DesignEntity):
         x=0
         while x < len(name):
             row = name[x]+": $"+str(price[x])
-            self.__post_matrix__.append(row)
+            self.__post_matrix__[0].append(row)
             x= x+1
-        print(self.__post_matrix__)

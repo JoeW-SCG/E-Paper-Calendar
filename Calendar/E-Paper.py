@@ -13,7 +13,7 @@ from Assets import path
 from LoopTimer import LoopTimer
 import locale
 from DebugConsole import DebugConsole
-from settings import datetime_encoding, language, render_to_display, render_to_file, display_colours, location, api_key, owm_paid_subscription, choosen_design, ical_urls, highlighted_ical_urls, rss_feeds, update_interval, calibrate_hours,coins
+from settings import datetime_encoding, language, render_to_display, render_to_file, display_colours, location, api_key, owm_paid_subscription, choosen_design, ical_urls, highlighted_ical_urls, rss_feeds, update_interval, calibrate_hours, crypto_coins
 from MonthOvPanel import MonthOvPanel
 from DayListPanel import DayListPanel
 from DayViewPanel import DayViewPanel
@@ -62,7 +62,7 @@ def main():
     owm = OwmForecasts.OwmForecasts(location, api_key, paid_api=owm_paid_subscription)
     events_cal = IcalEvents.IcalEvents(ical_urls, highlighted_ical_urls)
     rss = RssParserPosts.RssParserPosts(rss_feeds)
-    coin = CryptoPrices.CryptoPrices(coins)
+    coin = CryptoPrices.CryptoPrices(crypto_coins)
 
     while True:
         loop_timer.begin_loop()
