@@ -59,6 +59,9 @@ class DayHeaderDesign (DesignEntity):
     def add_rssfeed (self, rss):
         pass
 
+    def add_crypto (self, crypto):
+        pass
+
     def __finish_image__ (self):
         self.__draw_number_square__()
         self.__draw_month__()
@@ -87,7 +90,7 @@ class DayHeaderDesign (DesignEntity):
         box_height = int(numberbox_height * self.size[1])
         box_pos = (box_ypos + box_height + xpadding, box_ypos + ypadding)
         box_size = (int(monthbox_width * self.size[0]), box_height)
-        
+
         month_name = self.date.strftime("%B")
         month = TextDesign(box_size, text=month_name, fontsize=font_size)
         month.pos = box_pos
@@ -126,7 +129,7 @@ class DayHeaderDesign (DesignEntity):
         size = (box_height, weekdaybox_height * box_height)
         box_ypos = numberbox_ypos * self.size[1]
         pos = (box_ypos, box_ypos)
-        
+
         week_day_name = self.date.strftime("%A")
         week_day = TextDesign(size, text=week_day_name, background_color=numberbox_background_color, color=numberbox_font_color, fontsize=font_size, horizontalalignment="center", verticalalignment = "center", font=weekday_font)
         week_day.pos = pos

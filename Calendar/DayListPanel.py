@@ -1,13 +1,14 @@
 from PanelDesign import PanelDesign
 from Assets import colors
 from settings import general_settings
-import calendar as callib 
+import calendar as callib
 from datetime import datetime, timedelta, date
 from PIL import ImageDraw
 from TextDesign import TextDesign
 from DayHeaderDesign import DayHeaderDesign
 from DayRowDesign import DayRowDesign
 from RssPostListDesign import RssPostListDesign
+from CryptoListDesign import CryptoListDesign
 from settings import line_thickness
 
 todayheader_pos = (0,0)
@@ -20,6 +21,7 @@ dayrowsarea_height = 1 - todayheader_size[1]
 dayrow_min_format = 50 / 384
 dayrow_max_format = 70 / 384
 rss_y_padding = 5
+crypto_y_padding = 5
 
 class DayListPanel (PanelDesign):
     """Overview that focuses on the current day and
@@ -48,6 +50,12 @@ class DayListPanel (PanelDesign):
         if general_settings["info-area"] is "rss":
             self.__draw_rss_infoarea__(rss)
 
+    def add_crypto (self, crypto):
+        for row in self.__day_rows__:
+            row.add_crypto(crypto)
+        if general_settings["info-area"] is "crypto":
+            self.__draw_crypto_infoarea__(crypto)
+
     def __draw_rss_infoarea__ (self, rss):
         height = infoarea_replacedrowscount * self.dayrow_size[1] * self.size[1] - rss_y_padding
         ypos = self.size[1] - height
@@ -55,6 +63,16 @@ class DayListPanel (PanelDesign):
         pos = (0, ypos)
 
         design = RssPostListDesign(size, rss)
+        design.pos = pos
+        self.draw_design(design)
+
+    def __draw_crypto_infoarea__ (self, crypto):
+        height = infoarea_replacedrowscount * self.dayrow_size[1] * self.size[1] - crypto_y_padding
+        ypos = self.size[1] - height
+        size = (self.size[0], height)
+        pos = (0, ypos)
+
+        design = CryptoListDesign(size, crypto)
         design.pos = pos
         self.draw_design(design)
 
@@ -79,7 +97,7 @@ class DayListPanel (PanelDesign):
         row_height = max_area_height / self.dayrow_count
         self.dayrow_size = (1, row_height / self.size[1])
 
-        if general_settings["info-area"] in ["rss"]:
+        if general_settings["info-area"] in ["rss"] or ["crypto"]:
             self.dayrow_count -= infoarea_replacedrowscount
 
     def __get_following_days__(self):

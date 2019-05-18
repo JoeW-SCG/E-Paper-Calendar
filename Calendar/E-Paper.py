@@ -13,7 +13,7 @@ from Assets import path
 from LoopTimer import LoopTimer
 import locale
 from DebugConsole import DebugConsole
-from settings import datetime_encoding, language, render_to_display, render_to_file, display_colours, location, api_key, owm_paid_subscription, choosen_design, ical_urls, highlighted_ical_urls, rss_feeds, update_interval, calibrate_hours
+from settings import datetime_encoding, language, render_to_display, render_to_file, display_colours, location, api_key, owm_paid_subscription, choosen_design, ical_urls, highlighted_ical_urls, rss_feeds, update_interval, calibrate_hours,coins
 from MonthOvPanel import MonthOvPanel
 from DayListPanel import DayListPanel
 from DayViewPanel import DayViewPanel
@@ -22,6 +22,7 @@ from AgendaListPanel import AgendaListPanel
 import OwmForecasts
 import IcalEvents
 import RssParserPosts
+import CryptoPrices
 
 all_locales = locale.locale_alias
 if language.lower() not in all_locales.keys():
@@ -61,6 +62,7 @@ def main():
     owm = OwmForecasts.OwmForecasts(location, api_key, paid_api=owm_paid_subscription)
     events_cal = IcalEvents.IcalEvents(ical_urls, highlighted_ical_urls)
     rss = RssParserPosts.RssParserPosts(rss_feeds)
+    coin = CryptoPrices.CryptoPrices(coins)
 
     while True:
         loop_timer.begin_loop()
@@ -71,10 +73,14 @@ def main():
             for output in output_adapters:
                 output.calibrate()
 
-        if choosen_design in available_panels.keys():            
+        if choosen_design in available_panels.keys():
             design = available_panels[choosen_design]((epd.width, epd.height))
         else:
             raise ImportError("choosen_design must be valid (" + choosen_design + ")")
+
+        debug.print_line('Getting crypto prices')
+        coin.reload()
+        design.add_crypto(coin)
 
         debug.print_line("Fetching weather information from open weather map")
         owm.reload()

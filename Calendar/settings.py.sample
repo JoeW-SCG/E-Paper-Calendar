@@ -21,13 +21,14 @@ datetime_encoding = "UTF-8" # UTF-8
 units = "metric" #aviation (celcius,degrees/knots), metric (celcius,kmh), imperial(f,mph)
 hours = "24"
 update_interval = 60
+coins=["bitcoin","litecoin","ethereum","binancecoin"] #Max might be 7 once fixed.
 
 
 """DESIGN"""
 font_size = 14  # does not affect every text
 font_boldness = "semibold"   # extralight, light, regular, semibold, bold, extrabold
-choosen_design = "month-overview" # month-overview, day-list, day-view, agenda-list, month-view
-line_thickness = 1  # 1-3 Thickness advised
+line_thickness = 1 #1-3 Thickness advised // Default = 1 // day-list view only!
+choosen_design = "day-list" # month-overview, day-list, day-view, agenda-list, month-view
 general_settings = {    # General settings that designs may use
     "info-area" : "rss",    # empty, events, rss
     "highlight-event-days" : True,

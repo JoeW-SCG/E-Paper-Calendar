@@ -2,18 +2,20 @@ from PanelDesign import PanelDesign
 from datetime import datetime, timedelta, date
 from DayHeaderDesign import DayHeaderDesign
 from HourListDesign import HourListDesign
-from settings import general_settings, line_thickness
+from settings import general_settings
 from RssPostListDesign import RssPostListDesign
 from PIL import ImageDraw
 from Assets import colors
 from EventListDesign import EventListDesign
+from CryptoListDesign import CryptoListDesign
+
 
 header_size = (1, 0.2)
 hourlist_size = (1, 1 - header_size[1])
 default_shownhours_count = 12
 
 infoarea_replaced_hours = 4
-infoarea_borderline_width = line_thickness
+infoarea_borderline_width = 1
 infoarea_padding = 5
 
 class DayViewPanel (PanelDesign):
@@ -47,6 +49,11 @@ class DayViewPanel (PanelDesign):
             self.__draw_rss_feed__(rss)
             self.__draw_infoarea_line__()
 
+    def add_cryptofeed (self, crypto):
+        if general_settings["info-area"] == "crypto":
+            self.__draw_crypto_feed__(crypto)
+            self.__draw_infoarea_line__()
+
     def __draw_infoarea_line__(self):
         height = infoarea_replaced_hours * self.__hourlist__.row_size[1]
         ypos = self.size[1] - height
@@ -63,6 +70,16 @@ class DayViewPanel (PanelDesign):
         rss = RssPostListDesign(size, rss)
         rss.pos = pos
         self.draw_design(rss)
+
+    def __draw_crypto_feed__(self, crypto):
+        height = infoarea_replaced_hours * self.__hourlist__.row_size[1] - infoarea_padding
+        size = (self.size[0], height)
+        pos = (0, self.size[1] - size[1])
+
+        crypto = CryptoListDesign(size, crypto)
+        crypto.pos = pos
+        self.draw_design(crypto)
+
 
     def __draw_event_list__(self, calendar):
         height = infoarea_replaced_hours * self.__hourlist__.row_size[1] - infoarea_padding
@@ -88,14 +105,14 @@ class DayViewPanel (PanelDesign):
         start, end = self.__get_current_hour_range__()
         size = self.__abs_co__(hourlist_size)
         size = (size[0], size[1] * self.shownhours_count / default_shownhours_count)
-        
+
         self.__hourlist__ = HourListDesign(size, start, end)
         self.__hourlist__.pos = (0, self.__header__.size[1])
 
     def __get_current_hour_range__(self):
         start_hour = datetime.now().hour
         additional_hours = self.shownhours_count - 1
-        
+
         if start_hour + additional_hours > 23:
             start_hour = 23 - additional_hours
 

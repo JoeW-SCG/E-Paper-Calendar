@@ -38,6 +38,9 @@ class DayRowDesign (DesignEntity):
     def add_rssfeed (self, rss):
         pass
 
+    def add_crypto (self, crypto):
+        pass
+        
     def __draw_event_list__ (self, calendar):
         number_width = daynumber_y_size[0] * self.size[1]
         ypos = eventlist_ypos * self.size[1]
@@ -47,7 +50,7 @@ class DayRowDesign (DesignEntity):
         pos = (number_width + eventlist_xpadding, ypos)
         size = (self.size[0] - pos[0] - weather_width, self.size[1] - pos[1])
         fontsize = eventlist_y_fontsize * self.size[1]
-        
+
         events = calendar.get_day_events(self.date)
         rel_dates = [self.date for _ in range(len(events))]
         event_list = SingelDayEventListDesign(size, events, fontsize, event_prefix_rel_dates = rel_dates)
@@ -56,7 +59,7 @@ class DayRowDesign (DesignEntity):
 
     def __draw_forecast__ (self, weather):
         forecast = weather.get_forecast_in_days(self.date.day - datetime.today().day)
-        
+
         if forecast is None:
             return
 
@@ -80,7 +83,7 @@ class DayRowDesign (DesignEntity):
 
         color = self.__get_day_color__()
         week_day_name = self.date.strftime("%a")
-        
+
         week_day = TextDesign(size, text=week_day_name, font=font, color=color, fontsize=font_size, horizontalalignment="center", verticalalignment="top")
         week_day.pos = pos
         week_day.mask = False

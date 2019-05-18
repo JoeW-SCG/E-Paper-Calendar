@@ -11,7 +11,9 @@ from EllipseDesign import EllipseDesign
 from MonthBlockDesign import MonthBlockDesign, daynumberboxsize
 from EventListDesign import EventListDesign
 from RssPostListDesign import RssPostListDesign
-from settings import general_settings, line_thickness
+from settings import general_settings
+from CryptoListDesign import CryptoListDesign
+
 
 weatherheadersize = (1,0.113)
 monthboxsize = (1, 0.085)
@@ -65,6 +67,10 @@ class MonthOvPanel (PanelDesign):
         if general_settings["info-area"] is "rss":
             self.__draw_rss_post_list_to_bottom__(rss)
 
+    def add_crypto (self, crypto):
+        if general_settings["info-area"] is "crypto":
+            self.__draw_crypto_post_list_to_bottom__(crypto)
+
     def add_calendar (self, calendar):
         if general_settings["highlight-event-days"]:
             month_events = list(set([ (event.begin_datetime.day, event.begin_datetime.month, event.begin_datetime.year) for event in calendar.get_month_events()]))
@@ -79,6 +85,14 @@ class MonthOvPanel (PanelDesign):
         month_height = self.month_block.get_real_height()
         size = (self.size[0], self.size[1] - (month_pos[1] + month_height + self.weather_header_height))
         info_list = RssPostListDesign(size, rss)
+        info_list.pos = (int(month_pos[0]), month_pos[1] + month_height + self.weather_header_height)
+        self.draw_design(info_list)
+
+    def __draw_crypto_post_list_to_bottom__ (self, crypto):
+        month_pos = self.__abs_pos__(monthovposition)
+        month_height = self.month_block.get_real_height()
+        size = (self.size[0], self.size[1] - (month_pos[1] + month_height + self.weather_header_height))
+        info_list = CryptoListDesign(size, crypto)
         info_list.pos = (int(month_pos[0]), month_pos[1] + month_height + self.weather_header_height)
         self.draw_design(info_list)
 
@@ -110,7 +124,7 @@ class MonthOvPanel (PanelDesign):
 
     def __draw_seperator__ (self):
         """Draw a line seperating the weather and Calendar section"""
-        ImageDraw.Draw(self.__image__).line([ self.__abs_pos__(seperatorplace), self.__abs_pos__((1, seperatorplace[1])) ], fill='red', width=line_thickness)
+        ImageDraw.Draw(self.__image__).line([ self.__abs_pos__(seperatorplace), self.__abs_pos__((1, seperatorplace[1])) ], fill='red', width=5)
 
     def __draw_month_name__ (self):
         """Draw the icon with the current month's name"""
@@ -126,7 +140,7 @@ class MonthOvPanel (PanelDesign):
             pos = self.__get_week_day_pos__(day_of_week)
             txt.pos = (pos[0], pos[1] + weekdaytextpadding * self.size[1])
             self.draw_design(txt)
-        
+
         self.__draw_highlight_box__(self.__abs_pos__(weekrownameboxsize), self.__get_week_day_pos__(self.__get_day_of_week__(datetime.now())), width=1)
 
     def __get_week_day_pos__ (self, day_of_week):
