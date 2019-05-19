@@ -13,7 +13,11 @@ class CryptoListDesign (DesignEntity):
 
     def __finish_image__ (self):
         matrix = self.__get_matrix__()
-        table_design = TableDesign(self.size, matrix=matrix, col_spacing=5, fontsize = self.text_size, mask=False, truncate_rows=True)
+        col_spacing = 10
+        if len(matrix) > 0:
+            col_spacing = (self.size[0] / len(matrix[0])) * 0.5
+        
+        table_design = TableDesign(self.size, matrix=matrix, col_spacing=col_spacing, fontsize = self.text_size, mask=False, truncate_rows=True)
         self.draw_design(table_design)
 
     def __get_matrix__ (self):
