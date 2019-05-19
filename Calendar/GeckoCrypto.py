@@ -5,7 +5,7 @@ from urllib.request import urlopen
 import json
 import math
 
-api_test_url = "https://www.coingecko.com"
+api_test_url = "https://api.coingecko.com/api/v3/ping"
 api_url = "https://api.coingecko.com/api/v3/"
 api_metadata_url = api_url + "coins/list"
 api_price_url = api_url + "simple/price"
@@ -19,7 +19,6 @@ class GeckoCrypto(CryptoInterface):
         super(GeckoCrypto, self).__init__()
 
     def is_available(self):
-        return True
         try:
             urlopen(api_test_url)
             return True
