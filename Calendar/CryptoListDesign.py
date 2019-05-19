@@ -4,6 +4,7 @@ from Assets import defaultfontsize
 from GeckoCrypto import GeckoCrypto
 from settings import crypto_coins
 
+xpadding = 5
 
 class CryptoListDesign (DesignEntity):
     def __init__ (self, size, crypto, text_size = defaultfontsize):
@@ -18,6 +19,7 @@ class CryptoListDesign (DesignEntity):
             col_spacing = (self.size[0] / len(matrix[0])) * 0.5
         
         table_design = TableDesign(self.size, matrix=matrix, col_spacing=col_spacing, fontsize = self.text_size, mask=False, truncate_rows=True)
+        table_design.pos = (xpadding, 0) 
         self.draw_design(table_design)
 
     def __get_matrix__ (self):
