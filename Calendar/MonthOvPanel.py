@@ -71,6 +71,9 @@ class MonthOvPanel (PanelDesign):
         if general_settings["info-area"] is "crypto":
             self.__draw_crypto_post_list_to_bottom__(crypto)
 
+    def add_tasks (self, tasks):
+        pass
+
     def add_calendar (self, calendar):
         if general_settings["highlight-event-days"]:
             month_events = list(set([ (event.begin_datetime.day, event.begin_datetime.month, event.begin_datetime.year) for event in calendar.get_month_events()]))

@@ -10,16 +10,19 @@ class PanelDesign (DesignEntity):
         self.start_timestamp = datetime.now()
 
     def add_weather (self, weather):
-        raise NotImplementedError("Functions needs to be implemented")
+        raise NotImplementedError("Function needs to be implemented")
 
     def add_calendar (self, calendar):
-        raise NotImplementedError("Functions needs to be implemented")
+        raise NotImplementedError("Function needs to be implemented")
 
     def add_rssfeed (self, rss):
-        raise NotImplementedError("Functions needs to be implemented")
+        raise NotImplementedError("Function needs to be implemented")
 
-    def add_taks (self, tasks):
-        raise NotImplementedError("Functions needs to be implemented")
+    def add_tasks (self, tasks):
+        raise NotImplementedError("Function needs to be implemented")
+
+    def add_crypto (self, crypto):
+        raise NotImplementedError("Function needs to be implemented")
 
     def __finish_panel__(self):
         pass

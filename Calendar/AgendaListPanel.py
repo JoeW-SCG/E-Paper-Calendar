@@ -40,7 +40,10 @@ class AgendaListPanel (PanelDesign):
 
         self.__draw_seperator__(1-infolist_size[1], colors["fg"])
 
-    def add_taks (self, tasks):
+    def add_tasks (self, tasks):
+        pass
+
+    def add_crypto (self, crypto):
         pass
 
     def __finish_panel__(self):

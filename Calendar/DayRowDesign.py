@@ -37,9 +37,6 @@ class DayRowDesign (DesignEntity):
 
     def add_rssfeed (self, rss):
         pass
-
-    def add_crypto (self, crypto):
-        pass
         
     def __draw_event_list__ (self, calendar):
         number_width = daynumber_y_size[0] * self.size[1]

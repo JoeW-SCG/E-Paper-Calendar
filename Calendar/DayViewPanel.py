@@ -49,7 +49,7 @@ class DayViewPanel (PanelDesign):
             self.__draw_rss_feed__(rss)
             self.__draw_infoarea_line__()
 
-    def add_cryptofeed (self, crypto):
+    def add_crypto (self, crypto):
         if general_settings["info-area"] == "crypto":
             self.__draw_crypto_feed__(crypto)
             self.__draw_infoarea_line__()
@@ -90,7 +90,7 @@ class DayViewPanel (PanelDesign):
         events.pos = pos
         self.draw_design(events)
 
-    def add_taks (self, tasks):
+    def add_tasks (self, tasks):
         pass
 
     def __finish_panel__ (self):

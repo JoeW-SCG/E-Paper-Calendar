@@ -51,10 +51,11 @@ class DayListPanel (PanelDesign):
             self.__draw_rss_infoarea__(rss)
 
     def add_crypto (self, crypto):
-        for row in self.__day_rows__:
-            row.add_crypto(crypto)
         if general_settings["info-area"] is "crypto":
             self.__draw_crypto_infoarea__(crypto)
+
+    def add_tasks (self, tasks):
+        pass
 
     def __draw_rss_infoarea__ (self, rss):
         height = infoarea_replacedrowscount * self.dayrow_size[1] * self.size[1] - rss_y_padding

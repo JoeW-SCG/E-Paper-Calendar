@@ -74,7 +74,10 @@ class MonthViewPanel (PanelDesign):
         rss.pos = pos
         self.draw_design(rss)
 
-    def add_taks (self, tasks):
+    def add_tasks (self, tasks):
+        pass
+
+    def add_crypto (self, crypto):
         pass
 
     def __finish_panel__(self):
