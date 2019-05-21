@@ -10,6 +10,7 @@ from DayRowDesign import DayRowDesign
 from RssPostListDesign import RssPostListDesign
 from CryptoListDesign import CryptoListDesign
 from settings import line_thickness
+from math import ceil
 
 todayheader_pos = (0,0)
 todayheader_size = (1,0.25)
@@ -48,6 +49,7 @@ class DayListPanel (PanelDesign):
         for row in self.__day_rows__:
             row.add_rssfeed(rss)
         if general_settings["info-area"] is "rss":
+            self.__day_rows__ = self.__day_rows__[:-infoarea_replacedrowscount]
             self.__draw_rss_infoarea__(rss)
 
     def add_crypto (self, crypto):
@@ -74,8 +76,12 @@ class DayListPanel (PanelDesign):
         pos = (0, ypos)
 
         design = CryptoListDesign(size, crypto)
-        design.pos = pos
+        acutal_height = design.get_estimated_height()
+        design.pos = (pos[0], pos[1] + (height - acutal_height))
         self.draw_design(design)
+        
+        replaced_rows = ceil(acutal_height / (self.dayrow_size[1] * self.size[1]))
+        self.__day_rows__ = self.__day_rows__[:-replaced_rows]
 
     def __draw_day_rows__ (self):
         following_days = self.__get_following_days__()
@@ -98,9 +104,6 @@ class DayListPanel (PanelDesign):
         row_height = max_area_height / self.dayrow_count
         self.dayrow_size = (1, row_height / self.size[1])
 
-        if general_settings["info-area"] in ["rss"] or ["crypto"]:
-            self.dayrow_count -= infoarea_replacedrowscount
-
     def __get_following_days__(self):
         following_days = []
         for i in range(self.dayrow_count):
@@ -114,7 +117,7 @@ class DayListPanel (PanelDesign):
 
     def __draw_lines__(self):
         positions = []
-        for i in range(self.dayrow_count + 1):
+        for i in range(len(self.__day_rows__)):
             positions.append(self.__get_day_row_pos__(i)[1])
         for ypos in positions:
             line_start = (0, ypos)

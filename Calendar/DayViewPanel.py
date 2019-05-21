@@ -77,7 +77,8 @@ class DayViewPanel (PanelDesign):
         pos = (0, self.size[1] - size[1])
 
         crypto = CryptoListDesign(size, crypto)
-        crypto.pos = pos
+        acutal_height = crypto.get_estimated_height()
+        crypto.pos = (pos[0], pos[1] + (height - acutal_height))
         self.draw_design(crypto)
 
 

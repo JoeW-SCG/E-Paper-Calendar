@@ -5,12 +5,13 @@ from settings import general_settings, line_thickness
 from PIL import ImageDraw
 from Assets import colors
 from RssPostListDesign import RssPostListDesign
+from CryptoListDesign import CryptoListDesign
 
 agenda_ypadding = 5
 weatherheader_height = 0.113
 seperator_width = line_thickness
 infolist_size = (1, 0.24)
-infolist_padding = 2
+infolist_padding = 0
 
 class AgendaListPanel (PanelDesign):
     '''Lists upcoming events in chronological order and groups them by days'''
@@ -44,7 +45,19 @@ class AgendaListPanel (PanelDesign):
         pass
 
     def add_crypto (self, crypto):
-        pass
+        if general_settings["info-area"] != "crypto":
+            return
+
+        self.info_size = self.__abs_pos__(infolist_size)
+        pos = (0, self.size[1] - self.info_size[1] + infolist_padding)
+
+        list = CryptoListDesign(self.info_size, crypto)
+        height = list.get_estimated_height()
+        list.pos = (pos[0], pos[1] + (self.info_size[1] - height))
+        self.draw_design(list)
+
+        self.info_size = (self.size[0], height)
+        self.__draw_seperator__(list.pos[1] / self.size[1], colors["fg"])
 
     def __finish_panel__(self):
         self.__draw_calendar__()

@@ -11,14 +11,14 @@ class CryptoListDesign (DesignEntity):
         super(CryptoListDesign, self).__init__(size)
         self.crypto = crypto
         self.text_size = text_size
+        self.matrix = self.__get_matrix__()
 
     def __finish_image__ (self):
-        matrix = self.__get_matrix__()
         col_spacing = 10
-        if len(matrix) > 0:
-            col_spacing = (self.size[0] / len(matrix[0])) * 0.5
-        
-        table_design = TableDesign(self.size, matrix=matrix, col_spacing=col_spacing, fontsize = self.text_size, mask=False, truncate_rows=True)
+        if len(self.matrix) > 0:
+            col_spacing = (self.size[0] / len(self.matrix[0])) * 0.5
+
+        table_design = TableDesign(self.size, matrix=self.matrix, col_spacing=col_spacing, fontsize = self.text_size, mask=False, truncate_rows=True)
         table_design.pos = (xpadding, 0) 
         self.draw_design(table_design)
 
@@ -29,3 +29,8 @@ class CryptoListDesign (DesignEntity):
             row = [ coin.symbol.upper(), coin.name, coin.currency + " " + str(coin.price), "% " + str(coin.day_change) ]
             matrix.append(row)
         return matrix
+
+    def get_estimated_height(self):
+        line_height = self.text_size * 1.25
+        height = line_height * len(self.matrix)
+        return height

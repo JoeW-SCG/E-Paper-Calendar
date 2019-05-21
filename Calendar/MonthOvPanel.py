@@ -95,8 +95,10 @@ class MonthOvPanel (PanelDesign):
         month_pos = self.__abs_pos__(monthovposition)
         month_height = self.month_block.get_real_height()
         size = (self.size[0], self.size[1] - (month_pos[1] + month_height + self.weather_header_height))
+        
         info_list = CryptoListDesign(size, crypto)
-        info_list.pos = (int(month_pos[0]), month_pos[1] + month_height + self.weather_header_height)
+        list_height = info_list.get_estimated_height()
+        info_list.pos = (int(month_pos[0]), month_pos[1] + month_height + self.weather_header_height + (size[1] - list_height))
         self.draw_design(info_list)
 
     def __draw_event_list_to_bottom__ (self, calendar):

@@ -8,6 +8,7 @@ from TableDesign import TableDesign
 from DayBoxDesign import DayBoxDesign
 from RssPostListDesign import RssPostListDesign
 from WeatherHeaderDesign import WeatherHeaderDesign
+from CryptoListDesign import CryptoListDesign
 
 weather_height = 0.113
 info_height = 0.25
@@ -32,7 +33,7 @@ class MonthViewPanel (PanelDesign):
     def __init_sizes__(self):
         self.weather_height = 0
         self.info_height = 0
-        if general_settings["info-area"] in ["events", "rss"]:
+        if general_settings["info-area"] in ["events", "rss", "crypto"]:
             self.info_height = info_height
         if general_settings["weather-info"]:
             self.weather_height = weather_height
@@ -78,7 +79,16 @@ class MonthViewPanel (PanelDesign):
         pass
 
     def add_crypto (self, crypto):
-        pass
+        if general_settings["info-area"] == "crypto":
+            self.__draw_crypto__(crypto)
+
+    def __draw_crypto__(self, crypto):
+        size = (self.size[0], self.size[1] * self.info_height)
+        pos = (0, self.size[1] - size[1])
+        
+        crypto = CryptoListDesign(size, crypto)
+        crypto.pos = (pos[0],pos[1] + (size[1] - crypto.get_estimated_height()))
+        self.draw_design(crypto)
 
     def __finish_panel__(self):
         self.__draw_days__()
