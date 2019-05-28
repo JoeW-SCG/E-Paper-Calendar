@@ -157,9 +157,14 @@ class EpdAdapter (DisplayAdapter):
         self.send_command(DEEP_SLEEP)
         self.send_data(0xa5)
         
-    def wait_until_idle (self):
-        while(self.digital_read(self.busy_pin) == 0):      # 0: busy, 1: idle
-            self.delay_ms(100)
+    def wait_until_idle (self, max_wait_seconds = 60):
+        wait_ms = 100
+        count = 0
+        while(self.digital_read(self.busy_pin) == 0 and wait_ms * count < max_wait_seconds * 1000):      # 0: busy, 1: idle
+            self.delay_ms(wait_ms)
+            count += 1
+        if wait_ms * count >= max_wait_seconds * 1000:
+            print("Skipped idle confirmation")
 
     def reset (self):
         self.digital_write(self.reset_pin, GPIO.LOW)         # module reset
