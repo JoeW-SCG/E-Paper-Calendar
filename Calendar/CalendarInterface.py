@@ -102,15 +102,19 @@ class CalendarInterface (DataSourceInterface):
         end = start + duration
         occurrences = []
 
-        r_string=self.__add_timezoneawarness__(event.rrule)
-        rule=rrulestr(r_string,dtstart=event.begin_datetime)
-        for occurrence in rule:
-            if occurrence - end > timedelta(0):
-                return occurrences
-            merged_event = self.__merge_event_data__(event, start=occurrence)
-            if self.__is_onetime_in_range__(merged_event, start, duration):
-                occurrences.append(merged_event)
-        return occurrences
+        try:
+            r_string=self.__add_timezoneawarness__(event.rrule)
+            rule=rrulestr(r_string,dtstart=event.begin_datetime)
+            for occurrence in rule:
+                if occurrence - end > timedelta(0):
+                    return occurrences
+                merged_event = self.__merge_event_data__(event, start=occurrence)
+                if self.__is_onetime_in_range__(merged_event, start, duration):
+                    occurrences.append(merged_event)
+            return occurrences
+        except Exception as ex:
+            print("\"is_repeating_in_range\" failed while processing: dtstart.tzinfo="+str(event.begin_datetime.tzinfo))
+            raise ex
 
     def __merge_event_data__ (self, event, start = None):
         if start is not None:
@@ -120,15 +124,16 @@ class CalendarInterface (DataSourceInterface):
         return event
 
     def __add_timezoneawarness__ (self, rrule):
+        """UNTIL must be specified in UTC when DTSTART is timezone-aware (which it is)"""
         if "UNTIL" not in rrule:
             return rrule
 
         timezone_str = "T000000Z"
-        until_example = "UNTIL=YYYYMMDD"
+        until_template = "UNTIL=YYYYMMDD"
 
         until_index = rrule.index("UNTIL")
 
-        tz_index = until_index + len(until_example)
+        tz_index = until_index + len(until_template)
         if tz_index < 0 or tz_index >= len(rrule):
             return rrule
         
