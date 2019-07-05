@@ -114,7 +114,7 @@ class CalendarInterface (DataSourceInterface):
                     occurrences.append(merged_event)
             return occurrences
         except Exception as ex:
-            print("\"is_repeating_in_range\" failed while processing: dtstart.tzinfo="+str(event.begin_datetime.tzinfo)+" rrule="+r_string)
+            print("\"is_repeating_in_range\" failed while processing: dtstart="+str(event.begin_datetime)+" dtstart.tzinfo="+str(event.begin_datetime.tzinfo)+" rrule="+r_string)
             raise ex
 
     def __merge_event_data__ (self, event, start = None):
