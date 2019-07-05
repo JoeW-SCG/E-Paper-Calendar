@@ -26,6 +26,9 @@ class GeckoCrypto(CryptoInterface):
             return False
 
     def __get_coins__(self):
+        if len(self.coin_ids) == 0:
+            return []
+
         self.__prepare_metadata__()
         coins = []
         for id in self.coin_ids:
