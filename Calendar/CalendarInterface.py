@@ -103,6 +103,7 @@ class CalendarInterface (DataSourceInterface):
         occurrences = []
 
         try:
+            r_string=""
             r_string=self.__add_timezoneawarness__(event.rrule)
             rule=rrulestr(r_string,dtstart=event.begin_datetime)
             for occurrence in rule:
@@ -113,7 +114,7 @@ class CalendarInterface (DataSourceInterface):
                     occurrences.append(merged_event)
             return occurrences
         except Exception as ex:
-            print("\"is_repeating_in_range\" failed while processing: dtstart.tzinfo="+str(event.begin_datetime.tzinfo))
+            print("\"is_repeating_in_range\" failed while processing: dtstart.tzinfo="+str(event.begin_datetime.tzinfo)+" rrule="+r_string)
             raise ex
 
     def __merge_event_data__ (self, event, start = None):
