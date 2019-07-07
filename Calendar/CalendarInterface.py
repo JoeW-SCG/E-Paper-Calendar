@@ -135,10 +135,10 @@ class CalendarInterface (DataSourceInterface):
         until_index = rrule.index("UNTIL")
 
         tz_index = until_index + len(until_template)
-        if tz_index < 0 or tz_index >= len(rrule):
+        if until_index < 0 or (tz_index < len(rrule) and rrule[tz_index] is "T"):
             return rrule
         
-        if rrule[tz_index] is "T":
-            return rrule
-
-        return rrule[:tz_index] + timezone_str + rrule[tz_index:]
+        if tz_index == len(rrule):
+            return rrule + timezone_str
+        else:
+            return rrule[:tz_index] + timezone_str + rrule[tz_index:]
