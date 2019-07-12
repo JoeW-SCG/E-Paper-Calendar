@@ -17,11 +17,11 @@ This software fully supports the 3-Colour **and** 2-Colour version of the 7.5" E
 
 <img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/day-list_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/month-overview_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/agenda-list_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/day-view_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/image-frame_example.png" width="270">
 
-1.: Day-List Panel&#09;
-2.: Month-Overview Panel&#09;
+1.: Day-List Panel&ensp;
+2.: Month-Overview Panel&ensp;
 3.: Agenda-List Panel<br>
-4.: Day-View Panel&#09;
-5.: Image-Frame Panel&#09;
+4.: Day-View Panel&ensp;
+5.: Image-Frame Panel
 
 ## Main features
 * Display a calendar with one of multiple designes
