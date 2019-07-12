@@ -17,7 +17,7 @@ class DesignEntity (object):
 
     def __init_image__ (self, color = colors["bg"]):
         rounded_size = (int(self.size[0]),int(self.size[1]))
-        self.__image__ = Image.new('RGB', rounded_size, color=color)
+        self.__image__ = Image.new('RGBA', rounded_size, color=color)
 
     def get_image (self):
         if self.__finished_image__ is False:

@@ -1,26 +1,20 @@
 """ To quickly get started, fill in the following details:"""
 
 ical_urls = [
-	"https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics"
 ]
 
 highlighted_ical_urls = [
 ]
 
 rss_feeds = [
-    "http://feeds.bbci.co.uk/news/world/rss.xml#"
 ]
 
 crypto_coins = [
-    "bitcoin",
-    "litecoin",
-    "ethereum",
-    "binancecoin"
 ]
 
 api_key = ""
 owm_paid_subscription = False
-location = "Julich, DE"
+location = "Berlin, DE"
 week_starts_on = "Monday"
 display_colours = "bwr"
 language = "en"
@@ -34,11 +28,13 @@ update_interval = 60
 font_size = 14  # does not affect every text
 font_boldness = "semibold"   # extralight, light, regular, semibold, bold, extrabold
 line_thickness = 1  # 1-3 Thickness advised
-choosen_design = "month-overview" # month-overview, day-list, day-view, agenda-list, month-view
+choosen_design = "month-overview" # month-overview, day-list, day-view, agenda-list, month-view, image-frame
 general_settings = {    # General settings that designs may use
     "info-area" : "rss",    # empty, events, rss, crypto
     "highlight-event-days" : True,
-	"weather-info" : True
+	"weather-info" : True,
+    "image-folder" : "",
+    "overlay-image" : ""    # Size must be 384x640px with default display
 }
 
 

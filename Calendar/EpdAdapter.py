@@ -71,7 +71,7 @@ class EpdAdapter (DisplayAdapter):
         
         print('Converting image to data and sending it to the display')
         print('This may take a while...' + '\n')
-        prepared_image = design.get_image().rotate(270, expand=1)
+        prepared_image = design.get_image().rotate(270, expand=1).convert("RGB")
         self.display_frame(self.get_frame_buffer(prepared_image))
 
         # Powering off the E-Paper until the next loop

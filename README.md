@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0962be8b02e947e9aa4326e73b387e01)](https://app.codacy.com/app/m.giller.dev/E-Paper-Calendar?utm_source=github.com&utm_medium=referral&utm_content=mgfcf/E-Paper-Calendar&utm_campaign=Badge_Grade_Dashboard)
 
-This is a software written in python3 that allows you to transform an E-Paper display (like the kindle) into an information display. It fetches live data from Openweathermap (a weather info provider), rss-feeds and your Online Calendar (Google/Yahoo Calendar/...) and displays them on a large, beautiful and ultra-low power E-Paper display. It's ideal for staying organised and keeping track of important details without having to check them up online. 
+This is a software written in python3 that allows you to transform an E-Paper display (like the kindle) into an information display. It fetches live data from Openweathermap (a weather info provider), rss-feeds and your Online Calendar (Google/Yahoo Calendar/...) and displays them on a large, beautiful and ultra-low power E-Paper display. It's ideal for staying organised and keeping track of important details without having to check them up online. It can also be used as an image frame.
 
 This software fully supports the 3-Colour **and** 2-Colour version of the 7.5" E-Paper display from waveshare/gooddisplay and works with Raspberry Pi 2, 3 and 0 (Zero, Zero W, Zero WH). 
 
@@ -27,6 +27,7 @@ This software fully supports the 3-Colour **and** 2-Colour version of the 7.5" E
 * Optionally get RSS-Feed fetched and shown 
 * Syncronise events from any online calendar (like google, yahoo, etc.)
 * Get live weather data (including temperature, humidity, etc.) using openweathermap api
+* Only show a slideshow of images
 
 ## Hardware required
 * 7.5" 3-Colour E-Paper Display (Black, White, Red/Yellow) with driver hat from [waveshare](https://www.waveshare.com/product/7.5inch-e-paper-hat-b.htm)
@@ -92,6 +93,8 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 | `"info-area"` | Defines the content type of an additionaly info area on the design. Can be one of `"rss"`, `"events"` or empty, to remove this area or keep it clean. |
 | `"highlight-event-days"` | If set to `True`, days with events are highlighted in contrast to days without events. |
 | `"weather-info"` | If set to `False`, weather info areas disappear and make room for events/rss/etc. (depends on the design). |
+| `"image-folder"` | Set a relative or absolute path to a folder containing images that you want to see fullscreen with the `"image-frame"` design activated. |
+| `"overlay-image"` | Set a relative or absolute path to an image with the same size as the screen (default: 384x640px) to show some static information over every image shown in the `"image-frame"` design. If the overlay image is contained within the `"image-folder"`, it will not be included into the slideshow. |
 
 ### Debug
 | Parameter |  Description |
