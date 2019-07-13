@@ -1,6 +1,7 @@
 class WeatherForecast (object):
     """Defines a weather forecast, independent of any implementation"""
-    def __init__ (self):
+
+    def __init__(self):
         self.air_temperature = None
         self.air_pressure = None
         self.air_humidity = None

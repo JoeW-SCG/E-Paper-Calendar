@@ -6,8 +6,10 @@ import re
 from settings import week_starts_on
 from urllib.request import urlopen
 
+
 class IcalEvents(CalendarInterface):
     """Fetches events from ical addresses."""
+
     def __init__(self, urls, highlighted_urls=None):
         self.urls = urls
         self.highlighted_urls = highlighted_urls
@@ -60,8 +62,10 @@ class IcalEvents(CalendarInterface):
                     cal_event.allday = event.all_day
                     cal_event.rrule = self.__extract_rrule__(event)
 
-                    cal_event.begin_datetime = cal_event.begin_datetime.astimezone(None)
-                    cal_event.end_datetime = cal_event.end_datetime.astimezone(None)
+                    cal_event.begin_datetime = cal_event.begin_datetime.astimezone(
+                        None)
+                    cal_event.end_datetime = cal_event.end_datetime.astimezone(
+                        None)
 
                     if cal_event.allday:
                         cal_event = self.__fix_allday__(cal_event)
@@ -79,8 +83,10 @@ class IcalEvents(CalendarInterface):
         begin_utc = event.begin_datetime.astimezone(timezone.utc)
         end_utc = event.end_datetime.astimezone(timezone.utc)
 
-        event.begin_datetime =  datetime(begin_utc.year, begin_utc.month, begin_utc.day, 0, 0, 0, 0, local_tzinfo)
-        event.end_datetime =  datetime(end_utc.year, end_utc.month, end_utc.day, 0, 0, 0, 0, local_tzinfo) - timedelta(1)
+        event.begin_datetime = datetime(
+            begin_utc.year, begin_utc.month, begin_utc.day, 0, 0, 0, 0, local_tzinfo)
+        event.end_datetime = datetime(
+            end_utc.year, end_utc.month, end_utc.day, 0, 0, 0, 0, local_tzinfo) - timedelta(1)
         event.duration = event.end_datetime - event.begin_datetime
 
         return event
@@ -95,16 +101,18 @@ class IcalEvents(CalendarInterface):
             beginAlarmIndex = decode.find(alarm_begin)
             if beginAlarmIndex >= 0:
                 endAlarmIndex = decode.find(alarm_end, beginAlarmIndex)
-                decode = decode[:beginAlarmIndex] + decode[endAlarmIndex + len(alarm_end) + len(lineseparation):]
+                decode = decode[:beginAlarmIndex] + \
+                    decode[endAlarmIndex +
+                           len(alarm_end) + len(lineseparation):]
         return decode
 
     def __extract_rrule__(self, event):
-        if re.search('RRULE',str(event)) is None:
+        if re.search('RRULE', str(event)) is None:
             return None
 
-        return re.search('RRULE:(.+?)\n',str(event)).group(1).rstrip()
+        return re.search('RRULE:(.+?)\n', str(event)).group(1).rstrip()
 
-    def __is_multiday__ (self, event):
+    def __is_multiday__(self, event):
         if event.allday and event.duration == timedelta(1):
             return False
 

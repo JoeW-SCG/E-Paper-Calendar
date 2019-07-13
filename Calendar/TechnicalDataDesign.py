@@ -4,10 +4,12 @@ from Assets import colors
 
 font_size = 20
 
+
 class TechnicalDataDesign(DesignEntity):
     '''Prints data about the current loop ontop of the panel'''
+
     def __init__(self, size, start, stop):
-        super(TechnicalDataDesign, self).__init__(size, mask = True)
+        super(TechnicalDataDesign, self).__init__(size, mask=True)
         self.start = start
         self.stop = stop
 

@@ -1,5 +1,6 @@
 from DataSourceInterface import DataSourceInterface
 
+
 class CryptoInterface(DataSourceInterface):
     def __init__(self):
         self.crypto_coins = []

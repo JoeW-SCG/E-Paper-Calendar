@@ -4,12 +4,14 @@ from settings import language
 '''Takes a collection of phrases and outputs the necessary text
 according to the language and inserts parameters.'''
 
+
 def get_text(dictionary, *params):
     text = dictionary[default_language]
     if language in dictionary.keys():
         text = dictionary[language]
-    
+
     return __insert_params__(text, params)
+
 
 def __insert_params__(text, params):
     index = 0

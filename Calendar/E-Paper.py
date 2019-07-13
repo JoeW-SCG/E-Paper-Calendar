@@ -27,8 +27,10 @@ import GeckoCrypto
 
 all_locales = locale.locale_alias
 if language.lower() not in all_locales.keys():
-    raise Exception("The locale for \"%s\" is currently not supported! If you need support, please open an issue on github." % language)
-locale.setlocale(locale.LC_ALL, "%s.%s" % (all_locales[language.lower()].split('.')[0], datetime_encoding))
+    raise Exception(
+        "The locale for \"%s\" is currently not supported! If you need support, please open an issue on github." % language)
+locale.setlocale(locale.LC_ALL, "%s.%s" % (
+    all_locales[language.lower()].split('.')[0], datetime_encoding))
 
 debug = DebugConsole()
 output_adapters = []
@@ -49,19 +51,22 @@ if render_to_display:
         output_adapters.append(epd)
 
 available_panels = {
-    "day-list" : DayListPanel,
-    "month-overview" : MonthOvPanel,
-    "day-view" : DayViewPanel,
-    "agenda-list" : AgendaListPanel,
-    "month-view" : MonthViewPanel,
-    "image-frame" : ImageFramePanel
+    "day-list": DayListPanel,
+    "month-overview": MonthOvPanel,
+    "day-view": DayViewPanel,
+    "agenda-list": AgendaListPanel,
+    "month-view": MonthViewPanel,
+    "image-frame": ImageFramePanel
 }
 
 loop_timer = LoopTimer(update_interval, run_on_hour=True)
 
 """Main loop starts from here"""
+
+
 def main():
-    owm = OwmForecasts.OwmForecasts(location, api_key, paid_api=owm_paid_subscription)
+    owm = OwmForecasts.OwmForecasts(
+        location, api_key, paid_api=owm_paid_subscription)
     events_cal = IcalEvents.IcalEvents(ical_urls, highlighted_ical_urls)
     rss = RssParserPosts.RssParserPosts(rss_feeds)
     crypto = GeckoCrypto.GeckoCrypto(crypto_coins)
@@ -78,7 +83,8 @@ def main():
         if choosen_design in available_panels.keys():
             design = available_panels[choosen_design]((epd.width, epd.height))
         else:
-            raise ImportError("choosen_design must be valid (" + choosen_design + ")")
+            raise ImportError(
+                "choosen_design must be valid (" + choosen_design + ")")
 
         debug.print_line("Fetching weather information from open weather map")
         owm.reload()
@@ -100,18 +106,22 @@ def main():
         for i, output in enumerate(output_adapters):
             try:
                 output.render(design)
-                debug.print_line(str(i + 1) + " of " + str(len(output_adapters)) + " rendered")
+                debug.print_line(str(i + 1) + " of " +
+                                 str(len(output_adapters)) + " rendered")
             except BaseException as ex:
-                debug.print_err(ex, "Failed to render output " + str(i + 1) + " of " + str(len(output_adapters)))
+                debug.print_err(ex, "Failed to render output " +
+                                str(i + 1) + " of " + str(len(output_adapters)))
 
         debug.print_line("=> Finished rendering" + "\n")
 
         loop_timer.end_loop()
         sleep_time = loop_timer.time_until_next()
 
-        debug.print_line("This loop took " + str(loop_timer.get_last_duration()) + " to execute.")
+        debug.print_line("This loop took " +
+                         str(loop_timer.get_last_duration()) + " to execute.")
         debug.print_line("Sleeping " + str(sleep_time) + " until next loop.")
         sleep(sleep_time.total_seconds())
+
 
 if __name__ == '__main__':
     main()

@@ -4,8 +4,10 @@ from TextDesign import TextDesign
 
 header_height = 0.2
 
+
 class DayBoxDesign (DesignEntity):
     """Represents a day with its events in a box."""
+
     def __init__(self, size, date):
         super(DayBoxDesign, self).__init__(size)
         self.date = date

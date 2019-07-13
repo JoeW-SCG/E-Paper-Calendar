@@ -1,6 +1,7 @@
 class CalendarEvent (object):
     """Defines a calendar event, independent of any implementation"""
-    def __init__ (self):
+
+    def __init__(self):
         self.begin_datetime = None
         self.end_datetime = None
         self.duration = None

@@ -6,8 +6,10 @@ from urllib.request import urlopen
 
 max_range_days = 14
 
+
 class RssParserPosts (RssInterface):
     """Fetches posts from url-addresses via rss parser."""
+
     def __init__(self, urls):
         self.urls = urls
         super(RssParserPosts, self).__init__()
@@ -52,5 +54,4 @@ class RssParserPosts (RssInterface):
     def __get_webpage__(self, link):
         start_index = link.find('://') + 3
         end_index = link[start_index:].find('/') + start_index
-        return link[start_index : end_index]
-        
+        return link[start_index: end_index]

@@ -3,25 +3,27 @@ from TechnicalDataDesign import TechnicalDataDesign
 from settings import print_technical_data
 from datetime import datetime
 
+
 class PanelDesign (DesignEntity):
     """Defined general interface for panel designs."""
-    def __init__ (self, size):
+
+    def __init__(self, size):
         super(PanelDesign, self).__init__(size)
         self.start_timestamp = datetime.now()
 
-    def add_weather (self, weather):
+    def add_weather(self, weather):
         raise NotImplementedError("Function needs to be implemented")
 
-    def add_calendar (self, calendar):
+    def add_calendar(self, calendar):
         raise NotImplementedError("Function needs to be implemented")
 
-    def add_rssfeed (self, rss):
+    def add_rssfeed(self, rss):
         raise NotImplementedError("Function needs to be implemented")
 
-    def add_tasks (self, tasks):
+    def add_tasks(self, tasks):
         raise NotImplementedError("Function needs to be implemented")
 
-    def add_crypto (self, crypto):
+    def add_crypto(self, crypto):
         raise NotImplementedError("Function needs to be implemented")
 
     def __finish_panel__(self):
@@ -31,6 +33,7 @@ class PanelDesign (DesignEntity):
         self.__finish_panel__()
 
         if print_technical_data:
-            td = TechnicalDataDesign(self.size, self.start_timestamp, datetime.now())
+            td = TechnicalDataDesign(
+                self.size, self.start_timestamp, datetime.now())
             td.mask = True
             self.draw_design(td)

@@ -2,23 +2,26 @@ from DesignEntity import DesignEntity
 from Assets import path as application_path
 from PIL import Image, ExifTags
 
+
 class ImageDesign (DesignEntity):
     """Creates a TableDesign filled with rss post
     date and title"""
-    def __init__ (self, size, path, fill = "none", color="RGBA", dither=None):   # fill: "none" : original size, "stretch" : strech to fill, "scale" : scale to fill, "border" : scale until one side touches border
+
+    # fill: "none" : original size, "stretch" : strech to fill, "scale" : scale to fill, "border" : scale until one side touches border
+    def __init__(self, size, path, fill="none", color="RGBA", dither=None):
         super(ImageDesign, self).__init__(size)
         self.set_path(path)
         self.fill = fill
         self.color = color
         self.dither = dither
 
-    def set_path (self, path):
+    def set_path(self, path):
         path = path.replace('\\', '/')
         if path[0] != '/' and ':' not in path[0:3]:
             path = application_path + '/' + path
         self.path = path
 
-    def __finish_image__ (self):
+    def __finish_image__(self):
         img = Image.open(self.path)
         img = img.convert(self.color, dither=self.dither)
 
@@ -70,9 +73,9 @@ class ImageDesign (DesignEntity):
             return img
 
         for orientation in ExifTags.TAGS.keys():
-            if ExifTags.TAGS[orientation]=='Orientation':
+            if ExifTags.TAGS[orientation] == 'Orientation':
                 break
-        exif=img.info["parsed_exif"]
+        exif = img.info["parsed_exif"]
 
         if exif[orientation] == 3:
             img = img.rotate(180, expand=True)

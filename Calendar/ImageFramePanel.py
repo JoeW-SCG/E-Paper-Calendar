@@ -10,14 +10,17 @@ from random import choice
 class ImageFramePanel (PanelDesign):
     """Converts the display into a digital frame and
     shows a slide show of images, iterating on each update"""
-    def __init__ (self, size):
+
+    def __init__(self, size):
         super(ImageFramePanel, self).__init__(size)
-        self.overlay_path = self.__complete_path__(general_settings["overlay-image"])
-        self.image_folder_path = self.__complete_path__(general_settings["image-folder"])
+        self.overlay_path = self.__complete_path__(
+            general_settings["overlay-image"])
+        self.image_folder_path = self.__complete_path__(
+            general_settings["image-folder"])
         self.images = self.__extract_valid_img_paths__()
         self.__first_render__()
 
-    def __extract_valid_img_paths__ (self):
+    def __extract_valid_img_paths__(self):
         images = []
         for file in listdir(self.image_folder_path):
             file_path = join(self.image_folder_path, file).replace('\\', '/')
@@ -42,17 +45,17 @@ class ImageFramePanel (PanelDesign):
             overlay.__finish_image__()
             self.__image__.alpha_composite(overlay.__image__)
 
-    def add_weather (self, weather):
+    def add_weather(self, weather):
         pass
 
-    def add_calendar (self, calendar):
+    def add_calendar(self, calendar):
         pass
 
-    def add_rssfeed (self, rss):
+    def add_rssfeed(self, rss):
         pass
 
-    def add_crypto (self, crypto):
+    def add_crypto(self, crypto):
         pass
 
-    def add_tasks (self, tasks):
+    def add_tasks(self, tasks):
         pass

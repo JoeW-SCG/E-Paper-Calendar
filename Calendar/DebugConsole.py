@@ -3,9 +3,11 @@ from Assets import weathericons
 from datetime import datetime
 import traceback
 
+
 class DebugConsole (DebugInterface):
     """Defines concrete console export of debug objects"""
-    def print_event (self, event):
+
+    def print_event(self, event):
         print("\nCalendarEvent:")
         print("---------------------")
         print('Begin datetime: ' + str(event.begin_datetime))
@@ -22,7 +24,7 @@ class DebugConsole (DebugInterface):
         print('Location: ' + str(event.location))
         print('Fetch datetime: ' + str(event.fetch_datetime))
 
-    def print_forecast (self, forecast):
+    def print_forecast(self, forecast):
         print("\nWeatherForecast:")
         print("---------------------")
         print('Air temperature: ' + str(forecast.air_temperature))
@@ -45,12 +47,12 @@ class DebugConsole (DebugInterface):
         print('Location: ' + str(forecast.location))
         print('Fetch datetime: ' + str(forecast.fetch_datetime))
 
-    def print_line (self, content):
+    def print_line(self, content):
         if content is None:
             return
         print(str(content))
 
-    def print_err (self, exception, msg=""):
+    def print_err(self, exception, msg=""):
         if exception is None:
             return
 

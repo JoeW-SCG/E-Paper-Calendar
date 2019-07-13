@@ -4,16 +4,17 @@ from PIL import Image, ImageDraw
 from math import sqrt, pow
 import numpy as np
 
+
 class Epd7in5bAdapter (EpdAdapter):
-    def __init__ (self):
+    def __init__(self):
         super(Epd7in5bAdapter, self).__init__(384, 640)
 
-    def display_frame (self, frame_buffer):
+    def display_frame(self, frame_buffer):
         self.send_command(DATA_START_TRANSMISSION_1)
         for i in range(0, int(self.height / 4 * self.width)):
-            #the above line had to be modified due to python2 -> python3
-            #the issue lies in division, which returns integers in python2
-            #but floats in python3
+            # the above line had to be modified due to python2 -> python3
+            # the issue lies in division, which returns integers in python2
+            # but floats in python3
             temp1 = frame_buffer[i]
             j = 0
             while (j < 4):
@@ -39,8 +40,8 @@ class Epd7in5bAdapter (EpdAdapter):
         self.delay_ms(100)
         self.wait_until_idle()
 
-    def get_frame_buffer (self, image):
-        buf = [ 0x00 ] * int(self.height * self.width / 4)
+    def get_frame_buffer(self, image):
+        buf = [0x00] * int(self.height * self.width / 4)
         imwidth, imheight = image.size
         if imwidth != self.height or imheight != self.width:
             raise ValueError('Image must be same dimensions as display \
@@ -51,24 +52,26 @@ class Epd7in5bAdapter (EpdAdapter):
             for y in range(self.height):
                 # Set the bits for the column of pixels at the current
                 # position.
-                if image_buf[x, y, 1] == 255:   #White
+                if image_buf[x, y, 1] == 255:  # White
                     buf[int((y + x * self.height) / 4)] |= 0xC0 >> (y % 4 * 2)
-                elif image_buf[x, y, 0] == 0:   #Black
-                    buf[int((y + x * self.height) / 4)] &= ~(0xC0 >> (y % 4 * 2))
-                else:  #Red
-                    buf[int((y + x * self.height) / 4)] &= ~(0xC0 >> (y % 4 * 2))
+                elif image_buf[x, y, 0] == 0:  # Black
+                    buf[int((y + x * self.height) / 4)
+                        ] &= ~(0xC0 >> (y % 4 * 2))
+                else:  # Red
+                    buf[int((y + x * self.height) / 4)
+                        ] &= ~(0xC0 >> (y % 4 * 2))
                     buf[int((y + x * self.height) / 4)] |= 0x40 >> (y % 4 * 2)
         return buf
 
     def __prepare_image__(self, image):
         buffer = np.array(image)
-        r,g = buffer[:,:,0], buffer[:,:,1]
-        buffer[np.logical_and(r > 220, g > 220)] = [255,255,255]
-        buffer[r > g] = [255,0,0]
-        buffer[r != 255] = [0,0,0]
+        r, g = buffer[:, :, 0], buffer[:, :, 1]
+        buffer[np.logical_and(r > 220, g > 220)] = [255, 255, 255]
+        buffer[r > g] = [255, 0, 0]
+        buffer[r != 255] = [0, 0, 0]
         return buffer
 
-    def calibrate (self):
+    def calibrate(self):
         for _ in range(2):
             self.init_render()
             black = Image.new('RGB', (self.height, self.width), 'black')

@@ -4,7 +4,8 @@ from settings import language
 '''Looks up a phrase in a given dictionary-collection
 and returns the translated phrase'''
 
-def translate(phrase, target_lang = language, dictionary_collection = dictionary_collection) :
+
+def translate(phrase, target_lang=language, dictionary_collection=dictionary_collection):
     dictionary = find_dictionary(phrase, dictionary_collection)
 
     if dictionary == None:
@@ -17,7 +18,8 @@ def translate(phrase, target_lang = language, dictionary_collection = dictionary
     else:
         return dictionary[default_language]
 
-def find_dictionary(phrase, dictionary_collection = dictionary_collection):
+
+def find_dictionary(phrase, dictionary_collection=dictionary_collection):
     for dictionary in dictionary_collection:
         if phrase in dictionary.values():
             return dictionary

@@ -1,13 +1,14 @@
 class DebugInterface (object):
     """Defines general interface for debugging operations"""
-    def print_event (self, event):
+
+    def print_event(self, event):
         raise NotImplementedError("Functions needs to be implemented")
 
-    def print_forecast (self, forecast):
+    def print_forecast(self, forecast):
         raise NotImplementedError("Functions needs to be implemented")
 
-    def print_line (self, content):
+    def print_line(self, content):
         raise NotImplementedError("Functions needs to be implemented")
 
-    def print_err (self, exception, msg=""):
+    def print_err(self, exception, msg=""):
         raise NotImplementedError("Functions needs to be implemented")

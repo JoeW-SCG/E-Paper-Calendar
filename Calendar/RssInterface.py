@@ -1,8 +1,10 @@
 from DataSourceInterface import DataSourceInterface
 from datetime import datetime, timezone, timedelta
 
+
 class RssInterface(DataSourceInterface):
     """Interface for fetching and processing rss post information."""
+
     def __init__(self):
         self.loaded_posts = []
 
@@ -22,7 +24,7 @@ class RssInterface(DataSourceInterface):
         return self.get_day_posts(datetime.now())
 
     def get_day_posts(self, day):
-        return self.__get_posts_to_filter__(lambda x : x.datetime.strftime('%d-%m-%y') == day.strftime('%d-%m-%y'))
+        return self.__get_posts_to_filter__(lambda x: x.datetime.strftime('%d-%m-%y') == day.strftime('%d-%m-%y'))
 
     def __get_posts_to_filter__(self, post_filter):
         if self.loaded_posts is None:
@@ -30,4 +32,4 @@ class RssInterface(DataSourceInterface):
         return [post for post in self.loaded_posts if post_filter(post)]
 
     def __sort_posts__(self):
-        self.loaded_posts.sort(key=lambda x : x.datetime, reverse=True)
+        self.loaded_posts.sort(key=lambda x: x.datetime, reverse=True)

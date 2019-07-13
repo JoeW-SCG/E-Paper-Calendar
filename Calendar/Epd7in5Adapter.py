@@ -2,11 +2,12 @@ from EpdAdapter import EpdAdapter, DISPLAY_REFRESH, DATA_START_TRANSMISSION_1
 from settings import display_colours
 from PIL import Image, ImageDraw
 
+
 class Epd7in5Adapter (EpdAdapter):
-    def __init__ (self):
+    def __init__(self):
         super(Epd7in5Adapter, self).__init__(384, 640)
 
-    def display_frame (self, frame_buffer):
+    def display_frame(self, frame_buffer):
         self.send_command(DATA_START_TRANSMISSION_1)
         for i in range(0, 30720):
             temp1 = frame_buffer[i]
@@ -30,11 +31,11 @@ class Epd7in5Adapter (EpdAdapter):
         self.delay_ms(100)
         self.wait_until_idle()
 
-    def get_frame_buffer (self, image):
+    def get_frame_buffer(self, image):
         buf = [0x00] * int(self.height * self.width / 8)
         # Set buffer to value of Python Imaging Library image.
         # Image must be in mode 1.
-        image_monocolor = image.convert('L') #with ot withour dithering?
+        image_monocolor = image.convert('L')  # with ot withour dithering?
         imwidth, imheight = image_monocolor.size
         if imwidth != self.height or imheight != self.width:
             raise ValueError('Image must be same dimensions as display \
@@ -44,11 +45,11 @@ class Epd7in5Adapter (EpdAdapter):
         for y in range(self.width):
             for x in range(self.height):
                 # Set the bits for the column of pixels at the current position.
-                if pixels[x, y] >= 240:   #White
+                if pixels[x, y] >= 240:  # White
                     buf[int((x + y * self.height) / 8)] |= 0x80 >> (x % 8)
         return buf
 
-    def calibrate (self):
+    def calibrate(self):
         for _ in range(2):
             self.init_render()
             black = Image.new('1', (self.height, self.width), 'black')

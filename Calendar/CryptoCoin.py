@@ -1,5 +1,5 @@
 class CryptoCoin(object):
-    def __init__ (self):
+    def __init__(self):
         self.name = None
         self.symbol = None
         self.price = None
