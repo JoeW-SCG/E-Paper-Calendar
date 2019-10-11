@@ -75,7 +75,7 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 | api_key | Your __personal__ openweathermap API-key which you can generate and find in your Account info. |
 | owm_paid_subscription | If you have a paid owm subscription you can set it to `True` and in some panels receive forecast information. |
 | location | Location refers to the closest weather station from your place. It isn't necessarily the place you live in. To find this location, type your city name in the search box on [openweathermap](https://openweathermap.org/). The output should be in the following format: City Name, Country ISO-Code. Not sure what your ISO code is? Check here: [(find iso-code)](https://countrycode.org/).  |
-| week_starts_on | When does the work start on your Region? Possible options are `"Monday"` or `"Sunday"`. |
+| week_starts_on | When does the work start in your region? Possible options are `"Monday"` or `"Sunday"`. |
 | display_colours | This should normally be set by the installer when you choose the type of your display. Options include `"bw"` if you're using the black and white E-Paper or `"bwr"` when you're using the black-white-red or black-white-yellow E-Paper.|
 | language | Sets the language and the related locale for datetime-information. Some texts depend on additional translations that can be added to the dictionary-file.|
 | datetime_encoding | Sets the encoding that will be used in the datetime-texts (month, weekday, ...). Default is `"UTF-8"`. Not to confuse with the full locale, this is only the encoding. |
