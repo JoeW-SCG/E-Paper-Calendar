@@ -70,7 +70,7 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 | Parameter |  Description |
 | --- | --- |
 | ical_urls |  Your iCalendar URL/s. To add more than one URL, seperate each with a comma. |
-| highlighted_ical_urls |  Your iCalendar URL/s that should be higlighted in comparison the ical_urls. To add more than one URL, seperate each with a comma. |
+| highlighted_ical_urls |  Your iCalendar URL/s that should be higlighted in comparison to the ical_urls. To add more than one URL, seperate each with a comma. |
 | rss_feeds |  All the sources for your rss-feed. To add more than one URL, seperate each with a comma. |
 | api_key | Your __personal__ openweathermap API-key which you can generate and find in your Account info. |
 | owm_paid_subscription | If you have a paid owm subscription you can set it to `True` and in some panels receive forecast information. |
