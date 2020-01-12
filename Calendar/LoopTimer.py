@@ -8,14 +8,16 @@ class LoopTimer (object):
     """Manages loop times and sleeps until
     next loop."""
 
-    def __init__(self, loop_interval, run_on_hour=False):
+    def __init__(self, loop_interval, run_on_hour=False, max_loop_count=0):
         self.interval = int(str(loop_interval))
         self.on_hour = run_on_hour
         self.loop_history = []
+        self.loop_count = 0
+        self.max_loop_count = int(str(max_loop_count))
 
     def begin_loop(self):
         begin_time = datetime.now()
-        print('\n__________Starting new loop__________')
+        print('\n__________Starting new loop [' + str(self.loop_count) + ']__________')
         print('Datetime: ' + str(begin_time) + '\n')
         self.__add_beginning__(begin_time)
 
@@ -33,6 +35,15 @@ class LoopTimer (object):
     def end_loop(self):
         end_time = datetime.now()
         self.__add_ending__(end_time)
+        
+        self.loop_count += 1
+        while self.loop_count > 86400:
+            self.loop_count -= 86400
+
+    def was_last_loop(self):
+        if self.max_loop_count == 0:
+            return False
+        return self.max_loop_count <= self.loop_count
 
     def get_current(self):
         return self.loop_history[-1]

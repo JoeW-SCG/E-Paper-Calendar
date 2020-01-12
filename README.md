@@ -82,6 +82,8 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 |units| Selecting units allows switching units from km/h (kilometer per hour) and °C (degree Celcius) to mph (miles per hour) and °F (degree Fahrenheit). Possible options are `"metric"`, `"imperial"` or `"aviation"` (Celsius, Degree/Knots). |
 |hours | Which time format do you prefer? This will change the sunrise and sunset times from 24-hours format to 12-hours format. Possible options are `"24"` for 24-hours and `"12"` for 12-hours.|
 |update_interval | The update delay between two updates in minutes. By default there is always an update on a full hour.|
+|max_loop_count | From 0 to 86400 representing the maximum number of times the loop is going to be executed, with `0` being unlimited.|
+|run_on_hour | If `True`, updates calendar every full hour, ignoring differing update_interval.|
 
 ### Design
 | Parameter |  Description |

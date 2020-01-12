@@ -13,7 +13,7 @@ from Assets import path
 from LoopTimer import LoopTimer
 import locale
 from DebugConsole import DebugConsole
-from settings import datetime_encoding, language, render_to_display, render_to_file, display_colours, location, api_key, owm_paid_subscription, choosen_design, ical_urls, highlighted_ical_urls, rss_feeds, update_interval, calibrate_hours, crypto_coins
+from settings import datetime_encoding, language, render_to_display, render_to_file, display_colours, location, api_key, owm_paid_subscription, choosen_design, ical_urls, highlighted_ical_urls, rss_feeds, update_interval, calibrate_hours, crypto_coins, max_loop_count, run_on_hour
 from MonthOvPanel import MonthOvPanel
 from DayListPanel import DayListPanel
 from DayViewPanel import DayViewPanel
@@ -59,7 +59,7 @@ available_panels = {
     "image-frame": ImageFramePanel
 }
 
-loop_timer = LoopTimer(update_interval, run_on_hour=True)
+loop_timer = LoopTimer(update_interval, run_on_hour=run_on_hour, max_loop_count=max_loop_count)
 
 """Main loop starts from here"""
 
@@ -115,8 +115,12 @@ def main():
         debug.print_line("=> Finished rendering" + "\n")
 
         loop_timer.end_loop()
-        sleep_time = loop_timer.time_until_next()
 
+        if loop_timer.was_last_loop():
+            debug.print_line("Maximum loop count " + str(loop_timer.loop_count) + " reached, exiting.")
+            return
+
+        sleep_time = loop_timer.time_until_next()
         debug.print_line("This loop took " +
                          str(loop_timer.get_last_duration()) + " to execute.")
         debug.print_line("Sleeping " + str(sleep_time) + " until next loop.")
