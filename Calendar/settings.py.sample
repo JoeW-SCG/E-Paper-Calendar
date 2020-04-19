@@ -30,13 +30,14 @@ run_on_hour = True  # If True, updates calendar every full hour, ignoring differ
 font_size = 14  # does not affect every text
 font_boldness = "semibold"   # extralight, light, regular, semibold, bold, extrabold
 line_thickness = 1  # 1-3 Thickness advised
-choosen_design = "month-overview" # month-overview, day-list, day-view, agenda-list, month-view, image-frame
+choosen_design = "month-overview" # month-overview, day-list, day-view, day-focus-list, agenda-list, month-view, image-frame
 general_settings = {    # General settings that designs may use
     "info-area" : "rss",    # empty, events, rss, crypto
     "highlight-event-days" : True,
-	"weather-info" : True,
+    "weather-info" : True,
     "image-folder" : "",
-    "overlay-image" : ""    # Size must be 384x640px with default display
+    "overlay-image" : "",   # Size must be 384x640px with default display
+    "extra-excluded-urls" : []
 }
 
 

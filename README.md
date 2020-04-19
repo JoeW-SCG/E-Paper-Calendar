@@ -15,13 +15,14 @@ This software fully supports the 3-Colour **and** 2-Colour version of the 7.5" E
 * **Added Support for the 2-Colour E-Paper Display as well!** (Late September 2018)
 * **Added Support for Raspbian Stretch lite.** (Late September 2018)
 
-<img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/day-list_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/month-overview_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/agenda-list_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/day-view_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/image-frame_example.png" width="270">
+<img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/day-list_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/month-overview_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/agenda-list_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/day-view_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/day-focus-list_example.png" width="270"><img src="https://github.com/mgfcf/E-Paper-Calendar/blob/master/Gallery/image-frame_example.png" width="270">
 
 1.: Day-List Panel&ensp;
 2.: Month-Overview Panel&ensp;
 3.: Agenda-List Panel<br>
 4.: Day-View Panel&ensp;
-5.: Image-Frame Panel
+5.: Day-Focus-List Panel&ensp;
+6.: Image-Frame Panel
 
 ## Main features
 * Display a calendar with one of multiple designes
@@ -98,6 +99,7 @@ Once the packages are installed, navigate to the home directory, open 'E-Paper-M
 | `"weather-info"` | If set to `False`, weather info areas disappear and make room for events/rss/etc. (depends on the design). |
 | `"image-folder"` | Set a relative or absolute path to a folder containing images that you want to see fullscreen with the `"image-frame"` design activated. |
 | `"overlay-image"` | Set a relative or absolute path to an image with the same size as the screen (default: 384x640px) to show some static information over every image shown in the `"image-frame"` design. If the overlay image is contained within the `"image-folder"`, it will not be included into the slideshow. |
+| `"extra-excluded-urls"` | A list of calendar urls that may be excluded in some panels in certain areas. |
 
 ### Debug
 | Parameter |  Description |

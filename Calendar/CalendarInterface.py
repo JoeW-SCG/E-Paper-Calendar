@@ -10,12 +10,16 @@ class CalendarInterface (DataSourceInterface):
 
     def __init__(self):
         self.events = []
+        self.excluded_urls = []
 
     def reload(self):
         if self.is_available() == False:
             return
         self.events = self.__get_events__()
         self.events = self.__sort_events__(self.events)
+
+    def exclude_calendars(self, urls=[]):
+        self.excluded_urls = urls
 
     def __sort_events__(self, events):
         events.sort(key=lambda x: x.begin_datetime)
@@ -72,6 +76,10 @@ class CalendarInterface (DataSourceInterface):
 
         events_in_range = []
         for event in self.events:
+            # Is excluded?
+            if event.calendar_url in self.excluded_urls:
+                continue
+            
             event_occurrence = self.__get_if_event_in_range__(
                 event, start, duration)
             if event_occurrence:

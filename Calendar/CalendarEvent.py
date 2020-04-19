@@ -15,6 +15,7 @@ class CalendarEvent (object):
         self.highlight = None
 
         self.calendar_name = None
+        self.calendar_url = None
 
         self.location = None
         self.fetch_datetime = None

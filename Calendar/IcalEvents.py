@@ -51,6 +51,7 @@ class IcalEvents(CalendarInterface):
                 ical = Calendar(decode)
                 for event in ical.events:
                     cal_event = CalendarEvent()
+                    cal_event.calendar_url = calendar
 
                     cal_event.fetch_datetime = datetime.now(timezone.utc)
                     cal_event.begin_datetime = event.begin.datetime

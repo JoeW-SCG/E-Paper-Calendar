@@ -44,18 +44,3 @@ class ImageFramePanel (PanelDesign):
             overlay = ImageDesign(self.size, self.overlay_path)
             overlay.__finish_image__()
             self.__image__.alpha_composite(overlay.__image__)
-
-    def add_weather(self, weather):
-        pass
-
-    def add_calendar(self, calendar):
-        pass
-
-    def add_rssfeed(self, rss):
-        pass
-
-    def add_crypto(self, crypto):
-        pass
-
-    def add_tasks(self, tasks):
-        pass

@@ -17,6 +17,7 @@ from settings import datetime_encoding, language, render_to_display, render_to_f
 from MonthOvPanel import MonthOvPanel
 from DayListPanel import DayListPanel
 from DayViewPanel import DayViewPanel
+from DayFocusListPanel import DayFocusListPanel
 from MonthViewPanel import MonthViewPanel
 from AgendaListPanel import AgendaListPanel
 from ImageFramePanel import ImageFramePanel
@@ -54,12 +55,14 @@ available_panels = {
     "day-list": DayListPanel,
     "month-overview": MonthOvPanel,
     "day-view": DayViewPanel,
+    "day-focus-list": DayFocusListPanel,
     "agenda-list": AgendaListPanel,
     "month-view": MonthViewPanel,
-    "image-frame": ImageFramePanel
+    "image-frame": ImageFramePanel,
 }
 
-loop_timer = LoopTimer(update_interval, run_on_hour=run_on_hour, max_loop_count=max_loop_count)
+loop_timer = LoopTimer(
+    update_interval, run_on_hour=run_on_hour, max_loop_count=max_loop_count)
 
 """Main loop starts from here"""
 
@@ -117,7 +120,8 @@ def main():
         loop_timer.end_loop()
 
         if loop_timer.was_last_loop():
-            debug.print_line("Maximum loop count " + str(loop_timer.loop_count) + " reached, exiting.")
+            debug.print_line("Maximum loop count " +
+                             str(loop_timer.loop_count) + " reached, exiting.")
             return
 
         sleep_time = loop_timer.time_until_next()
