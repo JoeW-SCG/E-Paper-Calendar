@@ -11,9 +11,10 @@ class DesignEntity (object):
     def __init__(self, size, mask=False, invert_mask=False, color_key=False):
         self.size = size
         # Are dimensions >= 0?
-        for i in range(2):
-            if self.size[i] < 0:
-                self.size[i] = 0
+        if self.size[0] < 0:
+            self.size = (0, self.size[1])
+        if self.size[1] < 0:
+            self.size = (self.size[0], 0)
         
         self.pos = (0, 0)
         self.mask = mask
