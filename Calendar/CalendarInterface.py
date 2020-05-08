@@ -3,6 +3,7 @@ from datetime import datetime, timezone, timedelta, date
 from dateutil.rrule import rrulestr
 from dateutil.parser import parse
 import calendar
+from CalendarEvent import CalendarEvent
 
 
 class CalendarInterface (DataSourceInterface):
@@ -79,7 +80,7 @@ class CalendarInterface (DataSourceInterface):
             # Is excluded?
             if event.calendar_url in self.excluded_urls:
                 continue
-            
+
             event_occurrence = self.__get_if_event_in_range__(
                 event, start, duration)
             if event_occurrence:
@@ -135,11 +136,31 @@ class CalendarInterface (DataSourceInterface):
             raise ex
 
     def __merge_event_data__(self, event, start=None):
-        if start is not None:
-            event.begin_datetime = start
-            event.end_datetime = start + event.duration
+        merged_event = CalendarEvent()
+        
+        merged_event.begin_datetime = event.begin_datetime
+        merged_event.end_datetime = event.end_datetime
+        merged_event.duration = event.duration
+        merged_event.allday = event.allday
+        merged_event.multiday = event.multiday
+        merged_event.rrule = event.rrule
 
-        return event
+        merged_event.title = event.title
+        merged_event.description = event.description
+        merged_event.attendees = event.attendees
+        merged_event.highlight = event.highlight
+
+        merged_event.calendar_name = event.calendar_name
+        merged_event.calendar_url = event.calendar_url
+
+        merged_event.location = event.location
+        merged_event.fetch_datetime = event.fetch_datetime
+        
+        if start is not None:
+            merged_event.begin_datetime = start
+            merged_event.end_datetime = start + event.duration
+
+        return merged_event
 
     def __add_timezoneawarness__(self, rrule):
         """UNTIL must be specified in UTC when DTSTART is timezone-aware (which it is)"""
